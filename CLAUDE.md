@@ -13,8 +13,8 @@ Sito di divulgazione scientifica sull'energia nucleare, in italiano. Rispondi in
 - `nucleapp.html` è il sorgente: le modifiche si fanno qui.
 - `pubblica/index.html` è una versione derivata, con immagini, font e crediti
   incorporati. Non va modificata a mano ma rigenerata dal sorgente. Non esiste
-  ancora uno script che lo faccia, e il file attuale non ha `<!DOCTYPE>`, `<head>`
-  né `<meta viewport>`: va sistemato prima di pubblicarlo.
+  ancora uno script che lo faccia: dopo ogni modifica a `nucleapp.html` va
+  rifatta a mano (o lo script va scritto).
 - Foto in `img/` e crediti si generano con `prepara-immagini.ps1`.
 
 ## Regole sui contenuti
