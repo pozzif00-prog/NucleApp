@@ -1,0 +1,68 @@
+# Registro fonti. Ogni fonte usata almeno una volta in affermazioni/ deve stare qui.
+
+wna-db-sizewell-b:
+  livello: T2
+  ente: World Nuclear Association
+  titolo: "Nuclear Reactor Database — Sizewell B"
+  url: https://world-nuclear.org/nuclear-reactor-database/details/sizewell%20b
+  consultato: 2026-08-02
+  note: >
+    Scheda derivata da IAEA PRIS. Buona per i dati di targa e le date.
+    Da sostituire con PRIS diretto (T1) quando l'accesso torna disponibile.
+
+iaea-pris:
+  livello: T1
+  ente: International Atomic Energy Agency
+  titolo: "Power Reactor Information System (PRIS)"
+  url: https://pris.iaea.org/
+  consultato: 2026-08-02
+  stato_accesso: non_raggiungibile
+  note: >
+    Il vecchio percorso ReactorDetails.aspx reindirizza (302) a
+    pris-stats.iaea.org, che non espone le schede per reattore in forma
+    recuperabile. Fonte di riferimento per potenza, date e load factor:
+    va riagganciata appena possibile.
+
+wna-db:
+  livello: T2
+  ente: World Nuclear Association
+  titolo: "Nuclear Reactor Database"
+  url: https://world-nuclear.org/nuclear-reactor-database/
+  consultato: 2026-08-02
+  note: >
+    Scheda per reattore, derivata da IAEA PRIS. Campi usati: Capacity Gross,
+    Capacity Net, Thermal Capacity, Construction Start, First Criticality,
+    First Grid Connection, Commercial Operation, Permanent Shutdown.
+    Schede consultate: Calder-Hall-1, Chernobyl-1, Chernobyl-4, Leibstadt,
+    Darlington-1, Olkiluoto-3, Sanmen-1, Beloyarsk-4, Taishan-1, Sizewell B.
+
+wna-db-taishan-1:
+  livello: T2
+  ente: World Nuclear Association
+  titolo: "Nuclear Reactor Database — Taishan 1"
+  url: https://world-nuclear.org/nuclear-reactor-database/details/Taishan-1
+  consultato: 2026-08-02
+  note: "Usata come controprova sul superlativo di Olkiluoto 3."
+
+wnn-htrpm-2023:
+  livello: T2
+  ente: World Nuclear News (World Nuclear Association)
+  titolo: "China's demonstration HTR-PM enters commercial operation"
+  data: 2023-12-06
+  url: https://www.world-nuclear-news.org/Articles/Chinese-HTR-PM-Demo-begins-commercial-operation
+  consultato: 2026-08-02
+  note: >
+    Necessaria perché l'HTR-PM non è nel database dei reattori: la voce
+    "Shidaowan 1" del database è un Hualong One diverso, in costruzione.
+
+nia-2023-return-king:
+  livello: T4
+  ente: Nuclear Industry Association
+  titolo: "The return of the King: Lessons for Great British Nuclear"
+  autore: Lincoln Hill
+  data: 2023-05-23
+  url: https://www.niauk.org/the-return-of-the-king-lessons-for-great-british-nuclear/
+  consultato: 2026-08-02
+  note: >
+    Associazione di categoria: parte interessata. Ammessa solo come indizio
+    in attesa del dato PRIS, mai come conferma definitiva.

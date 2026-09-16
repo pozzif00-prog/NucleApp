@@ -1,0 +1,183 @@
+# Gli altri 8 reattori (Sizewell B sta in sizewell-b.yaml)
+# Fonte principale: wna-db (World Nuclear Association Reactor Database), T2.
+# Il rendimento non è mai dichiarato dalla fonte: è DERIVATO come
+#   capacita_netta / capacita_termica
+# quindi va confrontato con la potenza che il sito stesso dichiara (netta o lorda).
+
+verificato_il: 2026-08-02
+fonte_dati: wna-db
+
+# =====================================================================
+magnox:
+  impianto: Calder Hall 1
+  dati_fonte:
+    citazione: "Capacity Gross: 60 MWe ... Capacity Net: 49 MWe ... Thermal Capacity: 268 MWt ... Construction Start: Saturday, 1 August 1953 ... Commercial Operation: Monday, 1 October 1956 ... Permanent Shutdown: Monday, 31 March 2003"
+  affermazioni:
+    - {id: magnox.avvio_costruzione, sito: "1953", stato: sostenuta}
+    - {id: magnox.esercizio_dal, sito: "1956", stato: sostenuta}
+    - {id: magnox.tempo_costruzione, sito: "≈ 3 anni", calcolo: "ago 1953 → ott 1956 = 3,2 anni", stato: sostenuta}
+    - {id: magnox.potenza, sito: "≈ 50 MW", fonte: "49 MWe netti", stato: sostenuta}
+    - {id: magnox.chiusura, sito: "2003", stato: sostenuta}
+    - {id: magnox.durata, sito: "47 anni", calcolo: "1956 → 2003 = 47", stato: sostenuta}
+    - id: magnox.rendimento
+      sito: "≈ 20 %"
+      calcolo: "49 / 268 = 18,3 % (lordo 60/268 = 22,4 %)"
+      stato: parziale
+      correzione_applicata: "≈ 18 %"
+      nota: "La potenza dichiarata dal sito è quella netta, quindi il rendimento va calcolato sul netto."
+
+# =====================================================================
+rbmk:
+  impianto: "Chernobyl (scheda riferita alle unità 3–4, ma le date sono dell'unità 1)"
+  dati_fonte:
+    unita_1:
+      citazione: "Construction Start: Sunday, 1 March 1970 ... First Grid Connection: Monday, 26 September 1977 ... Commercial Operation: Saturday, 27 May 1978"
+    unita_4:
+      citazione: "Capacity Gross: 1000 MWe ... Capacity Net: 925 MWe ... Thermal Capacity: 3200 MWt ... Construction Start: Sunday, 1 April 1979 ... Commercial Operation: Monday, 26 March 1984"
+  affermazioni:
+    - id: rbmk.avvio_costruzione
+      sito: "1972 (unità 1)"
+      fonte: "1 marzo 1970"
+      stato: contraddetta
+      correzione_applicata: "1970 (unità 1)"
+    - {id: rbmk.esercizio_dal, sito: "1977", fonte: "primo parallelo 26 set 1977", stato: sostenuta}
+    - {id: rbmk.tempo_costruzione, sito: "≈ 5 anni per unità", calcolo: "unità 4: apr 1979 → mar 1984 = 5,0", stato: sostenuta}
+    - {id: rbmk.potenza, sito: "1 000 MW", fonte: "1000 MWe lordi", stato: sostenuta}
+    - id: rbmk.rendimento
+      sito: "≈ 31 %"
+      calcolo: "1000 / 3200 = 31,25 % (lordo, coerente con la potenza dichiarata)"
+      stato: sostenuta
+  nota_struttura: >
+    La scheda si intitola "unità 3–4" ma avvio costruzione ed entrata in
+    esercizio sono dell'unità 1. Ambiguità segnalata, non corretta: è una
+    scelta editoriale (raccontare la filiera o la singola unità).
+
+# =====================================================================
+bwr:
+  impianto: Leibstadt
+  dati_fonte:
+    citazione: "Capacity Gross: 1285 MWe ... Capacity Net: 1233 MWe ... Thermal Capacity: 3600 MWt ... Construction Start: Tuesday, 1 January 1974 ... Commercial Operation: Saturday, 15 December 1984"
+  affermazioni:
+    - {id: bwr.avvio_costruzione, sito: "1974", stato: sostenuta}
+    - {id: bwr.esercizio_dal, sito: "1984", stato: sostenuta}
+    - {id: bwr.tempo_costruzione, sito: "≈ 10 anni", calcolo: "gen 1974 → dic 1984 = 10,9", stato: sostenuta}
+    - {id: bwr.potenza_netta, sito: "≈ 1 220 MW", fonte: "1233 MWe", stato: sostenuta, nota: "scarto 1 %, dentro l'approssimazione"}
+    - id: bwr.rendimento
+      sito: "≈ 33 %"
+      calcolo: "1233 / 3600 = 34,25 %"
+      stato: parziale
+      correzione_applicata: "≈ 34 %"
+
+# =====================================================================
+candu:
+  impianto: Darlington 1
+  dati_fonte:
+    citazione: "Capacity Gross: 934 MWe ... Capacity Net: 878 MWe ... Thermal Capacity: 2776 MWt ... Construction Start: Thursday, 1 April 1982 ... First Grid Connection: Wednesday, 19 December 1990 ... Commercial Operation: Saturday, 14 November 1992"
+  affermazioni:
+    - id: candu.avvio_costruzione
+      sito: "1981"
+      fonte: "1 aprile 1982"
+      stato: contraddetta
+      correzione_applicata: "1982"
+    - id: candu.esercizio_dal
+      sito: "1990"
+      stato: parziale
+      nota: >
+        1990 è il primo parallelo in rete; l'esercizio commerciale è del 1992.
+        Non corretto perché con "1990" il tempo di costruzione dichiarato
+        (≈ 9 anni) resta coerente. Da decidere in redazione quale definizione
+        usare in tutto il sito.
+    - {id: candu.tempo_costruzione, sito: "≈ 9 anni", calcolo: "apr 1982 → dic 1990 = 8,7 (in rete) / 10,6 (commerciale)", stato: sostenuta}
+    - {id: candu.potenza_unita, sito: "≈ 880 MW", fonte: "878 MWe", stato: sostenuta}
+    - id: candu.rendimento
+      sito: "≈ 30 %"
+      calcolo: "878 / 2776 = 31,6 %"
+      stato: parziale
+      correzione_applicata: "≈ 32 %"
+
+# =====================================================================
+epr:
+  impianto: Olkiluoto 3
+  dati_fonte:
+    citazione: "Capacity Gross: 1660 MWe ... Capacity Net: 1575 MWe ... Thermal Capacity: 4300 MWt ... Construction Start: Friday, 12 August 2005 ... Commercial Operation: Sunday, 16 April 2023"
+  affermazioni:
+    - {id: epr.avvio_costruzione, sito: "12 agosto 2005", stato: sostenuta, nota: "data esatta confermata"}
+    - {id: epr.esercizio_dal, sito: "aprile 2023", fonte: "16 aprile 2023", stato: sostenuta}
+    - {id: epr.tempo_costruzione, sito: "≈ 18 anni", calcolo: "ago 2005 → apr 2023 = 17,7", stato: sostenuta}
+    - {id: epr.potenza_termica, sito: "4 300 MW", stato: sostenuta}
+    - {id: epr.rendimento, sito: "≈ 37 %", calcolo: "1575 / 4300 = 36,6 %", stato: sostenuta}
+    - id: epr.potenza_netta
+      sito: "1 600 MW"
+      fonte: "1575 MWe netti (1660 lordi)"
+      stato: parziale
+      correzione_applicata: "≈ 1 575 MW"
+      nota: "Era dichiarata come valore esatto, non approssimato."
+    - id: epr.superlativo
+      sito: "Il reattore più potente in esercizio al mondo"
+      stato: contraddetta
+      controprova:
+        fonte: wna-db-taishan-1
+        citazione: "Model: EPR-1750 ... Capacity Gross: 1750 MWe ... Capacity Net: 1660 MWe ... Commercial Operation: Thursday, 13 December 2018 ... Status: Operable"
+      correzione_applicata: "Uno dei reattori più potenti al mondo"
+      nota: >
+        Taishan 1 e 2 (Cina) hanno 1660 MWe netti contro 1575, e sono in
+        esercizio dal 2018, cinque anni prima di Olkiluoto 3.
+        Ho evitato di sostituire con "il più potente d'Europa" perché
+        Flamanville 3 è dello stesso ordine e andrebbe verificato a parte.
+
+# =====================================================================
+ap1000:
+  impianto: Sanmen 1
+  dati_fonte:
+    citazione: "Capacity Gross: 1251 MWe ... Capacity Net: 1157 MWe ... Thermal Capacity: 3400 MWt ... Construction Start: Sunday, 19 April 2009 ... Commercial Operation: Friday, 21 September 2018"
+  affermazioni:
+    - {id: ap1000.avvio_costruzione, sito: "2009", stato: sostenuta}
+    - {id: ap1000.esercizio_dal, sito: "2018", stato: sostenuta}
+    - {id: ap1000.tempo_costruzione, sito: "≈ 9 anni", calcolo: "apr 2009 → set 2018 = 9,4", stato: sostenuta}
+    - id: ap1000.potenza_netta
+      sito: "≈ 1 100 MW"
+      fonte: "1157 MWe"
+      stato: contraddetta
+      correzione_applicata: "≈ 1 150 MW"
+      nota: "scarto 5 %, fuori dall'approssimazione"
+    - id: ap1000.rendimento
+      sito: "≈ 33 %"
+      calcolo: "1157 / 3400 = 34,0 %"
+      stato: parziale
+      correzione_applicata: "≈ 34 %"
+
+# =====================================================================
+bn800:
+  impianto: Beloyarsk 4
+  dati_fonte:
+    citazione: "Capacity Gross: 885 MWe ... Capacity Net: 820 MWe ... Thermal Capacity: 2100 MWt ... Construction Start: Tuesday, 18 July 2006 ... Commercial Operation: Monday, 31 October 2016"
+  affermazioni:
+    - {id: bn800.avvio_costruzione, sito: "2006", stato: sostenuta}
+    - {id: bn800.esercizio_dal, sito: "2016", stato: sostenuta}
+    - {id: bn800.tempo_costruzione, sito: "≈ 10 anni", calcolo: "lug 2006 → ott 2016 = 10,3", stato: sostenuta}
+    - {id: bn800.potenza_netta, sito: "≈ 820 MW", fonte: "820 MWe", stato: sostenuta, nota: "esatto"}
+    - {id: bn800.rendimento, sito: "≈ 39 %", calcolo: "820 / 2100 = 39,0 %", stato: sostenuta, nota: "esatto"}
+  nota: "Scheda interamente confermata, nessuna correzione."
+
+# =====================================================================
+htrpm:
+  impianto: Shidaowan HTR-PM
+  fonte_dati: wnn-htrpm-2023
+  attenzione: >
+    Nel database WNA la voce "Shidaowan 1" è un Hualong One in costruzione
+    dal 2024: è un altro impianto sullo stesso sito, NON l'HTR-PM.
+    Trappola in cui è facile cadere.
+  dati_fonte:
+    citazione: "The HTR-PM features two small reactors (each of 250 MWt) that drive a single 210 MWe steam turbine."
+  affermazioni:
+    - {id: htrpm.avvio_costruzione, sito: "9 dicembre 2012", fonte: "First concrete ... December 2012", stato: parziale, nota: "mese e anno confermati, il giorno esatto no"}
+    - {id: htrpm.esercizio_dal, sito: "6 dicembre 2023", stato: sostenuta}
+    - {id: htrpm.tempo_costruzione, sito: "≈ 11 anni", calcolo: "dic 2012 → dic 2023 = 11,0", stato: sostenuta}
+    - {id: htrpm.potenza, sito: "210 MW", stato: sostenuta}
+    - {id: htrpm.configurazione, sito: "due reattori da 250 MW termici che alimentano una sola turbina", stato: sostenuta, nota: "corrisponde alla lettera"}
+    - id: htrpm.rendimento
+      sito: "≈ 40 %"
+      calcolo: "210 / 500 = 42,0 %"
+      stato: parziale
+      correzione_applicata: nessuna
+      nota: "Scarto 2 punti. Lasciato: con 'circa' regge, e il 42 % andrebbe confermato su fonte di progetto."

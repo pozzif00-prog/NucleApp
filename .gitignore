@@ -1,0 +1,13 @@
+# impostazioni locali di Claude Code (permessi di questo PC)
+.claude/settings.local.json
+
+# vecchia versione del progetto, superata da nucleapp.html
+files.zip
+
+# copia identica di pubblica/index.html
+nucleapp-web.html
+
+# file di sistema di Windows e Office
+desktop.ini
+Thumbs.db
+~$*

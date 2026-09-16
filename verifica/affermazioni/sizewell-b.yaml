@@ -1,0 +1,109 @@
+# Sizewell B (id nel sito: pwr) — le 7 voci di "SCHEDA DELL'IMPIANTO"
+# Sorgente nel sito: nucleapp.html, REATTORI, id:'pwr', array scheda[]
+
+entita: sizewell-b
+id_sito: pwr
+verificato_il: 2026-08-02
+
+affermazioni:
+
+  - id: pwr.posizione
+    tipo: evento
+    testo_sito: "Suffolk, UK"
+    stato: sostenuta
+    evidenza:
+      - fonte: wna-db-sizewell-b
+        locator: "scheda impianto, campo Location"
+        citazione: "Sizewell B ... Suffolk, England"
+        verdetto: sostiene
+
+  - id: pwr.avvio_costruzione
+    tipo: evento
+    testo_sito: "1988"
+    stato: sostenuta
+    evidenza:
+      - fonte: wna-db-sizewell-b
+        locator: "campo Construction Start"
+        citazione: "Construction Start: Monday, 18 July 1988"
+        verdetto: sostiene
+
+  - id: pwr.esercizio_dal
+    tipo: evento
+    testo_sito: "1995"
+    stato: sostenuta
+    nota: >
+      Il 1995 regge con qualunque definizione: prima criticità 31 gennaio,
+      primo parallelo in rete 14 febbraio, esercizio commerciale 22 settembre.
+    evidenza:
+      - fonte: wna-db-sizewell-b
+        locator: "campi First Criticality / First Grid Connection / Commercial Operation"
+        citazione: "First Criticality: Tuesday, 31 January 1995 ... First Grid Connection: Tuesday, 14 February 1995 ... Commercial Operation: Friday, 22 September 1995"
+        verdetto: sostiene
+
+  - id: pwr.tempo_costruzione
+    tipo: derivato
+    testo_sito: "≈ 7 anni"
+    formula: "pwr.esercizio_commerciale − pwr.avvio_costruzione"
+    calcolo: "18 luglio 1988 → 22 settembre 1995 = 7 anni e 2 mesi"
+    stato: sostenuta
+    nota: >
+      Con "in rete" invece di "esercizio commerciale" verrebbero 6 anni e 7 mesi.
+      In entrambi i casi "≈ 7 anni" tiene.
+
+  - id: pwr.potenza_netta
+    tipo: numerico
+    testo_sito: "≈ 1 200 MW"
+    valore_fonte: 1198
+    unita: MWe
+    definizione: "capacità netta di targa"
+    stato: sostenuta
+    evidenza:
+      - fonte: wna-db-sizewell-b
+        locator: "campo Capacity Net"
+        citazione: "Capacity Net: 1198 MWe"
+        verdetto: sostiene
+
+  # ---------------------------------------------------------------
+  # I DUE PROBLEMI TROVATI
+  # ---------------------------------------------------------------
+
+  - id: pwr.rendimento
+    tipo: derivato
+    testo_sito: "≈ 33 %"
+    stato: contraddetta
+    formula: "capacita_netta / capacita_termica"
+    calcolo: "1198 MWe / 3425 MWt = 34,98 %  (lordo: 1250 / 3425 = 36,5 %)"
+    valore_corretto: "≈ 35 %"
+    evidenza:
+      - fonte: wna-db-sizewell-b
+        locator: "campi Capacity Net e Thermal Capacity"
+        citazione: "Capacity Net: 1198 MWe ... Thermal Capacity: 3425 MWt"
+        verdetto: contraddice
+    azione: >
+      Portare il valore a "≈ 35 %" e aggiornare il paragone, che oggi dice
+      "Su 100 unità di calore, 33 diventano elettricità. Le altre 67 finiscono
+      in mare" → diventa 35 e 65. Il 33 % è il valore tipico di un PWR di
+      generazione precedente, non di Sizewell B.
+
+  - id: pwr.fattore_capacita
+    tipo: numerico
+    testo_sito: "≈ 85–90 %"
+    stato: parziale
+    definizione_mancante: >
+      Il sito non dice se è il fattore sull'intera vita o sugli ultimi anni.
+      Senza questa definizione l'affermazione non è verificabile: sono due
+      numeri diversi.
+    evidenza:
+      - fonte: nia-2023-return-king
+        locator: "primo paragrafo"
+        citazione: "The reactor, which returned to full power this week, is the most efficient nuclear reactor in British history, with a lifetime load factor of around 84%."
+        verdetto: parziale
+        nota: >
+          84 % sull'intera vita è sotto la forbice 85–90 % dichiarata dal sito.
+          Fonte T4 (associazione di categoria), quindi indizio, non conferma.
+    azione: >
+      Recuperare il load factor da IAEA PRIS (T1) e riscrivere la voce
+      specificando la definizione, per esempio:
+      "≈ 84 % sull'intera vita di esercizio".
+      Attenzione anche al paragone: "produce nove giorni su dieci" descrive
+      il 90 %, non l'84 %.
