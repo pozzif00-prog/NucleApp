@@ -10,7 +10,7 @@ verificati su fonti citate.
 
 | Percorso | Contenuto |
 |---|---|
-| `nucleapp.html` | Il sito: HTML, CSS e JavaScript in un unico file. È il file da modificare |
+| `index.html` | Il sito: HTML, CSS e JavaScript in un unico file. È il file da modificare. Pubblicato con GitHub Pages |
 | `img/` | Fotografie degli impianti e relativi crediti (`crediti.json`, `crediti.js`) |
 | `pubblica/index.html` | Versione in un solo file, con immagini, font e crediti incorporati |
 | `verifica/` | Verifica delle fonti: metodo, registro fonti, affermazioni controllate, correzioni e stato del lavoro |
@@ -18,8 +18,10 @@ verificati su fonti citate.
 
 ## Vedere il sito
 
-Aprire `nucleapp.html` con un browser. Le foto vengono lette dalla cartella `img/`,
-i font da Google Fonts.
+Online: https://pozzif00-prog.github.io/NucleApp/
+
+In locale: aprire `index.html` con un browser. Le foto vengono lette dalla
+cartella `img/`, i font da Google Fonts.
 
 ## Fonti
 
