@@ -3,7 +3,56 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-17 (sessione 6)
+Ultimo aggiornamento: 2026-09-17 (sessione 7)
+
+## Fatto — sessione 7
+
+- **Chernobyl (RBMK-1000): terzo disegno dedicato**, stesso metodo delle due
+  centrali precedenti. La scheda rappresenta le unità 3–4 (scelta
+  redazionale già presente, vedi `CORREZIONI.md`): il disegno mostra
+  l'impianto come operava, non l'incidente — quello resta nella sezione
+  "Incidenti", non toccata.
+  - Sito in scala: fila di 4 edifici reattore (uno in dettaglio, gli altri
+    tre schiariti), la ciminiera di ventilazione condivisa dalle unità 3-4
+    — 150 m dal suolo, la struttura più alta di tutto il sito — sala
+    turbine lunga condivisa da 4 reattori, bacino di raffreddamento
+    artificiale alimentato dal fiume Pripyat, canneti sulla riva, pini al
+    posto degli alberi delle altre centrali.
+  - Isola nucleare: capannone in cemento (nessuna seconda barriera sopra il
+    nocciolo — coerente con la scheda "tech"), cavità in cemento al posto
+    di un recipiente unico, catasta di grafite con 14 canali verticali
+    rappresentativi, **piano di manovra con i tappi dei canali** — il
+    dettaglio più riconoscibile di un RBMK dall'interno, aggiunto dopo la
+    prima bozza perché lo spazio sopra il nocciolo risultava troppo vuoto
+    — due separatori di vapore (ciclo diretto, non uno scambiatore),
+    macchina di ricarica su binari in alto.
+  - 2 pallini con fumetto (separatore di vapore, macchina di ricarica) più
+    nocciolo/barre. La scheda delle **barre di controllo ha un testo
+    specifico per questo reattore**: spiega l'effetto delle punte in
+    grafite (accelerano la reazione nei primi secondi) con un rimando al
+    "Worst case" — lo stesso fatto già raccontato lì, solo riproposto nel
+    punto dell'interfaccia dove un visitatore se lo chiederebbe. 8
+    spiegazioni al passaggio del mouse sugli elementi strutturali.
+  - Misure verificate: catasta di grafite Ø 11,8 m, alta 7 m, nocciolo
+    attivo ≈ 12 x 7 m (World Nuclear Association, "RBMK Reactors"); camino
+    di ventilazione condiviso 3-4, alto 75,5 m, cima a 150 m dal suolo
+    (World Nuclear News, "Chernobyl ventilation stack removed"). Il bacino
+    di raffreddamento (22,9 km², 11 x 2 km) viene da letteratura sulla sua
+    dismissione, non da una fonte T1/T2 sola: valore indicativo delle
+    dimensioni, non del sito nel suo insieme — da segnare come punto da
+    riverificare se si vuole innalzare il livello della fonte. Le quote
+    interne dello spaccato e la disposizione del circuito restano
+    indicative, dichiarate nel titolo del pannello.
+  - **Falso allarme durante la verifica**: un errore "viewBox NaN" nella
+    console era un residuo della scheda del browser usata per i test
+    precedenti (chiusa e riaperta una scheda pulita per controllare) — non
+    un bug del codice. Utile da ricordare: un errore di rendering
+    apparente può derivare dallo strumento di test, non dal sito; prima di
+    correggere, riprodurlo in una scheda del browser nuova.
+- Verificato dopo ogni modifica: le 9 centrali si disegnano senza errori in
+  console (controllato anche su scheda pulita), lo SCRAM abbassa le barre
+  su tutte e tre le centrali ridisegnate, i fumetti si aprono coi testi
+  giusti.
 
 ## Fatto — sessione 6
 
@@ -135,10 +184,11 @@ Ultimo aggiornamento: 2026-09-17 (sessione 6)
 
 ## Da fare, in ordine
 
-1. **Interfaccia grafica delle centrali**: ridisegnare le altre 7 (Chernobyl,
-   Leibstadt, Darlington, Olkiluoto 3, Sanmen, Beloyarsk, Shidaowan) col
-   metodo usato per Sizewell B e Calder Hall → dettaglio in `sessione 5` e
-   `sessione 6` qui sopra. Richiesta diretta dell'utente, in corso.
+1. **Interfaccia grafica delle centrali**: ridisegnare le altre 6 (Leibstadt,
+   Darlington, Olkiluoto 3, Sanmen, Beloyarsk, Shidaowan) col metodo usato
+   per Sizewell B, Calder Hall e Chernobyl → dettaglio in `sessione 5`,
+   `sessione 6` e `sessione 7` qui sopra. Richiesta diretta dell'utente, in
+   corso.
 2. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
    capacità, date, orizzonte di progetto. Fonti: Posiva (Onkalo), DOE/WIPP,
    ISIN/Sogin (Deposito Nazionale).
