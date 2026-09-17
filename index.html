@@ -2036,7 +2036,7 @@ function isolaSizewell(A,c,Y){
   const add=x=>{A.appendChild(x);return x;};
   const caldo='#D2453A', freddo='#2E8FA8';
   /* palette: strutture tenui, componenti netti */
-  const cem='#E2E7EB', cemL='#BAC5CE', muro='#D2DAE0', vuoto='#F1F2F4';
+  const cem='#E2E7EB', cemL='#BAC5CE', muro='#D2DAE0', vuoto='#E3E5E7';
   const fondoEd='#EEF2F5', fondoEdL='#CDD6DD';
   /* componenti in azzurro chiaro (--ghiaccio): sullo sfondo quasi bianco
      dello spaccato, un componente bianco su bianco spariva */
@@ -2048,8 +2048,8 @@ function isolaSizewell(A,c,Y){
 
   /* riquadro e titolo */
   const fondo=Q(-14);
-  /* grigio chiarissimo, non bianco: sul bianco il disegno si confondeva con lo sfondo della pagina */
-  add(el('rect',{x:30,y:Y,width:1140,height:fondo-Y,rx:6,fill:'#F1F2F4',stroke:'#D6D9DC','stroke-width':1.5}));
+  /* grigio, non bianco: sul bianco sia il disegno sia il cursore si perdevano nello sfondo */
+  add(el('rect',{x:30,y:Y,width:1140,height:fondo-Y,rx:6,fill:'#E3E5E7',stroke:'#C7CBCF','stroke-width':1.5}));
   add(testo(42,Y+20,'DENTRO L\'EDIFICIO REATTORE · sezione verticale, proporzioni indicative','etichetta'));
 
   /* terreno in sezione */
