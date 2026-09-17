@@ -3,7 +3,45 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-17 (sessione 5)
+Ultimo aggiornamento: 2026-09-17 (sessione 6)
+
+## Fatto — sessione 6
+
+- **Calder Hall: secondo disegno dedicato**, con lo stesso metodo usato per
+  Sizewell B. Vista dalla campagna, foto `img/magnox.jpg` come riferimento.
+  - Sito in scala: fila di 4 edifici reattore (il selezionato in dettaglio,
+    gli altri tre schiariti, come Sizewell A per Sizewell B), due ciminiere
+    di ventilazione coi filtri (il dettaglio che fermò l'incendio di
+    Windscale nel 1957 — collegato al "worst case" già presente nella
+    scheda), due torri di raffreddamento in coppia, fabbricato del
+    combustibile, sala turbine piccola (macchina da ≈ 50 MW).
+  - Isola nucleare: capannone industriale (non un contenimento a tenuta —
+    coerente con la scheda "tech" che già lo diceva), schermo biologico in
+    cemento, recipiente in acciaio saldato col nocciolo di grafite a canali
+    verticali, due scambiatori di calore esterni (non annegati come nei
+    PWR) con soffianti alla base, piano di carica con macchina di carica su
+    binari, carroponte.
+  - 2 pallini con fumetto (scambiatore di calore, soffiante) più i soliti
+    nocciolo/barre. Tooltip al passaggio del mouse su: edificio reattore,
+    schermo biologico, recipiente, piano di carica, carroponte, fabbricato
+    del combustibile, camino di ventilazione.
+  - Misure verificate: involucro in acciaio Ø 11 m, alto 21,5 m; nocciolo
+    (prisma a 24 lati) ≈ 11 x 8 m; torri di raffreddamento ≈ 88-90 m, base
+    di 60 m (ICE, scheda "Calder Hall"; Wikipedia, "Calder Hall nuclear
+    power station"). Le quote interne dello spaccato e la disposizione del
+    circuito del gas sono indicative, non verificate su fonte — il titolo
+    del pannello lo dichiara, come per Sizewell.
+  - **Bug trovato e corretto prima del commit**: le barre di controllo
+    partivano già inserite nel nocciolo, invece di scendere allo SCRAM.
+    Verificato che ora scendono correttamente (controllato lo stile
+    `transform` e con uno zoom sul nocciolo dopo il clic).
+- **Refactor**: il ciclo che crea i pallini in `disegnaScena` ora scorre
+  `Object.entries(I.punti)` invece di elencare le chiavi a mano. Ogni nuova
+  centrale può aggiungere i propri pallini (es. `soffiante` per Calder
+  Hall) senza toccare `disegnaScena`.
+- Verificato dopo ogni modifica: le 9 centrali si disegnano senza errori in
+  console, lo SCRAM abbassa le barre sia per Sizewell sia per Calder Hall,
+  i fumetti si aprono con i testi giusti.
 
 ## Fatto — sessione 5
 
@@ -97,10 +135,10 @@ Ultimo aggiornamento: 2026-09-17 (sessione 5)
 
 ## Da fare, in ordine
 
-1. **Interfaccia grafica delle centrali**: ridisegnare le altre 8 (Calder
-   Hall, Chernobyl, Leibstadt, Darlington, Olkiluoto 3, Sanmen, Beloyarsk,
-   Shidaowan) col metodo usato per Sizewell B → dettaglio in `sessione 5` qui
-   sopra. Richiesta diretta dell'utente, in corso.
+1. **Interfaccia grafica delle centrali**: ridisegnare le altre 7 (Chernobyl,
+   Leibstadt, Darlington, Olkiluoto 3, Sanmen, Beloyarsk, Shidaowan) col
+   metodo usato per Sizewell B e Calder Hall → dettaglio in `sessione 5` e
+   `sessione 6` qui sopra. Richiesta diretta dell'utente, in corso.
 2. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
    capacità, date, orizzonte di progetto. Fonti: Posiva (Onkalo), DOE/WIPP,
    ISIN/Sogin (Deposito Nazionale).

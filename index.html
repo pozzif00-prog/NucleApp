@@ -592,7 +592,11 @@ const REATTORI = [
     precedente:'Windscale, 1957: incendio reale, rilascio di iodio radioattivo, latte della zona distrutto per settimane. È l\'incidente che ha convinto il settore a separare per sempre gli obiettivi civili da quelli militari.'
   },
   scena:{loops:2,gas:true,core:'canali',contenimento:false,raffreddamento:'torre',etichetteLoop:['CO₂ caldo','CO₂ freddo']},
-  fumetti:{nocciolo:{t:'Nocciolo a grafite',d:'Migliaia di canali scavati in una catasta di blocchi di grafite. Dentro, barre di uranio naturale lambite da anidride carbonica calda.',p:'La grafite è carbone puro: rallenta i neutroni, ma può bruciare. È il difetto che ha dato il nome a Windscale.'}}
+  fumetti:{
+    nocciolo:{t:'Nocciolo a grafite',d:'Migliaia di canali scavati in una catasta di blocchi di grafite. Dentro, barre di uranio naturale lambite da anidride carbonica calda.',p:'La grafite è carbone puro: rallenta i neutroni, ma può bruciare. È il difetto che ha dato il nome a Windscale.'},
+    generatore:{t:'Scambiatore di calore',d:'Fuori dal recipiente, non annegato dentro come nei reattori moderni. L\'anidride carbonica calda che esce dal nocciolo cede calore, in migliaia di tubicini, a un circuito d\'acqua separato, che evapora.',p:'Le due sostanze non si toccano mai: l\'acqua che gira la turbina non è mai stata dentro il nocciolo.'},
+    soffiante:{t:'Soffiante',d:'Un grande ventilatore che spinge l\'anidride carbonica attraverso il nocciolo e lo scambiatore, in un circuito chiuso.',p:'Serve energia elettrica per farla girare: a differenza dell\'acqua di un PWR, il gas non circola da solo per convezione.'}
+  }
 },
 {
   id:'rbmk', paeseCod:'UA', lat:51.39, lon:30.1, gen:'I', anniGen:'1973–1986', nome:'RBMK-1000', tipoBreve:'Canali in pressione, grafite',
@@ -2189,8 +2193,251 @@ function isolaSizewell(A,c,Y){
   };
 }
 
+/* ---------------------------------------------------------------
+   CALDER HALL — Sellafield, Cumbria
+   Vista dalla campagna: fila di edifici reattore (il selezionato in
+   dettaglio, gli altri tre schiariti, come Sizewell A per Sizewell B),
+   ciminiere di ventilazione con i filtri che fermarono l'incendio di
+   Windscale nel 1957, due torri di raffreddamento in coppia (Calder A
+   e Calder B condividevano ciascuna una sala turbine e due torri),
+   fiume Calder in primo piano. Aspetto degli edifici: foto
+   img/magnox.jpg (Wikimedia Commons, ENERGY.GOV).
+   Edificio reattore (involucro in acciaio): alto 21,5 m, Ø 11 m (ICE,
+   scheda "Calder Hall"). Torri di raffreddamento: alte ≈ 88-90 m, base
+   di 60 m (ICE; Wikipedia, "Calder Hall nuclear power station").
+   --------------------------------------------------------------- */
+function sitoCalderHall(B,c){
+  const add=x=>B.appendChild(x);
+  const ossido='#B7BDB6', ossidoL='#8B948C';
+
+  /* cielo, nuvole, colline della Cumbria */
+  add(el('rect',{x:0,y:0,width:1200,height:SUOLO+88,fill:'url(#c-cielo)'}));
+  add(nuvola(170,SUOLO-320,1,0)); add(nuvola(760,SUOLO-350,.7,10)); add(nuvola(1010,SUOLO-290,.85,18));
+  add(collina(SUOLO-4,64,'#AEC9A6',30));
+  add(collina(SUOLO-4,38,'#94B98C',210));
+
+  /* campi divisi da siepi, sul retro del sito */
+  add(el('rect',{x:0,y:SUOLO-56,width:1200,height:56,fill:'#C9CE9E'}));
+  [110,300,520,940,1120].forEach(x=>add(el('rect',{x,y:SUOLO-56,width:4,height:56,fill:'#8FA86A',opacity:'.55'})));
+
+  /* terreno del sito */
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:88,fill:'url(#c-terra)'}));
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:6,fill:'#7CAE72'}));
+
+  /* --- ciminiera di ventilazione, coi filtri: aggiunti quasi per caso,
+     furono la sola barriera che fermò l'incendio di Windscale nel 1957 --- */
+  const ciminiera=(x,h)=>{
+    const g=el('g',{});
+    g.appendChild(el('path',{d:`M${x-7} ${SUOLO} L${x-4} ${SUOLO-m(h)} L${x+4} ${SUOLO-m(h)} L${x+7} ${SUOLO} Z`,fill:'#C7CCC6',stroke:'#6B726C','stroke-width':1.4}));
+    g.appendChild(el('rect',{x:x-6,y:SUOLO-m(h)-7,width:12,height:9,fill:'#9AA39C',stroke:'#6B726C','stroke-width':1}));
+    add(conTitolo(g,'Camino di ventilazione, con i filtri che fermarono l\'incendio di Windscale nel 1957: furono aggiunti quasi per caso, e si rivelarono l\'unica barriera che funzionò.'));
+  };
+
+  /* --- due torri di raffreddamento, in coppia, disegnate per prime:
+     la sala turbine le coprirà in parte, come nella realtà viste da terra --- */
+  const torre=(cx)=>{
+    const th=m(88), tb=m(60), tg=m(34);
+    const bx0=cx-tb/2, bx1=cx+tb/2, gx0=cx-tg/2, gx1=cx+tg/2, topY=SUOLO-th;
+    add(el('path',{d:`M${bx0} ${SUOLO} Q${gx0-tb*0.05} ${SUOLO-th*0.6} ${gx0} ${topY} L${gx1} ${topY} Q${bx1+tb*0.05} ${SUOLO-th*0.6} ${bx1} ${SUOLO} Z`,
+      fill:'#D9E7F1',stroke:'#1B5FA8','stroke-width':2}));
+    for(let i=0;i<3;i++){
+      const v=el('ellipse',{cx:cx+(i-1)*tg*0.3,cy:topY-m(8),rx:tg*0.42,ry:m(9),fill:'#F0F2EE',class:'vapore'});
+      v.setAttribute('style',`animation-delay:${i*1.3}s`); add(v);
+    }
+    return {cx,x:bx0,w:bx1-bx0,topY,gx0,gx1};
+  };
+  const t1=torre(945), t2=torre(1111);
+  add(dett(testo((t1.cx+t2.cx)/2,t1.topY-14,'≈ 88 m · in coppia per ogni sala turbine','etichetta sec','middle')));
+
+  /* --- fila di edifici reattore: il selezionato in dettaglio, gli altri
+     tre schiariti --- */
+  [[230,.55,60],[300,.4,50],[520,.3,42]].forEach(([x,op,w])=>{
+    const g=el('g',{opacity:op});
+    g.appendChild(el('rect',{x,y:SUOLO-m(26),width:w,height:m(26),fill:ossido,stroke:ossidoL,'stroke-width':1}));
+    g.appendChild(el('rect',{x:x+w*0.3,y:SUOLO-m(26)-12,width:w*0.4,height:12,fill:ossidoL}));
+    add(g);
+  });
+  ciminiera(266,50); ciminiera(556,46);
+
+  const rW=92, rH=m(30), rX=380;
+  add(el('rect',{x:rX,y:SUOLO-rH,width:rW,height:rH,fill:ossido,stroke:ossidoL,'stroke-width':1.8}));
+  for(let y=SUOLO-rH+8;y<SUOLO-4;y+=11) add(el('line',{x1:rX+2,y1:y,x2:rX+rW-2,y2:y,stroke:ossidoL,'stroke-width':.8}));
+  add(el('rect',{x:rX+rW*0.24,y:SUOLO-rH-16,width:rW*0.52,height:16,fill:'#A7AFA6',stroke:ossidoL,'stroke-width':1}));
+
+  /* fabbricato del combustibile, basso, in primo piano */
+  const fab=el('g',{});
+  fab.appendChild(el('rect',{x:40,y:SUOLO-m(9),width:150,height:m(9),fill:'#DCD6C4',stroke:'#B3AC96','stroke-width':1.2}));
+  add(conTitolo(fab,'Fabbricato del combustibile: qui arrivano le barre di uranio naturale prima della carica, e da qui parte il combustibile esaurito verso il ritrattamento, a Sellafield accanto.'));
+  add(testo(115,SUOLO-m(9)-6,'fabbricato del combustibile','etichetta sec','middle'));
+
+  /* --- sala turbine, condivisa dalla coppia di reattori: macchina piccola,
+     circa 50 MW in tutto --- */
+  const tX=650,tW=190,tTop=SUOLO-m(22);
+  add(el('rect',{x:tX,y:tTop,width:tW,height:SUOLO-tTop,fill:'#8FA8BE',stroke:'#4C6377','stroke-width':1.6}));
+  for(let y=tTop+8;y<SUOLO-4;y+=9) add(el('line',{x1:tX+2,y1:y,x2:tX+tW-2,y2:y,stroke:'#A7BDD0','stroke-width':.7}));
+  const wX=tX+16,wW=tW-32,wTop=tTop+8,wBot=SUOLO-6;
+  add(el('rect',{x:wX,y:wTop,width:wW,height:wBot-wTop,fill:'#EEF2F4',stroke:'#4C6377','stroke-width':1,'stroke-dasharray':'4 3'}));
+  const TY=SUOLO-26;
+  add(pathTubo(`M${wX+8} ${TY} L${wX+wW-8} ${TY}`,'#1C2321',2,true));
+  add(el('path',{d:`M${wX+10} ${TY} L${wX+22} ${TY-14} L${wX+54} ${TY-14} L${wX+66} ${TY} L${wX+54} ${TY+14} L${wX+22} ${TY+14} Z`,fill:'#E4E8E6',stroke:'#1C2321','stroke-width':1.3}));
+  add(el('rect',{x:wX+wW-40,y:TY-9,width:32,height:18,rx:2,fill:'#C9CCC2',stroke:'#1C2321','stroke-width':1.2}));
+  add(el('rect',{x:wX+wW-46,y:TY+16,width:34,height:wBot-(TY+16),fill:'#DCEBF2',stroke:'#1C2321','stroke-width':1}));
+
+  /* vapore dal reattore alla sala turbine, ritorno dell'acqua */
+  add(pathTubo(`M${rX+rW} ${SUOLO-m(20)} L${wX-14} ${SUOLO-m(20)} L${wX-14} ${TY-8}`,'#C79A3C',3.5,true));
+  add(pathTubo(`M${wX+wW/2-2} ${wBot} L${wX-14} ${wBot} L${wX-14} ${SUOLO-6}`,'#2E8FA8',3,true));
+  add(pathTubo(`M${wX+wW-6} ${wBot} L${t1.gx0-6} ${wBot} L${t1.gx0-6} ${SUOLO-m(6)}`,'#2E8FA8',3,true));
+
+  /* --- trasformatore, accanto alla sala turbine, e traliccio verso i campi --- */
+  const trX=tX+tW+10,trW=26,trTop=SUOLO-m(7);
+  add(el('rect',{x:trX,y:trTop,width:trW,height:SUOLO-trTop,fill:'#3C4650'}));
+  for(let i=1;i<4;i++) add(el('line',{x1:trX+i*trW/4,y1:trTop+2,x2:trX+i*trW/4,y2:SUOLO-2,stroke:'#5C6873','stroke-width':1}));
+  const p=traliccio(1170,SUOLO,40,[[24,8],[30,9],[36,6.5]]);
+  add(p.g);
+  add(campata([trX+trW,trTop+m(2)],p.sx[1],14));
+  p.dx.forEach(a=>add(campata(a,[1230,a[1]+6],10)));
+
+  /* alberi e siepe, solo sul lato campagna */
+  [[16,1,0],[196,.8,1],[40,.9,1]].forEach(([x,s,sc])=>add(albero(x,SUOLO+6,s,sc)));
+
+  scalaUmana(B,rX-14,60,SUOLO+80,'end');
+
+  /* etichette */
+  add(testo(6,16,'il sito, in scala reale · vista dalla campagna','etichetta sec'));
+  add(testo(rX+rW/2,SUOLO-rH-22,'edificio reattore','etichetta','middle'));
+  add(testo(wX+wW/2,tTop-8,'sala turbine','etichetta','middle'));
+  add(dett(
+    testo(rX+rW/2,SUOLO-rH-38,'involucro in acciaio · Ø 11 m, alto 21,5 m','etichetta sec','middle'),
+    testo(trX+trW/2,SUOLO+18,'trasformatore','etichetta sec','middle'),
+    testo(wX+wW-29,wBot+16,'condensatore','etichetta sec','middle')
+  ));
+
+  return {
+    reattore:{x:rX,y:SUOLO-rH,w:rW,h:rH},
+    turbina:[wX+38,TY], condensatore:[wX+wW-29,wBot-6],
+    raffreddamento:[(t1.cx+t2.cx)/2,t1.topY+m(24)], trasformatore:[trX+trW/2,SUOLO-m(4)]
+  };
+}
+
+/* ---------------------------------------------------------------
+   CALDER HALL — recipiente in acciaio saldato, non un contenimento
+   a tenuta: solo un involucro in pressione (lo dice la scheda "tech"
+   del sito). Nocciolo in grafite, 24 lati, ≈ 11 m x 8 m; due scambiatori
+   esterni al recipiente, collegati da grandi condotti di CO₂ — non un
+   circuito annegato come nei PWR (ICE, scheda "Calder Hall"; il resto
+   dell'architettura del circuito non è una misura puntuale verificata,
+   proporzioni indicative).
+   --------------------------------------------------------------- */
+function isolaCalderHall(A,c,Y){
+  const S=15;
+  const CX=600;
+  const G=Y+40+S*38;                            // piano campagna
+  const X=r=>CX+r*S, Q=h=>G-h*S;
+  const add=x=>{A.appendChild(x);return x;};
+  const rettM=(r1,h1,r2,h2,att)=>add(el('rect',{x:Math.min(X(r1),X(r2)),y:Math.min(Q(h1),Q(h2)),
+    width:Math.abs(X(r2)-X(r1)),height:Math.abs(Q(h2)-Q(h1)),...att}));
+  const cem='#E2E7EB', cemL='#BAC5CE', edif='#EEF2F5', edifL='#CDD6DD';
+  const comp={fill:'#BFE3F5',stroke:'#0B2440','stroke-width':2};
+  const gasC='#C79A3C';
+
+  const fondo=Q(-6);
+  add(el('rect',{x:30,y:Y,width:1140,height:fondo-Y,rx:6,fill:'#E3E5E7',stroke:'#C7CBCF','stroke-width':1.5}));
+  add(testo(42,Y+20,'DENTRO L\'EDIFICIO REATTORE · sezione verticale, proporzioni indicative','etichetta'));
+
+  add(el('rect',{x:31,y:G,width:1138,height:fondo-G-1,fill:'#E9DFCB'}));
+  add(el('line',{x1:31,y1:G,x2:1169,y2:G,stroke:'#9FB08A','stroke-width':1.5}));
+
+  /* ---------- edificio: capannone industriale, non a tenuta ---------- */
+  const ediG=el('g',{});
+  ediG.appendChild(el('rect',{x:X(-32),y:Q(36),width:64*S,height:36*S,fill:edif,stroke:edifL,'stroke-width':1.2}));
+  for(let h=6;h<36;h+=7) ediG.appendChild(el('line',{x1:X(-32),y1:Q(h),x2:X(32),y2:Q(h),stroke:edifL,'stroke-width':.7}));
+  add(conTitolo(ediG,'Capannone industriale in acciaio, non un edificio a tenuta come nei reattori moderni: dentro, il recipiente in pressione e i due scambiatori sono a vista, non annegati in un unico blocco di cemento.'));
+  add(testo(X(-24),Q(36)-6,'edificio reattore — non un contenimento a tenuta','etichetta sec'));
+
+  /* ---------- schermo biologico in cemento attorno al recipiente ---------- */
+  conTitolo(rettM(-9.5,2,9.5,28,{fill:cem,stroke:cemL,'stroke-width':1}),
+    'Schermo biologico: il basamento e le pareti in cemento attorno al recipiente. Ferma i neutroni e i raggi gamma che escono dal nocciolo.');
+
+  /* ---------- il recipiente in pressione: cilindro in acciaio saldato ---------- */
+  const Dv=11, Hv=21.5, hB=5;                   // Ø 11 m, alto 21,5 m, su un basamento di 5 m
+  const rv=Dv/2, vT=hB+Hv;                      // vT: quota della sommità del recipiente
+  const vesselPath=`M${X(-rv)} ${Q(hB)} L${X(-rv)} ${Q(vT-2)} Q${X(-rv)} ${Q(vT)} ${X(-rv+1)} ${Q(vT)} L${X(rv-1)} ${Q(vT)} Q${X(rv)} ${Q(vT)} ${X(rv)} ${Q(vT-2)} L${X(rv)} ${Q(hB)} Q${X(rv)} ${Q(hB-2)} ${X(rv-1)} ${Q(hB-2)} L${X(-rv+1)} ${Q(hB-2)} Q${X(-rv)} ${Q(hB-2)} ${X(-rv)} ${Q(hB)} Z`;
+  conTitolo(add(el('path',{d:vesselPath,fill:comp.fill,stroke:comp.stroke,'stroke-width':2})),
+    'Recipiente in pressione: un cilindro in acciaio saldato spesso circa 5 cm, alto 21,5 m e largo 11 m. Contiene il nocciolo di grafite e l\'anidride carbonica che lo raffredda.');
+
+  /* nocciolo: prisma a 24 lati, ≈ 11 x 8 m, approssimato a blocco */
+  const coreH=8, coreW=9.6, coreB=10, coreTop=coreB+coreH;
+
+  /* glow dietro il nocciolo */
+  add(el('rect',{x:X(-coreW/2-.6),y:Q(coreTop+.6),width:S*(coreW+1.2),height:S*(coreH+1.2),
+    fill:'#2F6BFF',opacity:'.5',class:'glow',id:'glow'}));
+
+  /* nocciolo di grafite con i canali di combustibile, verticali */
+  const gCore=add(el('g',{}));
+  gCore.appendChild(el('rect',{x:X(-coreW/2),y:Q(coreTop),width:S*coreW,height:S*coreH,fill:'#D8CDB2',stroke:'#8A7A5A','stroke-width':1}));
+  const nCanali=10;
+  for(let i=0;i<nCanali;i++){
+    const rx=-coreW/2+0.5+i*(coreW-1)/(nCanali-1);
+    gCore.appendChild(el('rect',{x:X(rx)-2,y:Q(coreTop)+3,width:4,height:S*coreH-6,fill:'#C2762E',stroke:'#7A4A1F','stroke-width':.4}));
+  }
+
+  /* barre di controllo: di norma estratte sopra il nocciolo, lo SCRAM
+     le fa scendere esattamente sull'altezza del nocciolo */
+  const hCore=S*coreH;
+  const barre=add(el('g',{class:'barre',id:'barre'}));
+  [-3,-1,1,3].forEach(rx=>{
+    barre.appendChild(el('line',{x1:X(rx),y1:Q(vT+2),x2:X(rx),y2:Q(coreTop),stroke:'#5A6360','stroke-width':.9}));
+    barre.appendChild(el('rect',{x:X(rx)-1.6,y:Q(coreTop+coreH),width:3.2,height:hCore,fill:'#1C2321'}));
+  });
+  barre.dataset.corsa=hCore;
+
+  /* piano di carica, sopra il recipiente, con la macchina di carica su binari */
+  const carica=el('g',{});
+  carica.appendChild(el('rect',{x:X(-15),y:Q(vT+1),width:30*S,height:S*1.6,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  carica.appendChild(el('rect',{x:X(-3.5),y:Q(vT+1)-S*3,width:7*S,height:S*3,rx:3,fill:'#9AA8B4',stroke:'#5A6360','stroke-width':1}));
+  carica.appendChild(el('line',{x1:X(-3.5),y1:Q(vT+1),x2:X(3.5),y2:Q(vT+1),stroke:'#5A6360','stroke-width':1.2}));
+  add(conTitolo(carica,'Piano di carica: da qui la macchina di carica scende nei canali per estrarre il combustibile esaurito e caricare quello nuovo, con il reattore fermo.'));
+
+  /* tetto del capannone e carroponte */
+  const tetto=el('g',{});
+  tetto.appendChild(el('path',{d:`M${X(-32)} ${Q(36)} L${X(0)} ${Q(39.5)} L${X(32)} ${Q(36)}`,fill:'none',stroke:edifL,'stroke-width':1.4}));
+  tetto.appendChild(el('rect',{x:X(-26),y:Q(33.6),width:52*S,height:S*1.1,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  add(conTitolo(tetto,'Carroponte: corre lungo tutto il capannone e solleva i componenti pesanti — schermi, tappi del recipiente, scambiatori — durante la manutenzione.'));
+  add(testo(X(-20),Q(33.6)-4,'carroponte','etichetta sec'));
+
+  /* ---------- circuito del gas: due scambiatori esterni, con soffiante ---------- */
+  const scambiatore=(s)=>{
+    const rx=s*22, wS=8, hS=20, hBs=3;
+    add(pathTubo(`M${X(s*rv)} ${Q(vT-3)} L${X(rx-s*wS/2)} ${Q(vT-3)} L${X(rx-s*wS/2)} ${Q(hBs+hS-2)}`,gasC,4,true));
+    rettM(rx-wS/2,hBs+2,rx+wS/2,hBs+hS,{...comp,rx:6});
+    for(let k=0;k<3;k++) add(el('line',{x1:X(rx-wS/2+1),y1:Q(hBs+3+k*(hS-5)/2),x2:X(rx+wS/2-1),y2:Q(hBs+3+k*(hS-5)/2),stroke:'#5A7590','stroke-width':.6}));
+    /* soffiante, alla base */
+    rettM(rx-wS/2-1,hBs-2,rx+wS/2+1,hBs+2,{fill:'#9AA8B4',stroke:'#5A6360','stroke-width':1});
+    add(pathTubo(`M${X(rx+s*wS/2)} ${Q(hBs)} L${X(s*(rv+2))} ${Q(hBs)} L${X(s*(rv+2))} ${Q(hB+2)} L${X(s*rv)} ${Q(hB+2)}`,'#2E8FA8',3.5,true));
+    return {x:rx,y:hBs+hS/2};
+  };
+  const sx=scambiatore(-1), dx=scambiatore(1);
+
+  /* ---------- etichette ---------- */
+  add(testo(CX,Q(coreB)-6,'nocciolo','etichetta sec','middle'));
+  add(testo(X(6),Q(coreTop+coreH/2),'barre di controllo','etichetta sec'));
+  add(testo(X(-rv-1.5),Q(hB+8),'recipiente in pressione','etichetta','end'));
+  add(testo(X(-9.5-1),Q(6),'schermo biologico','etichetta sec','end'));
+  add(testo(X(dx.x),Q(dx.y+11),'scambiatore di calore','etichetta','middle'));
+  add(testo(X(dx.x),Q(1.4)-4,'soffiante','etichetta sec','middle'));
+  add(testo(X(0),Q(vT+1)-6,'piano di carica','etichetta sec','middle'));
+
+  return {
+    altezza:fondo-Y+8,
+    riquadro:{x:X(-32),y:Q(36),w:64*S,h:36*S},
+    punti:{nocciolo:[CX,Q(coreB+coreH/2)], barre:[X(-2),Q(coreTop+coreH/2)],
+      generatore:[X(dx.x),Q(dx.y)], soffiante:[X(dx.x),Q(1.4)]}
+  };
+}
+
 const SITI={
-  pwr:{cielo:100, sito:sitoSizewell, isola:isolaSizewell}
+  pwr:{cielo:100, sito:sitoSizewell, isola:isolaSizewell},
+  magnox:{cielo:145, sito:sitoCalderHall, isola:isolaCalderHall}
 };
 
 /* spaccato comune, usato dalle centrali non ancora ridisegnate */
@@ -2377,11 +2624,9 @@ function disegnaScena(r){
   const H=el('g',{id:'hotspot'});
   let n=0;
   const add=(x,y,chiave)=>{n++;H.appendChild(hotspot(x,y,n,chiave));};
-  add(...I.punti.nocciolo,'nocciolo');
-  add(...I.punti.barre,'barre');
-  if(I.punti.generatore) add(...I.punti.generatore,'generatore');
-  if(I.punti.pressurizzatore) add(...I.punti.pressurizzatore,'pressurizzatore');
-  if(I.punti.pompa) add(...I.punti.pompa,'pompa');
+  /* i punti dell'isola nucleare variano da centrale a centrale: ogni
+     spaccato ne dichiara quanti servono, senza doverli elencare qui */
+  Object.entries(I.punti).forEach(([chiave,p])=>{ if(p) add(...p,chiave); });
   add(...P.turbina,'turbina');
   add(...P.condensatore,'condensatore');
   add(...P.raffreddamento,'raffreddamento');
