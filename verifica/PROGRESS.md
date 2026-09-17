@@ -3,7 +3,48 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-08-02 (seconda sessione)
+Ultimo aggiornamento: 2026-09-17 (sessione 5)
+
+## Fatto — sessione 5
+
+- **Sizewell B: primo disegno dedicato**, non più lo schema generico condiviso
+  da tutte le centrali. Vista da sud, foto `img/pwr.jpg` come riferimento.
+  - Sito in scala: cupola e edifici come in foto, Sizewell A sullo sfondo
+    schiarita, dune, spiaggia di ciottoli, Mare del Nord. Gallerie dell'acqua
+    di mare (presa e scarico) sotto spiaggia e fondale, non più tralicci o
+    alberi in acqua.
+  - Sala turbine con spaccato: turbogruppo, condensatore e pompa di alimento
+    appoggiati su tavola, piano interrato e piano terra come una sala vera,
+    non elementi fluttuanti.
+  - Isola nucleare: sezione verticale sotto il sito (prima era un taglio ×5
+    slegato, in cima). Ogni componente appoggiato dove sta davvero — recipiente
+    appeso ai bocchelli sullo schermo biologico, generatori di vapore su
+    colonne, pompe primarie sul pavimento, pressurizzatore su gonna d'appoggio,
+    gru polare sulle mensole — con le strutture (cemento, solette) in grigio
+    tenue e i componenti in evidenza.
+  - 2 nuovi pallini cliccabili con fumetto: pressurizzatore, pompa primaria.
+    5 spiegazioni al passaggio del mouse per gli elementi strutturali:
+    recipiente in pressione, schermo biologico, piano operativo, gru polare,
+    edifici ausiliari.
+  - Misure verificate: edificio reattore Ø 45 m, alto 65 m (ICE); presa
+    dell'acqua di mare a ≈ 600 m dalla riva (Granta, "On Sizewell C"). Le
+    quote interne dello spaccato sono indicative, non verificate su fonte:
+    il titolo del pannello lo dichiara.
+  - Colori: componenti in azzurro chiaro (`--ghiaccio`, riuso della palette
+    del sito) invece di bianco — prima si confondevano con lo sfondo, quasi
+    dello stesso bianco. Sfondo del pannello e "vuoto" interno del
+    contenimento unificati in grigio chiarissimo (`#F1F2F4`), non più bianco.
+  - Impaginazione cambiata per tutte le centrali: prima il sito intero, sotto
+    lo spaccato dell'isola nucleare (prima erano invertiti). L'altezza del
+    disegno ora dipende dalla centrale (`disegnaScena` imposta `BASE.h`), non
+    più fissa a 700.
+- **Le altre 8 centrali** usano ancora lo spaccato e il sito generici
+  (`isolaGenerica`, `sitoGenerico`), con la sola correzione della posizione
+  dell'etichetta "nocciolo". Da ridisegnare una per una con lo stesso metodo:
+  foto reale → misure verificate → sito in scala → spaccato con componenti
+  appoggiati, non fluttuanti.
+- Verificato dopo ogni modifica: le 9 centrali si disegnano senza errori in
+  console, lo SCRAM abbassa ancora le barre, i fumetti si aprono.
 
 ## Fatto — sessione 2
 
@@ -56,18 +97,22 @@ Ultimo aggiornamento: 2026-08-02 (seconda sessione)
 
 ## Da fare, in ordine
 
-1. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
+1. **Interfaccia grafica delle centrali**: ridisegnare le altre 8 (Calder
+   Hall, Chernobyl, Leibstadt, Darlington, Olkiluoto 3, Sanmen, Beloyarsk,
+   Shidaowan) col metodo usato per Sizewell B → dettaglio in `sessione 5` qui
+   sopra. Richiesta diretta dell'utente, in corso.
+2. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
    capacità, date, orizzonte di progetto. Fonti: Posiva (Onkalo), DOE/WIPP,
    ISIN/Sogin (Deposito Nazionale).
-2. **Incidenti** — le fonti ci sono già (UNSCEAR, IAEA, Kemeny). Serve
+3. **Incidenti** — le fonti ci sono già (UNSCEAR, IAEA, Kemeny). Serve
    scomporre le affermazioni e agganciare locator + citazione testuale.
    Attenzione: il bilancio di Chernobyl è `conteso`, va rappresentato come
    ventaglio con la ragione metodologica, non come numero unico.
-3. **Scheda "tech"** di ogni reattore (refrigerante, moderatore, combustibile,
+4. **Scheda "tech"** di ogni reattore (refrigerante, moderatore, combustibile,
    contenimento) — sono affermazioni qualitative da manuale, rischio basso,
    priorità bassa.
-4. **Riagganciare IAEA PRIS (T1)** e alzare il livello delle fonti.
-5. Solo dopo: espansione con letteratura peer-reviewed sui punti contesi.
+5. **Riagganciare IAEA PRIS (T1)** e alzare il livello delle fonti.
+6. Solo dopo: espansione con letteratura peer-reviewed sui punti contesi.
 
 ## Aperto / bloccato
 
