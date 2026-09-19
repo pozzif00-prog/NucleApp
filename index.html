@@ -722,7 +722,16 @@ const REATTORI = [
     barriere:'Doppio sistema di arresto rapido, moderatore freddo che circonda i canali e agisce da dissipatore anche a pompe ferme, contenimento con edificio a vuoto.',
     precedente:'Nessun incidente con rilasci significativi in oltre cinquant\'anni di esercizio della filiera. Il precedente più serio resta la fusione parziale di NRX (1952), un reattore sperimentale, non commerciale.'
   },
-  scena:{loops:2,core:'canali',contenimento:true,raffreddamento:'lago',orizzontale:true,etichetteLoop:['Primario D₂O','Ritorno D₂O']}
+  scena:{loops:2,core:'canali',contenimento:true,raffreddamento:'lago',orizzontale:true,etichetteLoop:['Primario D₂O','Ritorno D₂O']},
+  fumetti:{
+    nocciolo:{t:'Calandria e canali',d:'Un grande cilindro orizzontale pieno di acqua pesante fredda — il moderatore — attraversato da 480 canali orizzontali in pressione. Ogni canale contiene 13 fasci di combustibile in uranio naturale: 6 240 in tutto.',p:'Non c\'è un unico recipiente in pressione: la pressione sta dentro ogni singolo canale.'},
+    barre:{t:'Barre di arresto',d:'Cadono dall\'alto per gravità dentro la calandria e fermano la reazione in meno di due secondi. Un secondo sistema, indipendente e di tipo diverso, inietta invece un liquido che assorbe i neutroni.',p:'Due sistemi di spegnimento diversi tra loro: se uno avesse un difetto, l\'altro non lo condividerebbe.'},
+    generatore:{t:'Generatore di vapore',d:'L\'acqua pesante calda del circuito primario cede calore, in migliaia di tubi a U, ad acqua normale che evapora. In ogni edificio reattore ce ne sono quattro: qui se ne vede uno per lato.',p:'L\'acqua che gira la turbina non è mai stata dentro i canali.'},
+    pompa:{t:'Pompa primaria',d:'Spinge l\'acqua pesante in pressione attraverso i canali e il generatore di vapore. Il circuito ha la forma di un otto: in metà dei canali l\'acqua scorre in un verso, nell\'altra metà nel verso opposto.',p:'Ogni lato del reattore ha sia un collettore caldo sia uno freddo.'},
+    macchina:{t:'Macchine di ricarica',d:'Sono due, una per lato: si agganciano a un canale alla volta. Una spinge dentro combustibile fresco, l\'altra riceve quello esaurito, senza fermare il reattore.',p:'Come nell\'RBMK si ricarica a reattore acceso, ma qui le macchine stanno dentro un edificio di contenimento vero.'},
+    vuoto:{t:'Edificio a vuoto',d:'Un cilindro in calcestruzzo alto 71 m, tenuto a pressione più bassa di quella atmosferica e collegato agli edifici reattore da un condotto di sfogo. Se un canale si rompe, il vapore viene aspirato qui dentro, spruzzato con acqua dal serbatoio che sta nell\'edificio a vuoto e condensato.',p:'È il contenimento condiviso: un solo grande edificio serve tutte le unità del sito, e lo spruzzo funziona senza bisogno di corrente.'},
+    raffreddamento:{t:'Acqua del lago Ontario',d:'Un tunnel porta l\'acqua fredda dal fondo del lago al condensatore, un altro la restituisce più calda attraverso diffusori che la mescolano con quella del lago. Non ci sono torri di raffreddamento.',p:'Il lago fa da pozzo di calore, come il mare a Sizewell.'}
+  }
 },
 {
   id:'epr', paeseCod:'FI', lat:61.24, lon:21.44, gen:'III+', anniGen:'2005–oggi', nome:'EPR', tipoBreve:'PWR evolutivo europeo',
@@ -2992,11 +3001,291 @@ function isolaLeibstadt(A,c,Y){
   };
 }
 
+/* ---------------------------------------------------------------
+   DARLINGTON — Ontario, sulla riva del lago Ontario
+   Vista dal lago: la scogliera di massi in primo piano, la sala
+   turbine bassa e lunga, i blocchi bianchi degli edifici reattore
+   (quattro unità gemelle: una in dettaglio, una sola schiarita),
+   l'edificio a vuoto — il grande cilindro con la cupola bassa e
+   l'antenna rossa e bianca — collegato al reattore dal condotto di
+   sfogo. Nessuna torre di raffreddamento: l'acqua viene dal lago.
+   Aspetto: foto img/candu.jpg (Wikimedia Commons).
+   Edificio a vuoto: cilindro in calcestruzzo alto 71 m, a pressione
+   inferiore a quella atmosferica, collegato agli edifici reattore da un
+   condotto di sfogo; pareti degli edifici reattore in calcestruzzo di
+   1,8 m (OPG, opg.com; CNSC, cnsc-ccsn.gc.ca). Il diametro dell'edificio
+   a vuoto (≈ 60 m) e le altezze degli edifici reattore (≈ 50 m) sono
+   dedotti dalla foto, in proporzione ai 71 m, e indicativi.
+   --------------------------------------------------------------- */
+function sitoDarlington(B,c){
+  const add=x=>B.appendChild(x);
+  const LAGO=SUOLO+34;
+  const bianco='#F1F3F4', biancoL='#9AA3A8', cls='#B9B5AA', clsL='#8C877B';
+
+  /* cielo, nuvole */
+  add(el('rect',{x:0,y:0,width:1200,height:SUOLO+88,fill:'url(#c-cielo)'}));
+  add(nuvola(200,SUOLO-215,1,0)); add(nuvola(720,SUOLO-240,.75,8)); add(nuvola(1040,SUOLO-200,.9,15));
+
+  /* fascia di terreno e lago Ontario in primo piano */
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:34,fill:'url(#c-terra)'}));
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:6,fill:'#7CAE72'}));
+  add(el('rect',{x:0,y:LAGO,width:1200,height:SUOLO+88-LAGO,fill:'#7FB6D8'}));
+  add(el('line',{x1:0,y1:LAGO,x2:1200,y2:LAGO,stroke:'#2E8FA8','stroke-width':1.5}));
+  for(let x=12;x<1200;x+=78) add(el('path',{d:`M${x} ${LAGO+22} q12 -6 24 0 t24 0`,fill:'none',stroke:'#1B5FA8','stroke-width':1.1,opacity:'.5'}));
+
+  /* --- gallerie sotterranee: presa dal lago (a destra) e scarico con diffusori (a sinistra) --- */
+  const galleria=(d,col)=>{
+    add(el('path',{d,fill:'none',stroke:'#8E989A','stroke-width':10,'stroke-linecap':'round',opacity:'.45'}));
+    add(pathTubo(d,col,3.5,true));
+  };
+
+  /* --- edifici reattore: una sola unità schiarita dietro la sala turbine,
+     quella selezionata in dettaglio --- */
+  const rW=94, rH=m(50), rX=520;
+  const dietro=el('g',{opacity:'.5'});
+  dietro.appendChild(el('rect',{x:334,y:SUOLO-rH,width:rW,height:rH,fill:bianco,stroke:biancoL,'stroke-width':1.2}));
+  add(dietro);
+  add(el('rect',{x:rX,y:SUOLO-rH,width:rW,height:rH,fill:bianco,stroke:biancoL,'stroke-width':1.8}));
+  for(let y=SUOLO-rH+9;y<SUOLO-4;y+=m(7)) add(el('line',{x1:rX+2,y1:y,x2:rX+rW-2,y2:y,stroke:'#D5DADC','stroke-width':.8}));
+  add(el('rect',{x:rX+rW*0.6,y:SUOLO-rH+m(8),width:rW*0.28,height:m(6),fill:'#C7CDD0',stroke:biancoL,'stroke-width':.8}));
+
+  /* camini scuri, come in foto */
+  [[506,m(58)],[640,m(38)]].forEach(([x,h])=>add(el('rect',{x:x-3.5,y:SUOLO-h,width:7,height:h,fill:'#3C3F44'})));
+
+  /* --- edificio a vuoto: cilindro con cupola bassa e antenna --- */
+  const vX=770, vR=m(30), vCil=m(64), vTop=m(71);
+  const vuoto=el('g',{});
+  vuoto.appendChild(el('path',{d:`M${vX-vR} ${SUOLO} L${vX-vR} ${SUOLO-vCil} Q${vX} ${SUOLO-vTop-m(7)} ${vX+vR} ${SUOLO-vCil} L${vX+vR} ${SUOLO} Z`,fill:cls,stroke:clsL,'stroke-width':1.8}));
+  [0.9,0.86].forEach(f=>vuoto.appendChild(el('line',{x1:vX-vR,y1:SUOLO-vCil*f,x2:vX+vR,y2:SUOLO-vCil*f,stroke:clsL,'stroke-width':.9})));
+  for(let k=1;k<6;k++) vuoto.appendChild(el('line',{x1:vX-vR+k*vR/3,y1:SUOLO,x2:vX-vR+k*vR/3,y2:SUOLO-vCil*0.85,stroke:'#A9A498','stroke-width':.6}));
+  add(conTitolo(vuoto,'Edificio a vuoto: un cilindro in calcestruzzo alto 71 m, tenuto a pressione più bassa di quella atmosferica. Se in un reattore si rompe un canale, il vapore viene aspirato qui, spruzzato con acqua dal serbatoio che sta all\'interno e condensato — senza uscire.'));
+  /* antenna rossa e bianca sulla cupola */
+  const aTop=SUOLO-vTop-m(15), aBase=SUOLO-vTop+2;
+  add(el('line',{x1:vX,y1:aBase,x2:vX,y2:aTop,stroke:'#F1F1EE','stroke-width':3}));
+  [0,1,2].forEach(k=>add(el('line',{x1:vX,y1:aBase-k*(aBase-aTop)/3,x2:vX,y2:aBase-(k+0.5)*(aBase-aTop)/3,stroke:'#C0453A','stroke-width':3})));
+
+  /* condotto di sfogo tra edificio reattore ed edificio a vuoto */
+  const duct=el('g',{});
+  duct.appendChild(el('rect',{x:rX+rW,y:SUOLO-m(42),width:(vX-vR)-(rX+rW),height:9,fill:'#C9D2D9',stroke:'#8E989A','stroke-width':1.2}));
+  add(conTitolo(duct,'Condotto di sfogo: collega l\'edificio reattore all\'edificio a vuoto. Se la pressione sale, si apre e il vapore viene aspirato di là.'));
+
+  /* --- sala turbine, bassa e lunga, davanti agli edifici reattore --- */
+  const tW=270, tX=190, tTop=SUOLO-m(33);
+  add(el('rect',{x:tX,y:tTop,width:tW,height:SUOLO-tTop,fill:bianco,stroke:biancoL,'stroke-width':1.8}));
+  for(let y=tTop+9;y<SUOLO-4;y+=m(6)) add(el('line',{x1:tX+2,y1:y,x2:tX+tW-2,y2:y,stroke:'#D5DADC','stroke-width':.8}));
+  const wX=tX+18,wW=tW-36,wTop=tTop+10,wBot=SUOLO-6;
+  add(el('rect',{x:wX,y:wTop,width:wW,height:wBot-wTop,fill:'#EEF2F4',stroke:'#4C6377','stroke-width':1,'stroke-dasharray':'4 3'}));
+  const TY=SUOLO-32;
+  add(pathTubo(`M${wX+10} ${TY} L${wX+wW-10} ${TY}`,'#1C2321',2,true));
+  add(el('path',{d:`M${wX+12} ${TY} L${wX+28} ${TY-16} L${wX+64} ${TY-16} L${wX+80} ${TY} L${wX+64} ${TY+16} L${wX+28} ${TY+16} Z`,fill:'#E4E8E6',stroke:'#1C2321','stroke-width':1.3}));
+  add(el('rect',{x:wX+wW-54,y:TY-11,width:44,height:22,rx:2,fill:'#C9CCC2',stroke:'#1C2321','stroke-width':1.2}));
+  add(el('rect',{x:wX+wW-54,y:TY+18,width:44,height:wBot-(TY+18),fill:'#DCEBF2',stroke:'#1C2321','stroke-width':1}));
+
+  /* vapore dall'edificio reattore alla sala turbine; ritorno dell'acqua di alimento */
+  add(pathTubo(`M${rX} ${SUOLO-m(30)} L${wX+wW+10} ${SUOLO-m(30)} L${wX+wW+10} ${TY-4} L${wX+wW-10} ${TY-4}`,'#D2453A',4,true));
+  add(pathTubo(`M${wX+wW-32} ${wBot} L${wX+wW+10} ${wBot} L${wX+wW+10} ${SUOLO-m(12)} L${rX} ${SUOLO-m(12)}`,'#2E8FA8',3.5,true));
+
+  /* raffreddamento senza torri: acqua dal lago, una volta sola */
+  galleria(`M1010 ${LAGO+34} L1010 ${SUOLO+12} L${wX+wW-38} ${SUOLO+12} L${wX+wW-38} ${wBot}`,'#2E8FA8');
+  galleria(`M${wX+wW-22} ${wBot} L${wX+wW-22} ${SUOLO+22} L330 ${SUOLO+22} L330 ${LAGO+42}`,'#D98B5F');
+  /* testa di presa e diffusori, sul fondo del lago */
+  add(el('rect',{x:1002,y:LAGO+30,width:16,height:8,rx:2,fill:'#8E989A',stroke:'#5A6360','stroke-width':1}));
+  [318,330,342].forEach(x=>add(el('circle',{cx:x,cy:LAGO+44,r:3.2,fill:'#D98B5F',stroke:'#5A6360','stroke-width':.8})));
+
+  /* rocce a difesa della riva: massi grigi lungo tutta la sponda */
+  for(let x=-10;x<1210;x+=17){
+    const h=5+((x*7)%5), w=15+((x*3)%6);
+    add(el('ellipse',{cx:x,cy:LAGO-1,rx:w/2,ry:h/2+1,fill:(x%3===0)?'#8E9091':(x%3===1?'#A5A7A6':'#7A7D7E'),stroke:'#5C5E5F','stroke-width':.6}));
+  }
+
+  /* --- trasformatore e traliccio --- */
+  const trX=tX-40,trW=26,trTop=SUOLO-m(8);
+  add(el('rect',{x:trX,y:trTop,width:trW,height:SUOLO-trTop,fill:'#3C4650'}));
+  for(let i=1;i<4;i++) add(el('line',{x1:trX+i*trW/4,y1:trTop+2,x2:trX+i*trW/4,y2:SUOLO-2,stroke:'#5C6873','stroke-width':1}));
+  add(el('path',{d:`M${tX} ${SUOLO-m(6)} L${trX+trW} ${SUOLO-m(6)}`,fill:'none',stroke:'#3C4650','stroke-width':3}));
+  const p=traliccio(80,SUOLO,40,[[24,8],[30,9.5],[35,7]]);
+  add(p.g);
+  add(campata([trX+trW/2,trTop-6],p.dx[1],8));
+  p.sx.forEach(a=>add(campata(a,[-40,a[1]+8],18)));
+  add(campata(p.cima,[-40,p.cima[1]+8],16));
+
+  /* alberi, solo sul lato terra, come nel verde a sinistra della foto */
+  [[20,1.2,0],[44,.9,1],[172,.8,1],[956,.9,0],[1120,1,1]].forEach(([x,s,sc])=>add(albero(x,SUOLO+6,s,sc)));
+
+  scalaUmana(B,tX+wW+14,20,SUOLO+30,'end');
+
+  /* etichette */
+  add(testo(6,16,'il sito, in scala reale · vista dal lago Ontario','etichetta sec'));
+  add(testo(rX+rW/2,SUOLO-rH-12,'edificio reattore','etichetta','middle'));
+  add(testo(tX+tW/2,tTop-8,'sala turbine','etichetta','middle'));
+  add(testo(vX,SUOLO-vTop-m(15)-8,'edificio a vuoto','etichetta','middle'));
+  add(dett(
+    testo(rX+rW/2,SUOLO-rH-28,'≈ 50 m · pareti di 1,8 m','etichetta sec','middle'),
+    testo(vX,SUOLO-m(54),'71 m · pressione sotto quella atmosferica','etichetta sec','middle'),
+    testo(1010,LAGO+24,'presa dal lago','etichetta sec','middle'),
+    testo(330,LAGO+60,'scarico con diffusori','etichetta sec','middle'),
+    testo(wX+wW-38,wBot+16,'condensatore','etichetta sec','middle'),
+    testo(trX+trW/2,SUOLO+18,'trasformatore','etichetta sec','middle')
+  ));
+
+  return {
+    reattore:{x:rX,y:SUOLO-rH,w:rW,h:rH},
+    turbina:[wX+46,TY], condensatore:[wX+wW-38,wBot-8],
+    raffreddamento:[1010,LAGO+16], trasformatore:[trX+trW/2,SUOLO-m(4)],
+    extra:{vuoto:[vX,SUOLO-m(22)]}
+  };
+}
+
+/* ---------------------------------------------------------------
+   DARLINGTON — CANDU: calandria orizzontale con 480 canali, acqua
+   pesante fredda come moderatore, uranio naturale, ricarica a
+   reattore acceso. Sezione longitudinale: si vedono i canali di
+   fianco, con le macchine di ricarica sui due lati.
+   480 canali e 6 240 fasci di combustibile (13 per canale), pareti
+   dell'edificio in calcestruzzo di 1,8 m, un reattore e quattro
+   generatori di vapore per edificio (OPG, opg.com; CNSC). La
+   calandria di un CANDU 6 misura ≈ 6,0 m di lunghezza e ≈ 7,6 m di
+   diametro con 380 canali (Wikipedia, "CANDU reactor"): quella di
+   Darlington, con 480 canali, è in proporzione più grande; le quote qui
+   sono indicative. Il circuito primario è a forma di otto: ogni lato
+   ha un collettore caldo e uno freddo, e l'acqua scorre in versi
+   opposti in metà dei canali.
+   Il serbatoio di spruzzo (dousing) sta nell'edificio a vuoto, non in
+   quello reattore: qui si vede solo il condotto di sfogo che vi porta.
+   --------------------------------------------------------------- */
+function isolaDarlington(A,c,Y){
+  const S=10, CX=600;
+  const G=Y+40+S*57;                            // piano campagna
+  const X=r=>CX+r*S, Q=h=>G-h*S;
+  const add=x=>{A.appendChild(x);return x;};
+  const rettM=(r1,h1,r2,h2,att)=>add(el('rect',{x:Math.min(X(r1),X(r2)),y:Math.min(Q(h1),Q(h2)),
+    width:Math.abs(X(r2)-X(r1)),height:Math.abs(Q(h2)-Q(h1)),...att}));
+  const specchio=f=>[-1,1].forEach(f);
+  const cem='#E2E7EB', cemL='#BAC5CE', muro='#D2DAE0', vuoto='#E3E5E7';
+  const comp={fill:'#BFE3F5',stroke:'#0B2440','stroke-width':2};
+  const acciaio={fill:'#B7C7D3',stroke:'#0B2440','stroke-width':1.6};
+  const caldo='#D2453A', freddo='#2E8FA8', steel='#5A6360';
+
+  const fondo=Q(-8);
+  add(el('rect',{x:30,y:Y,width:1140,height:fondo-Y,rx:6,fill:'#E3E5E7',stroke:'#C7CBCF','stroke-width':1.5}));
+  add(testo(42,Y+20,'DENTRO L\'EDIFICIO REATTORE · sezione longitudinale, proporzioni indicative','etichetta'));
+  add(el('rect',{x:31,y:G,width:1138,height:fondo-G-1,fill:'#E9DFCB'}));
+  add(el('line',{x1:31,y1:G,x2:1169,y2:G,stroke:'#9FB08A','stroke-width':1.5}));
+
+  /* ---------- edificio reattore: pareti di 1,8 m ---------- */
+  const R=26, Ri=24.2;
+  conTitolo(rettM(-R,-6,R,50,{fill:muro,stroke:cemL,'stroke-width':1.2}),
+    'Edificio reattore: pareti in calcestruzzo armato spesse 1,8 m. A differenza dell\'RBMK, sopra e attorno al reattore c\'è un vero edificio di contenimento.');
+  rettM(-Ri,-4.2,Ri,48.2,{fill:vuoto});
+  rettM(-R,-6,R,-4.2,{fill:cem,stroke:cemL,'stroke-width':1});
+
+  /* ---------- vasca dell'acqua leggera attorno alla calandria ---------- */
+  const vasca=el('g',{});
+  vasca.appendChild(el('rect',{x:X(-6.4),y:Q(19.6),width:12.8*S,height:11.2*S,fill:'#D6EAF3',opacity:'.9'}));
+  [[-8,-6.4],[6.4,8]].forEach(([a,b])=>vasca.appendChild(el('rect',{x:X(a),y:Q(21),width:(b-a)*S,height:14*S,fill:cem,stroke:cemL,'stroke-width':1})));
+  vasca.appendChild(el('rect',{x:X(-8),y:Q(8.4),width:16*S,height:1.4*S,fill:cem,stroke:cemL,'stroke-width':1}));
+  vasca.appendChild(el('rect',{x:X(-8),y:Q(21),width:16*S,height:1.4*S,fill:cem,stroke:cemL,'stroke-width':1}));
+  add(conTitolo(vasca,'Vasca di acqua leggera attorno alla calandria: schermo contro le radiazioni e riserva d\'acqua, ricavata nel calcestruzzo della cavità del reattore.'));
+
+  /* ---------- calandria: cilindro orizzontale d'acqua pesante fredda ---------- */
+  const cB=10.2, cT=17.8;
+  conTitolo(rettM(-3,cB,3,cT,{...comp}),
+    'Calandria: un grande cilindro orizzontale di ≈ 6 m di lunghezza, pieno di acqua pesante fredda e a bassa pressione, il moderatore. È attraversata da 480 canali orizzontali in pressione. Non è un recipiente in pressione.');
+  add(el('rect',{x:X(-3.2),y:Q(cT+.25),width:S*6.4,height:S*(cT-cB+.5),fill:'#2F6BFF',opacity:'.45',class:'glow',id:'glow'}));
+  /* canali: linea grigia per il canale, fasci di combustibile in arancio */
+  for(let i=0;i<12;i++){
+    const h=cB+0.55+i*0.62;
+    add(el('line',{x1:X(-4.5),y1:Q(h),x2:X(4.5),y2:Q(h),stroke:'#5A7590','stroke-width':1}));
+    add(el('line',{x1:X(-3),y1:Q(h),x2:X(3),y2:Q(h),stroke:'#C2762E','stroke-width':3.4,'stroke-dasharray':'4.4 .55'}));
+  }
+  /* piastre tubiere alle due estremità */
+  specchio(s=>rettM(Math.min(s*3,s*4.5),cB,Math.max(s*3,s*4.5),cT,{...acciaio}));
+
+  /* ---------- barre di arresto: cadono dall'alto per gravità ---------- */
+  const hRod=S*(cT-cB);
+  /* guide fisse: le barre scendono lungo di esse, non si portano dietro il tubo */
+  [-2,-1,0,1,2].forEach(rx=>add(el('line',{x1:X(rx),y1:Q(28),x2:X(rx),y2:Q(cT),stroke:steel,'stroke-width':.9})));
+  const barre=add(el('g',{class:'barre',id:'barre'}));
+  [-2,-1,0,1,2].forEach(rx=>
+    barre.appendChild(el('rect',{x:X(rx)-1.4,y:Q(cT+(cT-cB)),width:2.8,height:hRod,fill:'#1C2321'})));
+  barre.dataset.corsa=hRod;
+  [-2,-1,0,1,2].forEach(rx=>rettM(rx-.42,28,rx+.42,29.4,{...acciaio,'stroke-width':1.2}));
+
+  /* ---------- circuito primario a otto: per ogni lato un collettore caldo e uno freddo ---------- */
+  specchio(s=>{
+    /* alimentatori caldo (rossi, in alto) e freddo (blu, in basso) */
+    [14.9,15.9,16.9].forEach(h=>add(pathTubo(`M${X(s*4.5)} ${Q(h)} L${X(s*8)} ${Q(h)}`,caldo,3,true)));
+    [10.9,11.9,12.9].forEach(h=>add(pathTubo(`M${X(s*4.5)} ${Q(h)} L${X(s*9.6)} ${Q(h)}`,freddo,3,true)));
+    add(pathTubo(`M${X(s*8)} ${Q(14.4)} L${X(s*8)} ${Q(24)}`,caldo,5,false));
+    add(pathTubo(`M${X(s*9.6)} ${Q(6.8)} L${X(s*9.6)} ${Q(13.4)}`,freddo,5,false));
+    /* dal collettore caldo al generatore di vapore, poi alla pompa, poi al collettore freddo */
+    add(pathTubo(`M${X(s*8)} ${Q(24)} L${X(s*14.8)} ${Q(24)}`,caldo,4,true));
+    add(pathTubo(`M${X(s*17)} ${Q(20)} L${X(s*17)} ${Q(11)}`,freddo,4,true));
+    add(pathTubo(`M${X(s*15.4)} ${Q(6.8)} L${X(s*9.6)} ${Q(6.8)}`,freddo,4,true));
+    /* generatore di vapore e pompa primaria */
+    rettM(s*17-2.2,20,s*17+2.2,38,{...comp,rx:2.3*S});
+    for(let k=0;k<3;k++) add(el('line',{x1:X(s*17-1.6),y1:Q(22+k*1.2),x2:X(s*17+1.6),y2:Q(22+k*1.2),stroke:'#5A7590','stroke-width':.7}));
+    rettM(s*17-1.6,6,s*17+1.6,11,{...comp,rx:10});
+  });
+
+  /* ---------- vapore e acqua di alimento ---------- */
+  add(pathTubo(`M${X(-17)} ${Q(38)} L${X(-17)} ${Q(41.5)} L${X(-30)} ${Q(41.5)}`,caldo,4,true));
+  add(pathTubo(`M${X(17)} ${Q(38)} L${X(17)} ${Q(41.5)} L${X(-17)} ${Q(41.5)}`,caldo,4,true));
+  add(el('path',{d:`M${X(-30)+1} ${Q(41.5)-6} L${X(-31.6)} ${Q(41.5)} L${X(-30)+1} ${Q(41.5)+6} Z`,fill:caldo}));
+  specchio(s=>{
+    add(pathTubo(`M${X(s*30)} ${Q(31)} L${X(s*19.2)} ${Q(31)}`,freddo,3.5,true));
+    add(el('path',{d:`M${X(s*19.2)-s*1} ${Q(31)-5} L${X(s*19.2)+s*7} ${Q(31)} L${X(s*19.2)-s*1} ${Q(31)+5} Z`,fill:freddo}));
+  });
+
+  /* ---------- condotto di sfogo, verso l'edificio a vuoto ---------- */
+  const sfogo=el('g',{});
+  sfogo.appendChild(el('rect',{x:X(-20),y:Q(45),width:(Ri+20)*S,height:2*S,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  sfogo.appendChild(el('rect',{x:X(Ri),y:Q(45),width:(34-Ri)*S,height:2*S,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  add(conTitolo(sfogo,'Condotto di sfogo: se la pressione nell\'edificio reattore sale — per esempio per il vapore di un canale rotto — si apre verso l\'edificio a vuoto, che è tenuto a pressione più bassa di quella atmosferica. Il vapore viene aspirato di là e condensato.'));
+
+  /* ---------- macchine di ricarica, agganciate ai due lati ---------- */
+  const mac=el('g',{});
+  specchio(s=>{
+    mac.appendChild(el('rect',{x:X(Math.min(s*4.6,s*12.6)),y:Q(14.9),width:8*S,height:1.8*S,rx:6,fill:comp.fill,stroke:comp.stroke,'stroke-width':1.8}));
+    mac.appendChild(el('rect',{x:X(Math.min(s*12.6,s*14.4)),y:Q(15.9),width:1.8*S,height:3.6*S,fill:'#B7C7D3',stroke:steel,'stroke-width':1}));
+  });
+  add(conTitolo(mac,'Macchine di ricarica: una per lato, si agganciano a un canale alla volta. Una spinge dentro combustibile fresco, l\'altra riceve quello esaurito, senza fermare il reattore.'));
+
+  /* ---------- etichette ---------- */
+  add(testo(X(0),Q(9.2),'calandria · nocciolo','etichetta sec','middle'));
+  add(testo(X(-27.5),Q(43.1),'vapore alla turbina','etichetta sec','end'));
+  add(testo(X(-27.5),Q(31.7),'acqua di alimento','etichetta sec','end'));
+
+  /* ---------- colonna di etichette a destra, con linee guida ---------- */
+  const LX=960;
+  const guida=(tx,th,ly,txt,cls)=>{
+    add(el('line',{x1:X(tx),y1:Q(th),x2:LX-6,y2:Q(ly),stroke:'#5A7590','stroke-width':.9,'stroke-dasharray':'3 3'}));
+    add(el('circle',{cx:X(tx),cy:Q(th),r:2.2,fill:'#5A7590'}));
+    add(testo(LX,Q(ly)+3.5,txt,cls||'etichetta sec'));
+  };
+  guida(R,49,52,'edificio reattore · pareti di 1,8 m');
+  guida(34,44,46,'condotto verso l\'edificio a vuoto');
+  guida(19.2,34,40,'generatore di vapore','etichetta');
+  guida(2,27,33,'barre di arresto · per gravità','etichetta');
+  guida(6.4,17,26,'vasca di acqua leggera');
+  guida(12.5,15.4,19,'macchina di ricarica','etichetta');
+  guida(3,12.5,12,'calandria · 480 canali','etichetta');
+  guida(18.6,8.5,5,'pompa primaria','etichetta');
+
+  return {
+    altezza:fondo-Y+8,
+    riquadro:{x:X(-R),y:Q(52),w:2*R*S,h:58*S},
+    punti:{nocciolo:[X(0),Q(14)], barre:[X(2.7),Q(23)],
+      generatore:[X(17),Q(29)], pompa:[X(17),Q(8.5)], macchina:[X(9),Q(14)]}
+  };
+}
+
 const SITI={
   pwr:{cielo:100, sito:sitoSizewell, isola:isolaSizewell},
   magnox:{cielo:145, sito:sitoCalderHall, isola:isolaCalderHall},
   rbmk:{cielo:190, sito:sitoChernobyl, isola:isolaChernobyl},
-  bwr:{cielo:175, sito:sitoLeibstadt, isola:isolaLeibstadt}
+  bwr:{cielo:175, sito:sitoLeibstadt, isola:isolaLeibstadt},
+  candu:{cielo:110, sito:sitoDarlington, isola:isolaDarlington}
 };
 
 /* spaccato comune, usato dalle centrali non ancora ridisegnate */
@@ -3186,6 +3475,9 @@ function disegnaScena(r){
   /* i punti dell'isola nucleare variano da centrale a centrale: ogni
      spaccato ne dichiara quanti servono, senza doverli elencare qui */
   Object.entries(I.punti).forEach(([chiave,p])=>{ if(p) add(...p,chiave); });
+  /* anche il sito può dichiarare punti propri, oltre ai quattro fissi:
+     per esempio l'edificio a vuoto di Darlington */
+  Object.entries(P.extra||{}).forEach(([chiave,p])=>{ if(p) add(...p,chiave); });
   add(...P.turbina,'turbina');
   add(...P.condensatore,'condensatore');
   add(...P.raffreddamento,'raffreddamento');

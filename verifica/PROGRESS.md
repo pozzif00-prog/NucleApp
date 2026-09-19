@@ -3,7 +3,50 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-19 (sessione 8)
+Ultimo aggiornamento: 2026-09-19 (sessione 9)
+
+## Fatto — sessione 9
+
+- **Darlington (CANDU): quinto disegno dedicato**, stesso metodo. Vista dal
+  lago Ontario, foto `img/candu.jpg` come riferimento.
+  - **Verifica di merito prima di disegnare**: nei CANDU multi-unità come
+    Darlington il **serbatoio di spruzzo (dousing) sta nell'edificio a
+    vuoto**, non nell'edificio reattore. La prima idea del disegno lo metteva
+    in cima al reattore: sbagliato, corretto prima di scrivere il codice
+    (fonte: OPG, CNSC, IAEA). Lo spaccato mostra solo il condotto di sfogo
+    che porta all'edificio a vuoto.
+  - Sito: sala turbine bassa e lunga, edificio reattore in dettaglio (una
+    sola unità gemella schiarita dietro), **edificio a vuoto** — cilindro
+    con cupola bassa e antenna rossa e bianca — collegato dal condotto di
+    sfogo, camini scuri, scogliera di massi lungo la riva, gallerie
+    sotterranee della presa e dello scarico con diffusori, lago in primo
+    piano. Nessuna torre di raffreddamento (coerente con la foto e con il
+    testo già presente).
+  - Spaccato: sezione longitudinale — calandria orizzontale con canali e
+    fasci di combustibile (12 fasci per canale disegnati, 13 nella realtà),
+    piastre tubiere, vasca di acqua leggera, **barre di arresto che cadono
+    dall'alto lungo guide fisse** (verificato), circuito primario a otto con
+    collettori caldo e freddo a ogni estremità, generatori di vapore e pompe
+    a entrambi i lati, **macchine di ricarica agganciate ai due lati**,
+    condotto di sfogo verso l'edificio a vuoto. Etichette in colonna a destra
+    con linee guida, come Leibstadt.
+  - 3 pallini nuovi con fumetto (pompa primaria, macchine di ricarica,
+    edificio a vuoto) e testi specifici per calandria, barre, generatore di
+    vapore e raffreddamento.
+  - **Estensione al motore**: un sito può dichiarare pallini propri con
+    `extra:{chiave:[x,y]}` nel valore restituito; `disegnaScena` li aggiunge.
+    Serve per l'edificio a vuoto, che sta nel sito e non nello spaccato.
+  - Fonti: 480 canali, 6 240 fasci, pareti degli edifici reattore in
+    calcestruzzo di 1,8 m, un reattore e quattro generatori di vapore per
+    edificio, edificio a vuoto alto 71 m e collegato da un condotto di sfogo
+    (OPG, opg.com; CNSC, cnsc-ccsn.gc.ca; IAEA-INIS su Pickering A →
+    Darlington). Calandria di un CANDU 6 ≈ 6,0 x 7,6 m con 380 canali
+    (Wikipedia, "CANDU reactor"). **Indicativi, non verificati**: il
+    diametro dell'edificio a vuoto (≈ 60 m) e l'altezza degli edifici
+    reattore (≈ 50 m), dedotti dalla foto in proporzione ai 71 m; le
+    dimensioni della calandria di Darlington (più grande di quella del
+    CANDU 6); il numero di generatori e pompe disegnati (uno per lato,
+    nella realtà i generatori sono quattro per edificio).
 
 ## Fatto — sessione 8
 
@@ -231,11 +274,11 @@ Ultimo aggiornamento: 2026-09-19 (sessione 8)
    (Settings → Pages → `main`, `/`) — l'indirizzo dà 404; togliere
    `pubblica/index.html`, obsoleto; aggiungere descrizione per i motori di
    ricerca, anteprima social, icona, licenza. Nessuno è ancora fatto.
-1. **Interfaccia grafica delle centrali**: ridisegnare le altre 5
-   (Darlington, Olkiluoto 3, Sanmen, Beloyarsk, Shidaowan) col metodo usato
-   per Sizewell B, Calder Hall, Chernobyl e Leibstadt → dettaglio in
-   `sessione 5`–`8` qui sopra. Richiesta diretta dell'utente, in corso. Le
-   5 rimaste hanno ancora i difetti originali (alberi in acqua, metà
+1. **Interfaccia grafica delle centrali**: ridisegnare le altre 4
+   (Olkiluoto 3, Sanmen, Beloyarsk, Shidaowan) col metodo usato per Sizewell
+   B, Calder Hall, Chernobyl, Leibstadt e Darlington → dettaglio in
+   `sessione 5`–`9` qui sopra. Richiesta diretta dell'utente, in corso. Le
+   4 rimaste hanno ancora i difetti originali (alberi in acqua, metà
    destra vuota, bianco su bianco).
 2. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
    capacità, date, orizzonte di progetto. Fonti: Posiva (Onkalo), DOE/WIPP,
