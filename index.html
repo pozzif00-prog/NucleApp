@@ -759,7 +759,16 @@ const REATTORI = [
     barriere:'Il materiale fuso cade in una camera di espansione, si distribuisce su una superficie ceramica raffreddata e si solidifica. Il doppio contenimento resta intatto. Il criterio di progetto è: nessuna evacuazione permanente della popolazione, in nessuno scenario.',
     precedente:'Nessuno: è il primo tipo di reattore progettato assumendo la fusione del nocciolo come evento da gestire, non da escludere. L\'idea nasce direttamente dall\'analisi di Chernobyl e Three Mile Island.'
   },
-  scena:{loops:2,core:'assemblee',contenimento:'doppio',raffreddamento:'mare',coreCatcher:true,etichetteLoop:['Primario 330 °C','Ritorno 295 °C']}
+  scena:{loops:2,core:'assemblee',contenimento:'doppio',raffreddamento:'mare',coreCatcher:true,etichetteLoop:['Primario 330 °C','Ritorno 295 °C']},
+  fumetti:{
+    nocciolo:{t:'Nocciolo',d:'241 elementi di combustibile, ciascuno con 265 barrette di ossido di uranio, in un recipiente di acciaio a 155 bar. Qui i nuclei di uranio si spaccano e producono il calore.',p:'Può caricare anche MOX, il combustibile che recupera il plutonio dai reattori esauriti.'},
+    barre:{t:'Barre di controllo',d:'Entrano dall\'alto, guidate da 89 meccanismi sul coperchio del recipiente. Allo SCRAM vengono rilasciate e cadono nel nocciolo in pochi secondi.',p:'È il freno del reattore: il pulsante SCRAM qui sopra le fa scendere.'},
+    generatore:{t:'Generatore di vapore',d:'Ne servono quattro, uno per ciascun circuito primario. L\'acqua calda del primario cede calore, in migliaia di tubicini, a un secondo circuito che evapora.',p:'Quattro circuiti indipendenti invece dei tre o due dei predecessori: più ridondanza.'},
+    pompa:{t:'Pompa del refrigerante',d:'Una per circuito: spinge l\'acqua a 155 bar attraverso il nocciolo e il generatore di vapore. In tutto sono quattro, una per ciascuno dei quattro circuiti.',p:'Qui se ne vedono due, una per lato.'},
+    catcher:{t:'Core catcher',d:'Se il combustibile fondesse e perforasse il fondo del recipiente, cadrebbe nel pozzo sotto il reattore e scorrerebbe in una grande camera laterale di 170 m², con il fondo raffreddato. Qui si distribuisce, viene allagato con l\'acqua della vasca di ricarica e si solidifica.',p:'È il primo tipo di reattore commerciale progettato per gestire la fusione completa del nocciolo, non per escluderla.'},
+    guscio:{t:'Doppio contenimento',d:'Due gusci in cemento: quello interno è precompresso, spesso 1,3 m e rivestito d\'acciaio; quello esterno è in cemento armato e resiste all\'impatto di un aereo di linea. Tra i due c\'è un\'intercapedine tenuta in depressione: qualunque perdita viene aspirata e filtrata, non esce.',p:'Il guscio interno ha un diametro di 46,8 m e un\'altezza interna di 57,5 m.'},
+    raffreddamento:{t:'Acqua del golfo di Botnia',d:'Circa 57 m³ al secondo di acqua di mare passano nei condensatori attraverso gallerie e tornano più calde al mare. Non servono torri di raffreddamento.',p:'Con acqua molto fredda il rendimento sale: è uno dei motivi per cui l\'EPR arriva al 37 %.'}
+  }
 },
 {
   id:'ap1000', paeseCod:'CN', lat:29.1, lon:121.63, gen:'III+', anniGen:'2009–oggi', nome:'AP1000', tipoBreve:'PWR a sicurezza passiva',
@@ -3280,12 +3289,296 @@ function isolaDarlington(A,c,Y){
   };
 }
 
+/* ---------------------------------------------------------------
+   OLKILUOTO 3 — Eurajoki, isola di Olkiluoto, golfo di Botnia
+   Vista dalla baia: canneti in primo piano, la cupola grigia di OL3
+   con i suoi edifici in mattone rosso e bianco, la sala turbine
+   lunga, e sulla destra, schiariti, i due reattori più vecchi (OL1 e
+   OL2) con i loro camini a spirale. Nessuna torre di raffreddamento:
+   l'acqua di mare passa una volta sola dai condensatori.
+   Aspetto: foto img/epr.jpg (Wikimedia Commons, Hannu Huovila / TVO).
+   Contenimento: inner Ø 46,8 m e alto 57,5 m, parete di 1,3 m, doppio
+   guscio (Wikipedia, "EPR (nuclear reactor)"; letteratura sul
+   contenimento EPR). Sala turbine: una turbina di alta pressione e tre
+   di bassa (TVO, tvo.fi). Acqua di mare: ≈ 57 m³ al secondo (TVO).
+   Le altezze e larghezze di OL1, OL2, edifici in mattone e camini sono
+   dedotte dalla foto e indicative; la cupola esterna (≈ 55 m di
+   diametro) somma i due gusci e l'intercapedine.
+   --------------------------------------------------------------- */
+function sitoOlkiluoto(B,c){
+  const add=x=>B.appendChild(x);
+  const MARE=SUOLO+34;
+  const mattone='#C55A3E', matL='#8F3F2C', bianco='#F0F0EC';
+
+  /* cielo, nuvole */
+  add(el('rect',{x:0,y:0,width:1200,height:SUOLO+88,fill:'url(#c-cielo)'}));
+  add(nuvola(180,SUOLO-255,1,0)); add(nuvola(800,SUOLO-330,.7,10)); add(nuvola(1090,SUOLO-215,.85,17));
+
+  /* terra e mare */
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:34,fill:'url(#c-terra)'}));
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:6,fill:'#7CAE72'}));
+  add(el('rect',{x:0,y:MARE,width:1200,height:SUOLO+88-MARE,fill:'#6FA8CC'}));
+  add(el('line',{x1:0,y1:MARE,x2:1200,y2:MARE,stroke:'#2E8FA8','stroke-width':1.5}));
+  for(let x=14;x<1200;x+=80) add(el('path',{d:`M${x} ${MARE+20} q12 -6 24 0 t24 0`,fill:'none',stroke:'#1B5FA8','stroke-width':1.1,opacity:'.5'}));
+
+  /* --- OL1 e OL2: i due reattori più vecchi, schiariti, con i camini a spirale --- */
+  [[700,190,60,772,98],[920,250,76,1040,124]].forEach(([x,w,h,sx,sh])=>{
+    const g=el('g',{opacity:'.42'});
+    g.appendChild(el('rect',{x,y:SUOLO-m(h),width:w,height:m(h),fill:mattone,stroke:matL,'stroke-width':1.2}));
+    g.appendChild(el('rect',{x,y:SUOLO-m(h),width:w,height:m(6),fill:bianco}));
+    g.appendChild(el('rect',{x:x+w*0.36,y:SUOLO-m(h),width:w*0.08,height:m(h),fill:bianco}));
+    g.appendChild(el('rect',{x:sx-4,y:SUOLO-m(sh),width:8,height:m(sh-h)+2,fill:mattone}));
+    for(let k=0;k<7;k++){
+      const yy=SUOLO-m(h)-k*(m(sh-h)/7);
+      g.appendChild(el('line',{x1:sx-4,y1:yy,x2:sx+4,y2:yy-9,stroke:bianco,'stroke-width':2.4}));
+    }
+    add(g);
+  });
+  add(dett(testo(795,SUOLO-m(60)-8,'OL1 e OL2 · reattori ad acqua bollente','etichetta sec','middle')));
+
+  /* --- OL3: la cupola grigia, i due gusci sommati (≈ 55 m) --- */
+  const cxD=200, RD=m(27.4), hD=m(34);
+  const cup=el('g',{});
+  cup.appendChild(el('path',{d:`M${cxD-RD} ${SUOLO} L${cxD-RD} ${SUOLO-hD} A${RD} ${RD} 0 0 1 ${cxD+RD} ${SUOLO-hD} L${cxD+RD} ${SUOLO} Z`,fill:'#E4E7E8',stroke:'#A7B8C6','stroke-width':1.6}));
+  cup.appendChild(el('path',{d:`M${cxD+RD*0.35} ${SUOLO-hD-RD*0.94} A${RD} ${RD} 0 0 1 ${cxD+RD} ${SUOLO-hD} L${cxD+RD} ${SUOLO} L${cxD+RD*0.66} ${SUOLO} Q${cxD+RD*0.72} ${SUOLO-hD-RD*0.3} ${cxD+RD*0.35} ${SUOLO-hD-RD*0.94} Z`,fill:'#D3D8DB'}));
+  add(cup);
+
+  /* edifici in mattone rosso con fasce bianche, davanti alla cupola */
+  const blocco=(x,w,h,fasce)=>{
+    add(el('rect',{x,y:SUOLO-m(h),width:w,height:m(h),fill:mattone,stroke:matL,'stroke-width':1.4}));
+    add(el('rect',{x,y:SUOLO-m(h),width:w,height:m(2.4),fill:bianco}));
+    for(let y=SUOLO-m(h)+m(5);y<SUOLO-4;y+=m(5)) add(el('line',{x1:x+2,y1:y,x2:x+w-2,y2:y,stroke:'#B04A30','stroke-width':.8}));
+    (fasce||[]).forEach(f=>add(el('rect',{x:x+w*f,y:SUOLO-m(h),width:w*0.06,height:m(h),fill:bianco,opacity:.85})));
+  };
+  const salv=el('g',{});
+  salv.appendChild(el('rect',{x:30,y:SUOLO-m(24),width:150,height:m(24),fill:mattone,stroke:matL,'stroke-width':1.4}));
+  salv.appendChild(el('rect',{x:170,y:SUOLO-m(18),width:150,height:m(18),fill:mattone,stroke:matL,'stroke-width':1.4}));
+  salv.appendChild(el('rect',{x:30,y:SUOLO-m(24),width:150,height:m(2),fill:bianco}));
+  salv.appendChild(el('rect',{x:170,y:SUOLO-m(18),width:150,height:m(2),fill:bianco}));
+  add(conTitolo(salv,'Edifici di salvaguardia e edificio del combustibile: quattro edifici separati contengono i quattro sistemi di sicurezza indipendenti. Due sono protetti contro l\'impatto di un aereo di linea.'));
+
+  /* camino di OL3, in mattone rosso */
+  const cam=el('g',{});
+  cam.appendChild(el('rect',{x:244,y:SUOLO-m(72),width:8,height:m(72),fill:mattone,stroke:matL,'stroke-width':.8}));
+  add(conTitolo(cam,'Camino dell\'aria di ventilazione dell\'unità: qui esce l\'aria dopo i filtri. Non è fumo di combustione.'));
+
+  /* --- sala turbine: una turbina di alta pressione e tre di bassa, un alternatore --- */
+  const tW=270, tX=330, tTop=SUOLO-m(33);
+  blocco(tX,tW,33,[]);
+  const wX=tX+16,wW=tW-32,wTop=tTop+m(4),wBot=SUOLO-6;
+  add(el('rect',{x:wX,y:wTop,width:wW,height:wBot-wTop,fill:'#F3F0EC',stroke:'#7A5A4A','stroke-width':1,'stroke-dasharray':'4 3'}));
+  const TY=SUOLO-36;
+  add(pathTubo(`M${wX+6} ${TY} L${wX+wW-6} ${TY}`,'#1C2321',2,true));
+  const caso=(x,w,h)=>add(el('path',{d:`M${x} ${TY} L${x+w*0.14} ${TY-h/2} L${x+w*0.86} ${TY-h/2} L${x+w} ${TY} L${x+w*0.86} ${TY+h/2} L${x+w*0.14} ${TY+h/2} Z`,fill:'#E4E8E6',stroke:'#1C2321','stroke-width':1.3}));
+  caso(wX+8,22,16);                                    // alta pressione
+  [0,1,2].forEach(i=>caso(wX+38+i*40,34,28));         // tre bassa pressione
+  add(el('rect',{x:wX+wW-40,y:TY-11,width:34,height:22,rx:2,fill:'#C9CCC2',stroke:'#1C2321','stroke-width':1.2}));
+  /* condensatore sotto i tre corpi di bassa pressione */
+  add(el('rect',{x:wX+36,y:TY+16,width:122,height:wBot-(TY+16),rx:2,fill:'#DCEBF2',stroke:'#1C2321','stroke-width':1.2}));
+  for(let i=0;i<4;i++) add(el('line',{x1:wX+42,y1:TY+20+i*5,x2:wX+152,y2:TY+20+i*5,stroke:'#2E8FA8','stroke-width':.7}));
+
+  /* vapore dal contenimento alla sala turbine, ritorno dell'acqua di alimento */
+  add(pathTubo(`M${cxD+RD} ${SUOLO-m(28)} L${wX-14} ${SUOLO-m(28)} L${wX-14} ${TY-4} L${wX+10} ${TY-4}`,'#D2453A',4,true));
+  add(pathTubo(`M${wX+40} ${wBot} L${wX-6} ${wBot} L${wX-6} ${SUOLO-m(14)} L${cxD+RD} ${SUOLO-m(14)}`,'#2E8FA8',3.5,true));
+
+  /* --- acqua di mare, una volta sola: presa a destra, scarico a sinistra --- */
+  const galleria=(d,col)=>{
+    add(el('path',{d,fill:'none',stroke:'#8E989A','stroke-width':10,'stroke-linecap':'round',opacity:'.45'}));
+    add(pathTubo(d,col,3.5,true));
+  };
+  galleria(`M1020 ${MARE+34} L1020 ${SUOLO+12} L${wX+96} ${SUOLO+12} L${wX+96} ${wBot}`,'#2E8FA8');
+  galleria(`M${wX+120} ${wBot} L${wX+120} ${SUOLO+22} L96 ${SUOLO+22} L96 ${MARE+40}`,'#D98B5F');
+  add(el('rect',{x:1012,y:MARE+30,width:16,height:8,rx:2,fill:'#8E989A',stroke:'#5A6360','stroke-width':1}));
+  [86,96,106].forEach(x=>add(el('circle',{cx:x,cy:MARE+42,r:3.2,fill:'#D98B5F',stroke:'#5A6360','stroke-width':.8})));
+
+  /* sponda di massi e canneti in primo piano */
+  for(let x=-8;x<1210;x+=23){
+    const w=13+((x*5)%7), h=5+((x*3)%4);
+    add(el('ellipse',{cx:x,cy:MARE-1,rx:w/2,ry:h/2,fill:(x%2?'#B7A99C':'#9C9086'),stroke:'#6E655D','stroke-width':.6}));
+  }
+  for(let x=0;x<1200;x+=7){
+    const a=12+((x*11)%13);
+    add(el('line',{x1:x,y1:SUOLO+88,x2:x+((x*7)%5)-2,y2:SUOLO+88-a,stroke:'#7BA05A','stroke-width':1.4,opacity:'.9'}));
+  }
+
+  /* --- trasformatore e traliccio --- */
+  const trX=tX+tW+10,trW=26,trTop=SUOLO-m(8);
+  add(el('rect',{x:trX,y:trTop,width:trW,height:SUOLO-trTop,fill:'#3C4650'}));
+  for(let i=1;i<4;i++) add(el('line',{x1:trX+i*trW/4,y1:trTop+2,x2:trX+i*trW/4,y2:SUOLO-2,stroke:'#5C6873','stroke-width':1}));
+  const p=traliccio(672,SUOLO,36,[[21,7.5],[27,9],[32,6.5]]);
+  add(p.g);
+  add(campata([trX+trW,trTop+m(2)],p.sx[1],10));
+
+  /* alberi lungo la riva, come le betulle e i pini della foto: solo sulla terra */
+  [[14,1.1,0],[326,.9,1],[622,1,0],[660,.9,1],[900,1,0],[1180,1.05,1]].forEach(([x,s,sc])=>add(albero(x,SUOLO+6,s,sc)));
+
+  scalaUmana(B,tX+tW+56,20,SUOLO+30,'end');
+
+  /* etichette */
+  add(testo(6,16,'il sito, in scala reale · vista dalla baia','etichetta sec'));
+  add(testo(cxD,SUOLO-hD-RD-10,'edificio reattore','etichetta','middle'));
+  add(testo(tX+tW/2,tTop-8,'sala turbine','etichetta','middle'));
+  add(dett(
+    testo(cxD,SUOLO-hD-RD-26,'Ø ≈ 55 m con i due gusci','etichetta sec','middle'),
+    testo(1020,MARE+22,'presa dal golfo','etichetta sec','middle'),
+    testo(96,MARE+60,'scarico','etichetta sec','middle'),
+    testo(wX+96,wBot+16,'condensatore','etichetta sec','middle'),
+    testo(trX+trW/2,SUOLO+18,'trasformatore','etichetta sec','middle')
+  ));
+
+  return {
+    reattore:{x:cxD-RD,y:SUOLO-hD-RD,w:2*RD,h:hD+RD},
+    turbina:[wX+55,TY], condensatore:[wX+128,wBot-8],
+    raffreddamento:[1020,MARE+16], trasformatore:[trX+trW/2,SUOLO-m(4)]
+  };
+}
+
+/* ---------------------------------------------------------------
+   OLKILUOTO 3 — EPR. Sezione verticale.
+   Doppio guscio: interno precompresso con rivestimento in acciaio,
+   parete di 1,3 m, Ø interno 46,8 m e altezza interna 57,5 m; esterno
+   in cemento armato contro l'impatto di un aereo; tra i due
+   un'intercapedine tenuta in depressione. Core catcher: camera di
+   spargimento di 170 m² con il fondo raffreddato (Wikipedia, "EPR
+   (nuclear reactor)"; letteratura sul contenimento EPR e sul core
+   catcher). 241 elementi di combustibile 17x17, 89 meccanismi delle
+   barre sul coperchio del recipiente (NRC, U.S. EPR FSAR). Quattro
+   circuiti; ne mostriamo due, uno per lato. Le quote interne, il
+   diametro del recipiente e lo spessore dell'intercapedine sono
+   indicativi.
+   --------------------------------------------------------------- */
+function isolaOlkiluoto(A,c,Y){
+  const S=8, CX=600;
+  const G=Y+40+S*66;                            // piano campagna
+  const X=r=>CX+r*S, Q=h=>G-h*S;
+  const add=x=>{A.appendChild(x);return x;};
+  const rettM=(r1,h1,r2,h2,att)=>add(el('rect',{x:Math.min(X(r1),X(r2)),y:Math.min(Q(h1),Q(h2)),
+    width:Math.abs(X(r2)-X(r1)),height:Math.abs(Q(h2)-Q(h1)),...att}));
+  const specchio=f=>[-1,1].forEach(f);
+  const cem='#E2E7EB', cemL='#BAC5CE', muro='#D2DAE0', vuoto='#E3E5E7', edif='#EEF2F5', edifL='#CDD6DD';
+  const comp={fill:'#BFE3F5',stroke:'#0B2440','stroke-width':2};
+  const acciaio={fill:'#B7C7D3',stroke:'#0B2440','stroke-width':1.4};
+  const acqua={fill:'#8FCDE6',stroke:'#2E8FA8','stroke-width':1};
+  const caldo='#D2453A', freddo='#2E8FA8', steel='#5A6360';
+
+  const fondo=Q(-8);
+  add(el('rect',{x:30,y:Y,width:1140,height:fondo-Y,rx:6,fill:'#E3E5E7',stroke:'#C7CBCF','stroke-width':1.5}));
+  add(testo(42,Y+20,'DENTRO L\'EDIFICIO REATTORE · sezione verticale, proporzioni indicative','etichetta'));
+  add(el('rect',{x:31,y:G,width:1138,height:fondo-G-1,fill:'#E9DFCB'}));
+  add(el('line',{x1:31,y1:G,x2:1169,y2:G,stroke:'#9FB08A','stroke-width':1.5}));
+
+  /* ---------- edifici di salvaguardia: quattro, separati fisicamente ---------- */
+  const salv=el('g',{});
+  [[-45.6,-37.6],[-36.8,-28.8],[28.8,36.8],[37.6,45.6]].forEach(([a,b])=>
+    salv.appendChild(el('rect',{x:X(a),y:Q(18),width:(b-a)*S,height:24*S,fill:edif,stroke:edifL,'stroke-width':1.2})));
+  add(conTitolo(salv,'Edifici di salvaguardia: quattro edifici separati fisicamente, ciascuno con uno dei quattro sistemi di sicurezza indipendenti. Due sono protetti contro l\'impatto di un aereo di linea.'));
+
+  /* ---------- doppio guscio: esterno, intercapedine, interno ---------- */
+  const hC=34;                                  // altezza del centro delle cupole
+  const guscio=(r,base)=>`M${X(-r)} ${Q(base)} L${X(-r)} ${Q(hC)} A${r*S} ${r*S} 0 0 1 ${X(r)} ${Q(hC)} L${X(r)} ${Q(base)} Z`;
+  conTitolo(add(el('path',{d:guscio(27.4,-3),fill:muro,stroke:cemL,'stroke-width':1.2})),
+    'Guscio esterno: cemento armato spesso 1,3 m, progettato per resistere all\'impatto di un aereo di linea e agli eventi esterni.');
+  conTitolo(add(el('path',{d:guscio(26.1,-3),fill:'#D9DFE4'})),
+    'Intercapedine tra i due gusci, tenuta in depressione: qualunque perdita dal guscio interno viene aspirata e filtrata, non esce.');
+  conTitolo(add(el('path',{d:guscio(24.7,-3),fill:muro,stroke:cemL,'stroke-width':1})),
+    'Guscio interno: cemento precompresso spesso 1,3 m, rivestito d\'acciaio all\'interno per la tenuta.');
+  add(el('path',{d:guscio(23.4,-3),fill:vuoto}));
+  add(el('path',{d:`M${X(-23.4)} ${Q(-3)} L${X(-23.4)} ${Q(hC)} A${23.4*S} ${23.4*S} 0 0 1 ${X(23.4)} ${Q(hC)} L${X(23.4)} ${Q(-3)}`,fill:'none',stroke:'#8C9AA6','stroke-width':1.4}));
+  rettM(-27.4,-6,27.4,-3,{fill:cem,stroke:cemL,'stroke-width':1});
+
+  /* ---------- piano operativo, vasca di ricarica (IRWST) e core catcher ---------- */
+  rettM(-23.4,-3,23.4,0,{fill:cem,stroke:cemL,'stroke-width':1});
+  const irwst=el('g',{});
+  irwst.appendChild(el('rect',{x:X(-20.5),y:Q(-0.2),width:14*S,height:2.4*S,fill:acqua.fill,stroke:acqua.stroke,'stroke-width':1,opacity:'.9'}));
+  add(conTitolo(irwst,'Vasca di acqua di ricarica dentro il contenimento (IRWST): riserva d\'acqua per i sistemi di emergenza, che dopo l\'uso torna qui per gravità. Serve anche ad allagare il core catcher.'));
+  add(testo(X(-13.5),Q(-1.2)+3,'vasca di ricarica (IRWST)','etichetta sec','middle'));
+
+  const catcher=el('g',{});
+  catcher.appendChild(el('rect',{x:X(3.5),y:Q(-1),width:2.5*S,height:1.4*S,fill:'#C9B6A3',stroke:'#8A7A5A','stroke-width':1}));     // canale di scarico
+  catcher.appendChild(el('rect',{x:X(6),y:Q(-0.8),width:15*S,height:2*S,fill:'#D8C7B5',stroke:'#8A7A5A','stroke-width':1}));      // camera di spargimento
+  catcher.appendChild(el('rect',{x:X(6),y:Q(-2.2),width:15*S,height:.7*S,fill:'#8C8C8C'}));                                        // elementi di raffreddamento in ghisa
+  for(let k=0;k<7;k++) catcher.appendChild(el('line',{x1:X(6.6)+k*(14*S/7),y1:Q(-1.9),x2:X(6.6)+k*(14*S/7),y2:Q(-1.5),stroke:'#5A5A5A','stroke-width':1}));
+  add(conTitolo(catcher,'Core catcher: se il combustibile fondesse e perforasse il fondo del recipiente, cadrebbe nel pozzo sotto il reattore e scorrerebbe in questa camera laterale di 170 m², con il fondo raffreddato da elementi in ghisa; qui si distribuisce, viene allagato con acqua dalla vasca di ricarica e si solidifica.'));
+  add(el('rect',{x:X(3.5)-3,y:Q(-1.9),width:6,height:.7*S,fill:caldo,opacity:.7}));       // tappo sacrificale
+
+  /* ---------- schermo biologico attorno al pozzo del reattore ---------- */
+  specchio(s=>rettM(Math.min(s*3.5,s*5.6),-3,Math.max(s*3.5,s*5.6),12,{fill:cem,stroke:cemL,'stroke-width':1}));
+
+  /* ---------- recipiente in pressione e nocciolo ---------- */
+  conTitolo(rettM(-2.5,2,2.5,14,{...comp,rx:2.2*S}),
+    'Recipiente in pressione: contiene il nocciolo, l\'acqua a 155 bar e il coperchio con i meccanismi delle barre di controllo. In acciaio forgiato.');
+  const coreW=3.8, coreH=4.2, coreB=4.5, coreTop=coreB+coreH;
+  add(el('rect',{x:X(-coreW/2-.4),y:Q(coreTop+.4),width:S*(coreW+.8),height:S*(coreH+.8),fill:'#2F6BFF',opacity:'.5',class:'glow',id:'glow'}));
+  const gCore=add(el('g',{}));
+  gCore.appendChild(el('rect',{x:X(-coreW/2),y:Q(coreTop),width:S*coreW,height:S*coreH,fill:'#D8CDB2',stroke:'#8A7A5A','stroke-width':1}));
+  for(let i=0;i<8;i++)
+    gCore.appendChild(el('rect',{x:X(-coreW/2)+1.6+i*((coreW*S-3.2)/8),y:Q(coreTop)+1.6,width:(coreW*S-3.2)/8-1.2,height:S*coreH-3.2,fill:'#C2762E',stroke:'#7A4A1F','stroke-width':.4}));
+
+  /* meccanismi delle barre sul coperchio, guide fisse, barre che scendono allo SCRAM */
+  [-1.8,-1.2,-0.6,0,0.6,1.2,1.8].forEach(rx=>{
+    rettM(rx-.22,14,rx+.22,16.4,{...acciaio,'stroke-width':1});
+    add(el('line',{x1:X(rx),y1:Q(14),x2:X(rx),y2:Q(coreTop),stroke:steel,'stroke-width':.8}));
+  });
+  const hRod=S*coreH;
+  const barre=add(el('g',{class:'barre',id:'barre'}));
+  [-1.5,-.5,.5,1.5].forEach(rx=>barre.appendChild(el('rect',{x:X(rx)-1.3,y:Q(coreTop+coreH),width:2.6,height:hRod,fill:'#1C2321'})));
+  barre.dataset.corsa=hRod;
+
+  /* ---------- circuiti primari: due dei quattro, uno per lato ---------- */
+  specchio(s=>{
+    add(pathTubo(`M${X(s*2.5)} ${Q(11.6)} L${X(s*10.6)} ${Q(11.6)}`,caldo,4.5,true));
+    add(pathTubo(`M${X(s*10.9)} ${Q(2.6)} L${X(s*7)} ${Q(2.6)} L${X(s*7)} ${Q(9.6)} L${X(s*2.5)} ${Q(9.6)}`,freddo,4.5,true));
+    rettM(s*12.5-1.9,5.5,s*12.5+1.9,24,{...comp,rx:1.9*S});
+    for(let k=0;k<3;k++) add(el('line',{x1:X(s*12.5-1.4),y1:Q(8+k*1.3),x2:X(s*12.5+1.4),y2:Q(8+k*1.3),stroke:'#5A7590','stroke-width':.7}));
+    rettM(s*12.5-1.6,0.6,s*12.5+1.6,5.5,{...comp,rx:7});
+    /* vapore e acqua di alimento, oltre i gusci */
+    add(pathTubo(`M${X(s*12.5)} ${Q(24)} L${X(s*12.5)} ${Q(28)} L${X(s*44)} ${Q(28)}`,caldo,4,true));
+    add(el('path',{d:`M${X(s*44)-s} ${Q(28)-6} L${X(s*45.6)} ${Q(28)} L${X(s*44)-s} ${Q(28)+6} Z`,fill:caldo}));
+    add(pathTubo(`M${X(s*44)} ${Q(21.5)} L${X(s*14.4)} ${Q(21.5)}`,freddo,3.5,true));
+    add(el('path',{d:`M${X(s*14.4)-s} ${Q(21.5)-5} L${X(s*14.4)+s*7} ${Q(21.5)} L${X(s*14.4)-s} ${Q(21.5)+5} Z`,fill:freddo}));
+  });
+
+  /* gru polare, sotto la cupola interna */
+  const gru=el('g',{});
+  gru.appendChild(el('rect',{x:X(-21.5),y:Q(43.2),width:43*S,height:1.2*S,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  gru.appendChild(el('rect',{x:X(-3),y:Q(44.4),width:6*S,height:1.2*S,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  add(conTitolo(gru,'Gru polare: corre lungo tutta la circonferenza sotto la cupola e solleva il coperchio del recipiente e i componenti pesanti durante la manutenzione.'));
+
+  /* ---------- etichette dentro e accanto ---------- */
+  add(testo(X(-5.9),Q(6.4),'nocciolo','etichetta sec','end'));
+  add(testo(X(-45),Q(29.4),'vapore alla turbina','etichetta sec','end'));
+  add(testo(X(-45),Q(22.9),'acqua di alimento','etichetta sec','end'));
+
+  /* ---------- colonna di etichette a destra, con linee guida ---------- */
+  const LX=978;
+  const guida=(tx,th,ly,txt,cls)=>{
+    add(el('line',{x1:X(tx),y1:Q(th),x2:LX-6,y2:Q(ly),stroke:'#5A7590','stroke-width':.9,'stroke-dasharray':'3 3'}));
+    add(el('circle',{cx:X(tx),cy:Q(th),r:2.2,fill:'#5A7590'}));
+    add(testo(LX,Q(ly)+3.5,txt,cls||'etichetta sec'));
+  };
+  guida(19.4,53.4,58,'guscio esterno · cemento armato');
+  guida(22.0,42,50,'guscio interno · precompresso, 1,3 m');
+  guida(25.4,30,42,'intercapedine in depressione');
+  guida(14.4,19,34,'generatore di vapore','etichetta');
+  guida(33,10,26,'edifici di salvaguardia');
+  guida(14.1,3,18,'pompa del refrigerante','etichetta');
+  guida(13,-1.6,10,'core catcher · 170 m²','etichetta');
+
+  return {
+    altezza:fondo-Y+8,
+    riquadro:{x:X(-27.4),y:Q(61.4),w:54.8*S,h:67.4*S},
+    punti:{nocciolo:[X(0),Q(6.6)], barre:[X(0),Q(10.8)],
+      generatore:[X(12.5),Q(15)], pompa:[X(12.5),Q(3)], catcher:[X(13),Q(-1.5)], guscio:[X(25.4),Q(34)]}
+  };
+}
+
 const SITI={
   pwr:{cielo:100, sito:sitoSizewell, isola:isolaSizewell},
   magnox:{cielo:145, sito:sitoCalderHall, isola:isolaCalderHall},
   rbmk:{cielo:190, sito:sitoChernobyl, isola:isolaChernobyl},
   bwr:{cielo:175, sito:sitoLeibstadt, isola:isolaLeibstadt},
-  candu:{cielo:110, sito:sitoDarlington, isola:isolaDarlington}
+  candu:{cielo:110, sito:sitoDarlington, isola:isolaDarlington},
+  epr:{cielo:140, sito:sitoOlkiluoto, isola:isolaOlkiluoto}
 };
 
 /* spaccato comune, usato dalle centrali non ancora ridisegnate */

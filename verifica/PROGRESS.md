@@ -3,7 +3,46 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-19 (sessione 9)
+Ultimo aggiornamento: 2026-09-19 (sessione 10)
+
+## Fatto — sessione 10
+
+- **Olkiluoto 3 (EPR): sesto disegno dedicato**, stesso metodo. Vista dalla
+  baia, foto `img/epr.jpg` come riferimento.
+  - Sito: cupola grigia di OL3 con gli edifici in mattone rosso e bianco
+    davanti, camino di OL3, sala turbine lunga con **una turbina di alta
+    pressione e tre di bassa** e alternatore, OL1 e OL2 schiariti a destra
+    con i camini a spirale, acqua di mare in una sola passata con presa a
+    destra e scarico a sinistra (nessuna torre di raffreddamento), massi
+    lungo la sponda, canneti in primo piano.
+  - Spaccato: **doppio guscio** con intercapedine (esterno in cemento armato,
+    interno precompresso con rivestimento in acciaio), recipiente con i
+    meccanismi delle barre sul coperchio, **barre che scendono dall'alto
+    lungo guide fisse** (verificato: le barre coprono esattamente
+    l'altezza del nocciolo), due dei quattro circuiti, pozzo del reattore e
+    **core catcher** — canale di scarico con tappo sacrificale, camera di
+    spargimento laterale con fondo raffreddato — vasca di ricarica IRWST,
+    quattro edifici di salvaguardia ai lati, gru polare.
+  - 2 pallini nuovi con fumetto (core catcher, doppio contenimento) più
+    pompa e generatore con testo specifico; testo specifico anche per
+    nocciolo, barre e raffreddamento.
+  - Fonti: contenimento interno Ø 46,8 m, alto 57,5 m, parete di 1,3 m,
+    doppio guscio con intercapedine in depressione, core catcher da 170 m²
+    con elementi di raffreddamento in ghisa (Wikipedia, "EPR (nuclear
+    reactor)" e letteratura sul contenimento EPR); 241 elementi di
+    combustibile da 265 barrette, 89 meccanismi delle barre sul coperchio
+    (NRC, U.S. EPR FSAR — è il progetto americano, uguale per questi dati);
+    una turbina di alta e tre di bassa pressione (TVO, tvo.fi); acqua di
+    mare ≈ 57 m³/s (TVO, via ricerca). **Indicativi, non verificati**: il
+    diametro e l'altezza del recipiente (≈ 5 x 12 m), lo spessore
+    dell'intercapedine (1,4 m, da cui il Ø esterno ≈ 55 m), la sala turbine
+    (lunga ≈ 100 m e alta ≈ 33 m: una fonte diceva 60 m di altezza e
+    larghezza, non convincente), le altezze di OL1, OL2, degli edifici in
+    mattone e dei camini, dedotte dalla foto.
+  - **Da allineare**: la scheda "tech" dice che il core catcher è "una vasca
+    ceramica sotto il reattore"; nel disegno è una camera laterale di 170 m²
+    raggiunta da un canale sotto il recipiente, come nel progetto reale. Il
+    testo è vago più che sbagliato, ma vale la pena rivederlo.
 
 ## Fatto — sessione 9
 
@@ -274,11 +313,11 @@ Ultimo aggiornamento: 2026-09-19 (sessione 9)
    (Settings → Pages → `main`, `/`) — l'indirizzo dà 404; togliere
    `pubblica/index.html`, obsoleto; aggiungere descrizione per i motori di
    ricerca, anteprima social, icona, licenza. Nessuno è ancora fatto.
-1. **Interfaccia grafica delle centrali**: ridisegnare le altre 4
-   (Olkiluoto 3, Sanmen, Beloyarsk, Shidaowan) col metodo usato per Sizewell
-   B, Calder Hall, Chernobyl, Leibstadt e Darlington → dettaglio in
-   `sessione 5`–`9` qui sopra. Richiesta diretta dell'utente, in corso. Le
-   4 rimaste hanno ancora i difetti originali (alberi in acqua, metà
+1. **Interfaccia grafica delle centrali**: ridisegnare le altre 3
+   (Sanmen, Beloyarsk, Shidaowan) col metodo usato per Sizewell B, Calder
+   Hall, Chernobyl, Leibstadt, Darlington e Olkiluoto 3 → dettaglio in
+   `sessione 5`–`10` qui sopra. Richiesta diretta dell'utente, in corso. Le
+   3 rimaste hanno ancora i difetti originali (alberi in acqua, metà
    destra vuota, bianco su bianco).
 2. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
    capacità, date, orizzonte di progetto. Fonti: Posiva (Onkalo), DOE/WIPP,
