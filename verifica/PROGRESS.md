@@ -3,7 +3,61 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-19 (sessione 11)
+Ultimo aggiornamento: 2026-09-19 (sessione 12)
+
+## Fatto — sessione 12
+
+- **Beloyarsk 4 (BN-800): ottavo disegno dedicato**, stesso metodo. La foto
+  `img/bn800.jpg` è la **sala di controllo** (con la mappa circolare del
+  nocciolo sul pannello): nessun dettaglio esterno, quindi sito e
+  spaccato vengono dai dati dell'impianto.
+  - Sito: bacino di Beloyarsk in primo piano, conifere della taiga (solo
+    sulla terra), il BN-600 schiarito a sinistra, l'edificio del reattore
+    con accanto l'**edificio dei generatori di vapore e sul tetto i tre
+    camini degli scambiatori aria-sodio**, sala turbine, torre di
+    raffreddamento a destra (in scala), presa di reintegro dal bacino.
+  - Spaccato: la **vasca di sodio** di un reattore a piscina — recipiente
+    principale e recipiente di sicurezza attorno, argon sopra il livello del
+    sodio, sodio freddo e barile del sodio caldo, nocciolo in basso,
+    raccoglitore del nocciolo fuso sotto, colonna delle barre con **barre che
+    scendono lungo guide fisse** (verificato: le barre coprono l'altezza del
+    nocciolo), scambiatori intermedi e pompe primarie immersi nella vasca
+    con il motore sul coperchio a tappi girevoli — e fuori, in due edifici
+    laterali, il **sodio intermedio non radioattivo** che porta il calore ai
+    generatori di vapore, con il ramo verso gli scambiatori aria-sodio sul
+    tetto. Tre circuiti visibili in fila: sodio primario, sodio
+    intermedio, acqua e vapore.
+  - 3 pallini nuovi con fumetto (scambiatore intermedio, scambiatori
+    aria-sodio nel sito, più pompa e generatore con testo specifico) e
+    testi specifici per nocciolo, barre e raffreddamento.
+  - Fonti: potenza 2 100 MW termici; tre circuiti (sodio primario e
+    secondario, acqua e vapore); ogni circuito con una pompa primaria, due
+    scambiatori intermedi, una pompa secondaria e un generatore; tre barre
+    assorbenti sospese idraulicamente nel flusso; scambiatori aria-sodio su
+    ogni circuito secondario; raccoglitore del nocciolo fuso (POWER, "Top
+    Plant: Beloyarsk Unit 4"; Wikipedia, "BN-800 reactor"); tipo a
+    piscina, recipiente a pressione appena sopra quella atmosferica; circa
+    565 elementi di combustibile (World Nuclear News); bacino di Beloyarsk
+    creato nel 1959–1963 (Wikipedia, "Beloyarsk Nuclear Power Station").
+  - **Indicativi, non verificati**: il diametro e l'altezza del recipiente e
+    del recipiente di sicurezza (non trovati); la posizione del raccoglitore
+    del nocciolo fuso dentro il recipiente; le dimensioni del nocciolo,
+    riprese dal BN-600 "molto simile" (≈ 1 m x 2 m) e disegnate
+    **ingrandite** per leggibilità — il titolo del pannello lo dichiara;
+    la disposizione di scambiatori e pompe (uno per lato, non due
+    scambiatori per circuito); le altezze degli edifici. **La torre di
+    raffreddamento** viene dalla scheda originale ("torre" nella
+    configurazione della scena), non verificata su una fonte: il testo del
+    fumetto dice solo che "serve al raffreddamento" il bacino e che
+    "qui una torre ..." — da controllare.
+  - **Da allineare nella scheda**: la potenza netta dichiarata è ≈ 820 MW
+    (Wikipedia); POWER dà 789 MW netti e 864 lordi. Il numero giusto dipende
+    dalla definizione: va scelta una fonte di riferimento e indicata.
+  - Una ricerca diceva che "la stazione non ha un edificio di
+    contenimento": non ho trovato conferma su una fonte migliore e non
+    l'ho scritto né disegnato come tale; il disegno mostra un edificio
+    reattore in cemento senza specificarne la funzione di contenimento.
+    `scena.contenimento:true` nella scheda originale resta com'è.
 
 ## Fatto — sessione 11
 
@@ -353,12 +407,11 @@ Ultimo aggiornamento: 2026-09-19 (sessione 11)
    (Settings → Pages → `main`, `/`) — l'indirizzo dà 404; togliere
    `pubblica/index.html`, obsoleto; aggiungere descrizione per i motori di
    ricerca, anteprima social, icona, licenza. Nessuno è ancora fatto.
-1. **Interfaccia grafica delle centrali**: ridisegnare le altre 2
-   (Beloyarsk, Shidaowan) col metodo usato per Sizewell B, Calder Hall,
-   Chernobyl, Leibstadt, Darlington, Olkiluoto 3 e Sanmen → dettaglio in
-   `sessione 5`–`11` qui sopra. Richiesta diretta dell'utente, in corso. Le
-   2 rimaste hanno ancora i difetti originali (alberi in acqua, metà
-   destra vuota, bianco su bianco).
+1. **Interfaccia grafica delle centrali**: ridisegnare l'ultima, Shidaowan
+   (HTR-PM), col metodo usato per le altre otto → dettaglio in `sessione
+   5`–`12` qui sopra. Richiesta diretta dell'utente, in corso. Ha ancora i
+   difetti originali (alberi in acqua, metà destra vuota, bianco su
+   bianco).
 2. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
    capacità, date, orizzonte di progetto. Fonti: Posiva (Onkalo), DOE/WIPP,
    ISIN/Sogin (Deposito Nazionale).

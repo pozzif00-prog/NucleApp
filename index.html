@@ -831,7 +831,16 @@ const REATTORI = [
     barriere:'Circuito intermedio di sodio non radioattivo tra il primario e l\'acqua, atmosfera inerte di argon sopra il sodio, vasca a pressione ambiente, sistemi di spegnimento passivi che intervengono per dilatazione termica dei materiali.',
     precedente:'La filiera ha una storia mista: incendi di sodio e lunghe fermate a Monju (Giappone) e a Superphénix (Francia). Il BN-600 russo, con vent\'anni di incendi di sodio minori tutti contenuti, è il caso su cui è stato tarato il BN-800. Questa non è una tecnologia matura come il PWR, ed è corretto dirlo.'
   },
-  scena:{loops:3,core:'assemblee',contenimento:true,raffreddamento:'torre',sodio:true,etichetteLoop:['Sodio primario 550 °C','Sodio intermedio','Vapore']}
+  scena:{loops:3,core:'assemblee',contenimento:true,raffreddamento:'torre',sodio:true,etichetteLoop:['Sodio primario 550 °C','Sodio intermedio','Vapore']},
+  fumetti:{
+    nocciolo:{t:'Nocciolo a neutroni veloci',d:'Piccolo: circa un metro di altezza e due di diametro (le misure del BN-600, molto simile), con circa 565 elementi di combustibile. Non c\'è moderatore: i neutroni restano veloci. Il sodio lo lambisce a pressione ambiente.',p:'Nel disegno è ingrandito per renderlo leggibile: nel recipiente è una frazione minuscola.'},
+    barre:{t:'Barre di arresto',d:'Le barre di controllo si muovono sopra il nocciolo. In più ci sono tre barre assorbenti sospese idraulicamente nel flusso del sodio: se il flusso cala, cadono da sole nel nocciolo.',p:'Spegnimento passivo: non serve un ordine né corrente.'},
+    ihx:{t:'Scambiatore intermedio',d:'Dentro il recipiente, immerso nel sodio: cede il calore del sodio radioattivo del primario a un secondo circuito di sodio, non radioattivo. Ogni circuito di raffreddamento ne ha due.',p:'Il circuito di mezzo esiste perché il sodio attivato non incontri mai l\'acqua.'},
+    pompa:{t:'Pompa primaria',d:'Una per circuito, appesa al coperchio: l\'albero scende nel sodio e spinge il sodio freddo verso il nocciolo. Nocciolo, pompe e scambiatori stanno tutti nella stessa vasca, senza tubi che escano sotto il livello del liquido.',p:'È la logica dell\'impianto a piscina: una perdita da un tubo non svuota il nocciolo.'},
+    generatore:{t:'Generatore di vapore',d:'È il terzo circuito: il sodio intermedio, non radioattivo, cede calore ad acqua che evapora. È il punto più delicato: sodio e acqua reagiscono violentemente, ed è per questo che il sodio radioattivo è tenuto lontano.',p:'Ogni circuito di raffreddamento alimenta un generatore.'},
+    aria:{t:'Scambiatori aria-sodio',d:'Sul tetto, uno per ciascun circuito secondario. Se non c\'è più modo di produrre vapore, il calore residuo del nocciolo passa al sodio intermedio e da lì all\'aria esterna, per convezione naturale.',p:'Raffreddamento di emergenza passivo: l\'aria è il pozzo di calore finale.'},
+    raffreddamento:{t:'Acqua del bacino di Beloyarsk',d:'Il bacino artificiale, creato tra il 1959 e il 1963, serve al raffreddamento della centrale. Qui una torre di raffreddamento disperde nell\'aria il calore dei condensatori.',p:'Il vapore che esce dalla torre è acqua, non è radioattivo.'}
+  }
 },
 {
   id:'htrpm', paeseCod:'CN', lat:36.97, lon:122.53, gen:'IV', anniGen:'2023–oggi', nome:'HTR-PM', tipoBreve:'Letto di sfere, elio',
@@ -3886,6 +3895,284 @@ function isolaSanmen(A,c,Y){
   };
 }
 
+/* ---------------------------------------------------------------
+   BELOYARSK 4 (BN-800) — Zarechny, regione di Sverdlovsk, Urali
+   Vista dal bacino di Beloyarsk: l'acqua in primo piano, la foresta
+   di conifere, il BN-600 schiarito a sinistra, l'edificio del BN-800
+   con l'edificio dei generatori di vapore accanto e sul tetto i
+   camini dei tre scambiatori aria-sodio del raffreddamento passivo, la
+   sala turbine, la torre di raffreddamento sulla destra.
+   Foto img/bn800.jpg: la sala di controllo (con la mappa circolare del
+   nocciolo): nessun dettaglio esterno. Il sito viene dai dati
+   dell'impianto: bacino di Beloyarsk creato nel 1959–1963 come sistema
+   di raffreddamento (Wikipedia, "Beloyarsk Nuclear Power Station");
+   scambiatori aria-sodio su ogni circuito secondario (POWER, "Top
+   Plant: Beloyarsk Unit 4"). Le altezze e larghezze degli edifici e
+   la torre di raffreddamento — presente nella scheda originale, non
+   verificata su una fonte — sono indicative.
+   --------------------------------------------------------------- */
+function sitoBeloyarsk(B,c){
+  const add=x=>B.appendChild(x);
+  const LAGO=SUOLO+34;
+  const cls='#D6D9DA', clsL='#8E989A', scuro='#B8BDBF';
+
+  /* cielo, nuvole */
+  add(el('rect',{x:0,y:0,width:1200,height:SUOLO+88,fill:'url(#c-cielo)'}));
+  add(nuvola(170,SUOLO-270,1,0)); add(nuvola(660,SUOLO-320,.75,9)); add(nuvola(1060,SUOLO-200,.85,16));
+
+  /* terreno e bacino in primo piano */
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:34,fill:'url(#c-terra)'}));
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:6,fill:'#6FA070'}));
+  add(el('rect',{x:0,y:LAGO,width:1200,height:SUOLO+88-LAGO,fill:'#7FA8C0'}));
+  add(el('line',{x1:0,y1:LAGO,x2:1200,y2:LAGO,stroke:'#2E8FA8','stroke-width':1.5}));
+  for(let x=12;x<1200;x+=78) add(el('path',{d:`M${x} ${LAGO+22} q12 -6 24 0 t24 0`,fill:'none',stroke:'#1B5FA8','stroke-width':1.1,opacity:'.5'}));
+
+  /* --- torre di raffreddamento, a destra --- */
+  const cxT=1000, th=m(95), tb=m(80), tg=m(46), tt=m(50);
+  add(el('path',{d:profiloTorre(cxT,th,tb,tg,tt),fill:'#DCE3E4',stroke:'#7E8C90','stroke-width':2}));
+  for(let i=0;i<3;i++){
+    const v=el('ellipse',{cx:cxT+(i-1)*tg*0.3,cy:SUOLO-th-m(8),rx:tg*0.44,ry:m(9),fill:'#F4F5F2',class:'vapore'});
+    v.setAttribute('style',`animation-delay:${i*1.2}s`); add(v);
+  }
+
+  /* --- BN-600, schiarito, a sinistra --- */
+  const dietro=el('g',{opacity:'.42'});
+  dietro.appendChild(el('rect',{x:50,y:SUOLO-m(44),width:140,height:m(44),fill:cls,stroke:clsL,'stroke-width':1.2}));
+  dietro.appendChild(el('rect',{x:190,y:SUOLO-m(32),width:70,height:m(32),fill:scuro,stroke:clsL,'stroke-width':1.2}));
+  add(dietro);
+  add(dett(testo(120,SUOLO-m(44)-8,'BN-600 · in esercizio dal 1980','etichetta sec','middle')));
+
+  /* --- BN-800: edificio del reattore in dettaglio --- */
+  const rW=132, rH=m(46), rX=280;
+  add(el('rect',{x:rX,y:SUOLO-rH,width:rW,height:rH,fill:cls,stroke:clsL,'stroke-width':1.8}));
+  add(el('rect',{x:rX+rW*0.22,y:SUOLO-rH-m(7),width:rW*0.56,height:m(7),fill:'#C7CCCE',stroke:clsL,'stroke-width':1.4}));
+  for(let y=SUOLO-rH+m(6);y<SUOLO-4;y+=m(6)) add(el('line',{x1:rX+2,y1:y,x2:rX+rW-2,y2:y,stroke:'#BFC4C6','stroke-width':.8}));
+
+  /* edificio dei generatori di vapore, accanto, con i camini degli scambiatori aria-sodio */
+  const gX=rX+rW, gW=112, gH=m(34);
+  add(el('rect',{x:gX,y:SUOLO-gH,width:gW,height:gH,fill:scuro,stroke:clsL,'stroke-width':1.6}));
+  for(let y=SUOLO-gH+m(6);y<SUOLO-4;y+=m(6)) add(el('line',{x1:gX+2,y1:y,x2:gX+gW-2,y2:y,stroke:'#A9AEB0','stroke-width':.8}));
+  const ari=el('g',{});
+  [gX+22,gX+52,gX+82].forEach(x=>ari.appendChild(el('rect',{x:x-5,y:SUOLO-gH-m(9),width:10,height:m(9),fill:'#8E989A',stroke:'#5C6167','stroke-width':1})));
+  add(ari);
+  add(conTitolo(ari,'Scambiatori aria-sodio, uno per ciascun circuito secondario: se non c\'è più modo di produrre vapore, il calore residuo del nocciolo passa al sodio intermedio e da lì all\'aria esterna per convezione naturale. Rimozione del calore passiva.'));
+
+  /* --- sala turbine --- */
+  const tW=250, tX=gX+gW+18, tTop=SUOLO-m(30);
+  add(el('rect',{x:tX,y:tTop,width:tW,height:SUOLO-tTop,fill:'#E4E7E8',stroke:clsL,'stroke-width':1.8}));
+  add(el('rect',{x:tX,y:SUOLO-m(18),width:tW,height:m(2.6),fill:'#6B7A80'}));
+  const wX=tX+16,wW=tW-32,wTop=tTop+m(4),wBot=SUOLO-6;
+  add(el('rect',{x:wX,y:wTop,width:wW,height:wBot-wTop,fill:'#EEF2F4',stroke:'#4C6377','stroke-width':1,'stroke-dasharray':'4 3'}));
+  const TY=SUOLO-34;
+  add(pathTubo(`M${wX+6} ${TY} L${wX+wW-6} ${TY}`,'#1C2321',2,true));
+  const caso=(x,w,h)=>add(el('path',{d:`M${x} ${TY} L${x+w*0.14} ${TY-h/2} L${x+w*0.86} ${TY-h/2} L${x+w} ${TY} L${x+w*0.86} ${TY+h/2} L${x+w*0.14} ${TY+h/2} Z`,fill:'#E4E8E6',stroke:'#1C2321','stroke-width':1.3}));
+  caso(wX+8,22,16); caso(wX+38,34,26); caso(wX+78,34,26);
+  add(el('rect',{x:wX+wW-42,y:TY-10,width:34,height:20,rx:2,fill:'#C9CCC2',stroke:'#1C2321','stroke-width':1.2}));
+  add(el('rect',{x:wX+36,y:TY+15,width:78,height:wBot-(TY+15),rx:2,fill:'#DCEBF2',stroke:'#1C2321','stroke-width':1.2}));
+  for(let i=0;i<3;i++) add(el('line',{x1:wX+42,y1:TY+19+i*5,x2:wX+108,y2:TY+19+i*5,stroke:'#2E8FA8','stroke-width':.7}));
+
+  /* vapore dall'edificio dei generatori alla sala turbine; ritorno dell'acqua di alimento */
+  add(pathTubo(`M${gX+gW} ${SUOLO-m(26)} L${wX-10} ${SUOLO-m(26)} L${wX-10} ${TY-4} L${wX+8} ${TY-4}`,'#D2453A',4,true));
+  add(pathTubo(`M${wX+30} ${wBot} L${wX-4} ${wBot} L${wX-4} ${SUOLO-m(12)} L${gX+gW} ${SUOLO-m(12)}`,'#2E8FA8',3.5,true));
+
+  /* --- circuito della torre e reintegro dal bacino --- */
+  const galleria=(d,col)=>{
+    add(el('path',{d,fill:'none',stroke:'#8E989A','stroke-width':10,'stroke-linecap':'round',opacity:'.45'}));
+    add(pathTubo(d,col,3.5,true));
+  };
+  galleria(`M${wX+92} ${wBot} L${wX+92} ${SUOLO+14} L${cxT-m(26)} ${SUOLO+14} L${cxT-m(26)} ${SUOLO}`,'#D98B5F');
+  galleria(`M${cxT-m(12)} ${SUOLO} L${cxT-m(12)} ${SUOLO+26} L${wX+68} ${SUOLO+26} L${wX+68} ${wBot}`,'#2E8FA8');
+  galleria(`M${cxT+m(26)} ${LAGO+34} L${cxT+m(26)} ${SUOLO+8} L${cxT+m(14)} ${SUOLO+8}`,'#2E8FA8');
+  add(dett(testo(cxT+m(26)-4,SUOLO+30,'reintegro dal bacino','etichetta sec','end')));
+
+  /* --- trasformatore e traliccio --- */
+  const trX=tX+tW+10,trW=26,trTop=SUOLO-m(8);
+  add(el('rect',{x:trX,y:trTop,width:trW,height:SUOLO-trTop,fill:'#3C4650'}));
+  for(let i=1;i<4;i++) add(el('line',{x1:trX+i*trW/4,y1:trTop+2,x2:trX+i*trW/4,y2:SUOLO-2,stroke:'#5C6873','stroke-width':1}));
+  const p=traliccio(trX+trW+36,SUOLO,34,[[20,7],[25,8.5],[30,6]]);
+  add(p.g);
+  add(campata([trX+trW,trTop+m(2)],p.sx[1],8));
+
+  /* conifere della taiga degli Urali, solo sulla terra */
+  [[14,1.2,0],[36,.9,1],[60,1.1,0],[266,.9,1],[210,1,0],[850,.9,1],[1150,1.1,0],[1178,.9,1]].forEach(([x,s,sc])=>add(albero(x,SUOLO+6,s,sc)));
+
+  scalaUmana(B,rX-14,20,SUOLO+30,'end');
+
+  /* etichette */
+  add(testo(6,16,'il sito, in scala reale · vista dal bacino di Beloyarsk','etichetta sec'));
+  add(testo(rX+rW/2,SUOLO-rH-m(7)-12,'edificio reattore','etichetta','middle'));
+  add(testo(gX+gW/2,SUOLO-gH-m(9)-10,'generatori di vapore','etichetta','middle'));
+  add(testo(tX+tW/2,tTop-8,'sala turbine','etichetta','middle'));
+  add(dett(
+    testo(rX+rW/2,SUOLO-rH-m(7)-28,'reattore a sodio · tipo a piscina','etichetta sec','middle'),
+    testo(cxT,SUOLO-th-m(24),'torre di raffreddamento','etichetta sec','middle'),
+    testo(wX+92,wBot+16,'condensatore','etichetta sec','middle'),
+    testo(trX+trW/2,SUOLO+18,'trasformatore','etichetta sec','middle')
+  ));
+
+  return {
+    reattore:{x:rX,y:SUOLO-rH-m(7),w:rW,h:rH+m(7)},
+    turbina:[wX+46,TY], condensatore:[wX+92,wBot-8],
+    raffreddamento:[cxT,SUOLO-m(45)], trasformatore:[trX+trW/2,SUOLO-m(4)],
+    extra:{aria:[gX+52,SUOLO-gH-m(4.5)]}
+  };
+}
+
+/* ---------------------------------------------------------------
+   BELOYARSK 4 — BN-800, reattore veloce a sodio, tipo a piscina.
+   Sezione verticale. Tre circuiti: sodio primario (radioattivo) dentro
+   la vasca, sodio intermedio (non radioattivo) fuori, acqua e vapore
+   nel terzo. Nella vasca stanno il nocciolo, le pompe primarie e gli
+   scambiatori intermedi: nessun tubo esce sotto il livello del sodio,
+   il recipiente è a pressione poco sopra quella atmosferica. Ogni
+   circuito ha una pompa primaria, due scambiatori intermedi, una pompa
+   secondaria e un generatore di vapore. Sicurezza passiva: tre barre
+   assorbenti sospese idraulicamente nel flusso, scambiatori aria-sodio
+   sui circuiti secondari, raccoglitore del nocciolo fuso (POWER, "Top
+   Plant: Beloyarsk Unit 4"; Wikipedia, "BN-800 reactor"; WNN).
+   Circa 565 elementi di combustibile; il nocciolo del BN-600, "molto
+   simile", è alto ≈ 1 m e largo ≈ 2 m (Wikipedia, "BN-600 reactor").
+   Il nocciolo è disegnato più grande del vero, per renderlo leggibile;
+   le altre quote — diametro e altezza del recipiente, recipiente di
+   sicurezza, posizione del raccoglitore del nocciolo fuso, disposizione
+   di scambiatori e pompe — sono indicative. Sono mostrati due dei
+   circuiti, uno per lato, con una sola pompa e un solo scambiatore
+   intermedio per lato.
+   --------------------------------------------------------------- */
+function isolaBeloyarsk(A,c,Y){
+  const S=10, CX=600;
+  const G=Y+40+S*36;                            // piano campagna = piano di servizio del reattore
+  const X=r=>CX+r*S, Q=h=>G-h*S;
+  const add=x=>{A.appendChild(x);return x;};
+  const rettM=(r1,h1,r2,h2,att)=>add(el('rect',{x:Math.min(X(r1),X(r2)),y:Math.min(Q(h1),Q(h2)),
+    width:Math.abs(X(r2)-X(r1)),height:Math.abs(Q(h2)-Q(h1)),...att}));
+  const specchio=f=>[-1,1].forEach(f);
+  const cem='#E2E7EB', cemL='#BAC5CE', muro='#D2DAE0', vuoto='#E3E5E7', edif='#EEF2F5', edifL='#CDD6DD';
+  const comp={fill:'#BFE3F5',stroke:'#0B2440','stroke-width':2};
+  const acciaio={fill:'#B7C7D3',stroke:'#0B2440','stroke-width':1.4};
+  const naC='#8A63C8', naF='#B49BE0', acqua='#2E8FA8', vapore='#D2453A', steel='#5A6360';
+
+  const fondo=Q(-17);
+  add(el('rect',{x:30,y:Y,width:1140,height:fondo-Y,rx:6,fill:'#E3E5E7',stroke:'#C7CBCF','stroke-width':1.5}));
+  add(testo(42,Y+20,'DENTRO L\'EDIFICIO REATTORE · sezione verticale, proporzioni indicative, nocciolo ingrandito','etichetta'));
+  add(el('rect',{x:31,y:G,width:1138,height:fondo-G-1,fill:'#E9DFCB'}));
+  add(el('line',{x1:31,y1:G,x2:1169,y2:G,stroke:'#9FB08A','stroke-width':1.5}));
+
+  /* ---------- edificio del reattore e due edifici dei generatori di vapore ---------- */
+  conTitolo(rettM(-15,-16,15,31,{fill:muro,stroke:cemL,'stroke-width':1.2}),
+    'Edificio del reattore: il recipiente è in una fossa profonda sotto il piano di servizio; in alto la sala con il carroponte.');
+  rettM(-13.6,-14.6,13.6,29.6,{fill:vuoto});
+  rettM(-15,-16,15,-14.6,{fill:cem,stroke:cemL,'stroke-width':1});
+  specchio(s=>{
+    const g=el('g',{});
+    g.appendChild(el('rect',{x:X(Math.min(s*15,s*27)),y:Q(23),width:12*S,height:39*S,fill:edif,stroke:edifL,'stroke-width':1.2}));
+    add(conTitolo(g,'Edificio dei generatori di vapore: qui il sodio intermedio, non radioattivo, cede calore all\'acqua. È il punto più delicato dell\'impianto: sodio e acqua reagiscono violentemente.'));
+  });
+  /* carroponte nella sala */
+  const gru=el('g',{});
+  gru.appendChild(el('rect',{x:X(-13),y:Q(26.6),width:26*S,height:1.2*S,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  gru.appendChild(el('rect',{x:X(-3),y:Q(27.8),width:6*S,height:1.2*S,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  add(conTitolo(gru,'Carroponte della sala del reattore.'));
+
+  /* ---------- fossa, recipiente di sicurezza e recipiente principale ---------- */
+  specchio(s=>rettM(Math.min(s*7.9,s*9.6),-16,Math.max(s*7.9,s*9.6),0,{fill:cem,stroke:cemL,'stroke-width':1}));
+  conTitolo(rettM(-7.6,-14.6,7.6,-1.6,{fill:'none',stroke:steel,'stroke-width':2.2,rx:1.5*S}),
+    'Recipiente di sicurezza: un secondo involucro di acciaio attorno al recipiente principale. Se questo perdesse sodio, l\'altro lo trattiene e mantiene il livello sopra il nocciolo.');
+  conTitolo(rettM(-6.6,-14,6.6,-2,{fill:'#F1EDFA',stroke:'#0B2440','stroke-width':2.6,rx:1.2*S}),
+    'Recipiente principale, a pressione poco sopra quella atmosferica: dentro ci sono il nocciolo, le pompe primarie e gli scambiatori intermedi, tutti immersi in una sola vasca di sodio. Nessun tubo esce sotto il livello del liquido.');
+  /* sodio freddo nella vasca, argon sopra il livello */
+  add(el('rect',{x:X(-6.4),y:Q(-4),width:12.8*S,height:9.9*S,fill:'#E6DDF5',opacity:'.9'}));
+  add(el('path',{d:`M${X(-6.2)} ${Q(-4)} q10 -4 20 0 t20 0 t20 0 t20 0 t20 0 t20 0`,fill:'none',stroke:naC,'stroke-width':1.2,opacity:.6}));
+  add(testo(X(0),Q(-3)-2,'argon','etichetta sec','middle'));
+
+  /* ---------- barile con il sodio caldo, nocciolo, raccoglitore del nocciolo fuso ---------- */
+  rettM(-3.4,-10.4,3.4,-4.6,{fill:'#D9C8F0',stroke:naC,'stroke-width':1.2});
+  const coreW=3.4, coreH=2.2, coreB=-12.6, coreTop=coreB+coreH;
+  rettM(-2.6,-13.2,2.6,-12.6,{...acciaio});
+  const catcher=el('g',{});
+  catcher.appendChild(el('rect',{x:X(-3.4),y:Q(-13.3),width:6.8*S,height:.5*S,fill:'#8C8C8C',stroke:'#5C5C5C','stroke-width':1}));
+  add(conTitolo(catcher,'Raccoglitore del nocciolo fuso (core catcher): una vaschetta sotto il nocciolo, dentro il recipiente. Se il combustibile fondesse, cadrebbe qui invece di riversarsi altrove.'));
+  add(el('rect',{x:X(-coreW/2-.4),y:Q(coreTop+.4),width:S*(coreW+.8),height:S*(coreH+.8),fill:'#2F6BFF',opacity:'.5',class:'glow',id:'glow'}));
+  const gCore=add(el('g',{}));
+  gCore.appendChild(el('rect',{x:X(-coreW/2),y:Q(coreTop),width:S*coreW,height:S*coreH,fill:'#D8CDB2',stroke:'#8A7A5A','stroke-width':1}));
+  for(let i=0;i<9;i++)
+    gCore.appendChild(el('rect',{x:X(-coreW/2)+1.4+i*((coreW*S-2.8)/9),y:Q(coreTop)+1.4,width:(coreW*S-2.8)/9-1,height:S*coreH-2.8,fill:'#C2762E',stroke:'#7A4A1F','stroke-width':.4}));
+
+  /* barre di controllo: colonna sopra il nocciolo, guide fisse, barre che scendono allo SCRAM */
+  [-1.2,0,1.2].forEach(rx=>add(el('line',{x1:X(rx),y1:Q(-2),x2:X(rx),y2:Q(coreTop),stroke:steel,'stroke-width':.9})));
+  const hRod=S*coreH;
+  const barre=add(el('g',{class:'barre',id:'barre'}));
+  [-1.2,0,1.2].forEach(rx=>barre.appendChild(el('rect',{x:X(rx)-1.4,y:Q(coreTop+coreH),width:2.8,height:hRod,fill:'#1C2321'})));
+  barre.dataset.corsa=hRod;
+  [-1.2,0,1.2].forEach(rx=>rettM(rx-.32,0,rx+.32,3.2,{...comp,'stroke-width':1.2}));
+
+  /* ---------- coperchio con i tappi girevoli ---------- */
+  const cop=el('g',{});
+  cop.appendChild(el('rect',{x:X(-7.4),y:Q(0),width:14.8*S,height:2*S,fill:cem,stroke:cemL,'stroke-width':1.2}));
+  [-3.6,3.6].forEach(rx=>cop.appendChild(el('line',{x1:X(rx),y1:Q(0),x2:X(rx),y2:Q(-2),stroke:cemL,'stroke-width':1.2})));
+  add(cop);
+  add(conTitolo(cop,'Coperchio con i tappi girevoli: chiude il recipiente sotto argon. Ruotandoli si porta il braccio di trasferimento su un elemento di combustibile, senza mai aprire il sodio all\'aria.'));
+
+  /* ---------- scambiatori intermedi, pompe primarie, circuiti ---------- */
+  specchio(s=>{
+    /* pompa primaria: motore sul coperchio, albero nel sodio freddo, scarico verso il nocciolo */
+    rettM(s*6.0-.25,-12.6,s*6.0+.25,0,{fill:steel});
+    rettM(s*6.0-.55,-13.1,s*6.0+.55,-11.8,{...comp,'stroke-width':1.6});
+    rettM(s*6.0-1,0,s*6.0+1,3.6,{...comp,rx:5});
+    add(el('path',{d:`M${X(s*6.0)} ${Q(-13.4)} L${X(s*2.6)} ${Q(-13.4)} L${X(s*2.6)} ${Q(-12.6)}`,fill:'none',stroke:naF,'stroke-width':3.5}));
+    /* scambiatore intermedio a cavallo del barile del sodio caldo */
+    rettM(s*4.3-.8,-11,s*4.3+.8,-3,{...comp,rx:6});
+    add(el('line',{x1:X(s*3.4),y1:Q(-5.2),x2:X(s*3.8),y2:Q(-5.2),stroke:naC,'stroke-width':2,'stroke-dasharray':'2 2'}));
+    rettM(s*4.3-.35,-3,s*4.3+.35,-2,{fill:steel});
+    /* sodio intermedio: caldo verso il generatore, freddo di ritorno */
+    add(pathTubo(`M${X(s*3.9)} ${Q(-2)} L${X(s*3.9)} ${Q(9)} L${X(s*18.5)} ${Q(9)}`,naC,3.5,true));
+    add(pathTubo(`M${X(s*20.6)} ${Q(-4)} L${X(s*20.6)} ${Q(-6)} L${X(s*8.6)} ${Q(-6)} L${X(s*8.6)} ${Q(7)} L${X(s*4.6)} ${Q(7)} L${X(s*4.6)} ${Q(-2)}`,naF,3.5,true));
+    rettM(s*11.5-1.1,-7.4,s*11.5+1.1,-4.6,{...comp,rx:8});
+    /* generatore di vapore: sodio a un lato, acqua e vapore dall'altro */
+    rettM(s*20.6-2.1,-4,s*20.6+2.1,17,{...comp,rx:2.1*S});
+    for(let k=0;k<3;k++) add(el('line',{x1:X(s*20.6-1.5),y1:Q(2+k*2.5),x2:X(s*20.6+1.5),y2:Q(2+k*2.5),stroke:'#5A7590','stroke-width':.7}));
+    /* ramo verso lo scambiatore aria-sodio sul tetto: raffreddamento di emergenza passivo */
+    add(pathTubo(`M${X(s*16.8)} ${Q(9)} L${X(s*16.8)} ${Q(23)} L${X(s*16.8)} ${Q(24.2)}`,naC,2,true));
+    const aria=el('g',{});
+    aria.appendChild(el('rect',{x:X(s*16.8)-4.5,y:Q(28.6),width:9,height:4.6*S,fill:'#8E989A',stroke:'#5C6167','stroke-width':1}));
+    aria.appendChild(el('rect',{x:X(s*19.6)-4.5,y:Q(28.6),width:9,height:4.6*S,fill:'#8E989A',stroke:'#5C6167','stroke-width':1}));
+    add(conTitolo(aria,'Scambiatore aria-sodio, uno per ciascun circuito secondario: passivo. Se manca il modo di produrre vapore, il calore residuo passa al sodio intermedio e da lì all\'aria esterna per convezione naturale.'));
+    /* vapore in uscita e acqua di alimento, verso la sala turbine */
+    add(pathTubo(`M${X(s*20.6)} ${Q(17)} L${X(s*20.6)} ${Q(19.5)} L${X(s*37)} ${Q(19.5)}`,vapore,4,true));
+    add(el('path',{d:`M${X(s*37)-s} ${Q(19.5)-6} L${X(s*38.6)} ${Q(19.5)} L${X(s*37)-s} ${Q(19.5)+6} Z`,fill:vapore}));
+    add(pathTubo(`M${X(s*37)} ${Q(-1)} L${X(s*18.5)} ${Q(-1)}`,acqua,3.5,true));
+    add(el('path',{d:`M${X(s*18.5)-s} ${Q(-1)-5} L${X(s*18.5)+s*7} ${Q(-1)} L${X(s*18.5)-s} ${Q(-1)+5} Z`,fill:acqua}));
+  });
+
+  /* ---------- etichette dentro e accanto ---------- */
+  add(testo(X(0),Q(-15.1),'nocciolo','etichetta sec','middle'));
+  add(testo(X(-36),Q(21),'vapore alla turbina','etichetta sec','end'));
+  add(testo(X(-36),Q(1.2),'acqua di alimento','etichetta sec','end'));
+
+  /* ---------- colonna di etichette a destra, con linee guida ---------- */
+  const LX=912;
+  const guida=(tx,th,ly,txt,cls)=>{
+    add(el('line',{x1:X(tx),y1:Q(th),x2:LX-6,y2:Q(ly),stroke:'#5A7590','stroke-width':.9,'stroke-dasharray':'3 3'}));
+    add(el('circle',{cx:X(tx),cy:Q(th),r:2.2,fill:'#5A7590'}));
+    add(testo(LX,Q(ly)+3.5,txt,cls||'etichetta sec'));
+  };
+  guida(19.6,28,32,'scambiatore aria-sodio (passivo)');
+  guida(22.7,12,24,'generatore di vapore','etichetta');
+  guida(15,9,17,'sodio intermedio · non radioattivo');
+  guida(7.4,-1,10,'coperchio con tappi girevoli');
+  guida(5.1,-7,3.5,'scambiatore intermedio','etichetta');
+  guida(6.0,-8.5,-3,'pompa primaria','etichetta');
+  guida(7.6,-11,-9.5,'recipiente di sicurezza');
+  guida(6.6,-13,-15,'sodio primario · recipiente principale');
+
+  return {
+    altezza:fondo-Y+8,
+    riquadro:{x:X(-15),y:Q(31),w:30*S,h:47*S},
+    punti:{nocciolo:[X(0),Q(-11.5)], barre:[X(0),Q(-4.9)], ihx:[X(4.3),Q(-7)],
+      pompa:[X(6.0),Q(1.8)], generatore:[X(20.6),Q(7)]}
+  };
+}
+
 const SITI={
   pwr:{cielo:100, sito:sitoSizewell, isola:isolaSizewell},
   magnox:{cielo:145, sito:sitoCalderHall, isola:isolaCalderHall},
@@ -3893,7 +4180,8 @@ const SITI={
   bwr:{cielo:175, sito:sitoLeibstadt, isola:isolaLeibstadt},
   candu:{cielo:110, sito:sitoDarlington, isola:isolaDarlington},
   epr:{cielo:140, sito:sitoOlkiluoto, isola:isolaOlkiluoto},
-  ap1000:{cielo:105, sito:sitoSanmen, isola:isolaSanmen}
+  ap1000:{cielo:105, sito:sitoSanmen, isola:isolaSanmen},
+  bn800:{cielo:120, sito:sitoBeloyarsk, isola:isolaBeloyarsk}
 };
 
 /* spaccato comune, usato dalle centrali non ancora ridisegnate */
