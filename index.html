@@ -795,7 +795,16 @@ const REATTORI = [
     barriere:'Valvole che si aprono da sole se manca l\'alimentazione, acqua che scende per gravità, calore che risale per convezione naturale, cupola d\'acciaio raffreddata dall\'evaporazione. Dopo 72 ore basta rifornire d\'acqua il serbatoio, senza entrare in centrale.',
     precedente:'Nessun incidente sulla filiera. Il progetto risponde punto per punto a ciò che mancò a Fukushima: il quesito di progetto era "e se non arriva nessuno per tre giorni?".'
   },
-  scena:{loops:2,core:'assemblee',contenimento:'acciaio',raffreddamento:'mare',passivo:true,etichetteLoop:['Primario 320 °C','Ritorno 280 °C']}
+  scena:{loops:2,core:'assemblee',contenimento:'acciaio',raffreddamento:'mare',passivo:true,etichetteLoop:['Primario 320 °C','Ritorno 280 °C']},
+  fumetti:{
+    nocciolo:{t:'Nocciolo',d:'157 elementi di combustibile di ossido di uranio, ciascuno con 264 barrette alte 4,27 m. Qui i nuclei di uranio si spaccano e producono il calore.',p:'Un reattore da oltre 1 000 MW con circa la metà dei componenti di un PWR classico.'},
+    generatore:{t:'Generatore di vapore',d:'Ce ne sono due, uno per circuito. Le pompe sono agganciate direttamente al fondo del generatore, senza tubazioni in mezzo: meno giunti, meno punti dove può nascere una perdita.',p:'L\'acqua che gira la turbina non è mai stata dentro il nocciolo.'},
+    pompa:{t:'Pompe del refrigerante',d:'Quattro pompe a rotore immerso, due per generatore. Il motore gira nell\'acqua del circuito primario: non c\'è un albero che esca all\'esterno, quindi non ci sono guarnizioni da far perdere.',p:'Se le pompe si fermano, il raffreddamento passivo parte comunque: non dipende da loro.'},
+    prhr:{t:'Scambiatore di calore passivo',d:'Un fascio di tubi a C, immerso nella grande vasca d\'acqua dentro il contenimento e collegato al circuito primario. In emergenza il calore residuo passa all\'acqua della vasca per convezione naturale, senza pompe né corrente.',p:'La vasca si scalda fino a bollire: il vapore condensa sulle pareti del guscio d\'acciaio e ricade nella vasca.'},
+    contenimento:{t:'Guscio d\'acciaio',d:'Un cilindro d\'acciaio di 39,6 m di diametro e 65,6 m di altezza, con parete di 4,5 cm, dentro lo schermo in cemento. Se il vapore lo scalda, il calore va all\'esterno: da sopra scende l\'acqua del serbatoio, e tra guscio e schermo l\'aria sale per tiraggio naturale fino al camino.',p:'Il guscio è esso stesso lo scambiatore di calore verso l\'atmosfera.'},
+    serbatoio:{t:'Serbatoio in quota',d:'Circa 3 000 m³ d\'acqua sopra lo schermo in cemento, ad anello attorno al camino centrale. In emergenza valvole che si aprono da sole, anche senza corrente, lasciano cadere l\'acqua sulla cupola d\'acciaio: evapora e porta via il calore. Basta per 72 ore.',p:'Dopo tre giorni basta rifornirlo d\'acqua, senza entrare in centrale.'},
+    raffreddamento:{t:'Acqua del canale di Shefan',d:'Acqua di mare prelevata in una sola passata dal canale di Shefan: passa nei condensatori e torna al mare più calda. Non ci sono torri di raffreddamento.',p:'Come a Sizewell, il mare fa da pozzo di calore.'}
+  }
 },
 {
   id:'bn800', paeseCod:'RU', lat:56.84, lon:61.32, gen:'IV', anniGen:'2016–oggi', nome:'BN-800 (SFR)', tipoBreve:'Neutroni veloci, sodio',
@@ -3572,13 +3581,319 @@ function isolaOlkiluoto(A,c,Y){
   };
 }
 
+/* ---------------------------------------------------------------
+   SANMEN — Zhejiang, baia di Sanmen. Sanmen 1 è il primo AP1000.
+   Vista dalla costa: lo schermo in cemento con il suo tetto conico,
+   il grande serbatoio d'acqua ad anello in cima e il camino centrale
+   dell'aria; a fianco l'edificio ausiliario, la sala turbine bianca con
+   la fascia scura come nella foto, Sanmen 2 schiarito sulla destra,
+   il mare con la presa e lo scarico. Nessuna torre di raffreddamento.
+   Foto img/ap1000.jpg: il cantiere di Sanmen (edifici bianchi e grigi,
+   gru a torre); la forma finale dell'impianto viene dal progetto AP1000.
+   Schermo in cemento: Ø 44,2 m, alto 83,4 m, parete di 0,9 m; guscio
+   d'acciaio interno: Ø 39,6 m, alto 65,6 m, parete di 4,5 cm;
+   serbatoio in quota: circa 3 000 m³ d'acqua, per 72 ore di spruzzo
+   (Westinghouse, AP1000 Design Control Document; NRC; World Nuclear
+   News). Acqua di mare in una sola passata dal canale di Shefan
+   (Wikipedia, "Sanmen Nuclear Power Station"). Il tetto conico, l'anello
+   del serbatoio e le prese d'aria disegnati sono indicativi; le altezze
+   di edificio ausiliario e sala turbine sono dedotte dalla foto.
+   --------------------------------------------------------------- */
+function sitoSanmen(B,c){
+  const add=x=>B.appendChild(x);
+  const MARE=SUOLO+34;
+  const cls='#DADDD8', clsL='#9AA39C', bianco='#F1F3F4', biancoL='#9AA3A8';
+
+  /* cielo, nuvole */
+  add(el('rect',{x:0,y:0,width:1200,height:SUOLO+88,fill:'url(#c-cielo)'}));
+  add(nuvola(150,SUOLO-230,1,0)); add(nuvola(640,SUOLO-260,.75,9)); add(nuvola(1020,SUOLO-215,.9,16));
+
+  /* terra e mare */
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:34,fill:'url(#c-terra)'}));
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:6,fill:'#7CAE72'}));
+  add(el('rect',{x:0,y:MARE,width:1200,height:SUOLO+88-MARE,fill:'#7FB6D8'}));
+  add(el('line',{x1:0,y1:MARE,x2:1200,y2:MARE,stroke:'#2E8FA8','stroke-width':1.5}));
+  for(let x=10;x<1200;x+=78) add(el('path',{d:`M${x} ${MARE+22} q12 -6 24 0 t24 0`,fill:'none',stroke:'#1B5FA8','stroke-width':1.1,opacity:'.5'}));
+
+  /* lo schermo in cemento di un'unità AP1000: cilindro, tetto conico,
+     anello del serbatoio d'acqua, camino centrale dell'aria, prese d'aria */
+  const R=m(22.1), Rt=m(14), Rc=m(4.6);
+  const scudo=(cx,g)=>{
+    g.appendChild(el('rect',{x:cx-R,y:SUOLO-m(68),width:2*R,height:m(68),fill:cls,stroke:clsL,'stroke-width':1.6}));
+    g.appendChild(el('rect',{x:cx+R*0.45,y:SUOLO-m(68),width:R*0.55,height:m(68),fill:'#C9CDC8'}));
+    for(let i=0;i<9;i++) g.appendChild(el('rect',{x:cx-R+6+i*(2*R-12)/9,y:SUOLO-m(66),width:9,height:m(3),fill:'#4C5359'}));
+    g.appendChild(el('path',{d:`M${cx-R} ${SUOLO-m(68)} L${cx-Rt} ${SUOLO-m(76)} L${cx+Rt} ${SUOLO-m(76)} L${cx+R} ${SUOLO-m(68)} Z`,fill:cls,stroke:clsL,'stroke-width':1.4}));
+    const tank=el('g',{});
+    tank.appendChild(el('rect',{x:cx-Rt,y:SUOLO-m(82),width:Rt-Rc,height:m(6),fill:'#B8D4E4',stroke:'#5C8AAE','stroke-width':1.2}));
+    tank.appendChild(el('rect',{x:cx+Rc,y:SUOLO-m(82),width:Rt-Rc,height:m(6),fill:'#B8D4E4',stroke:'#5C8AAE','stroke-width':1.2}));
+    g.appendChild(tank);
+    g.appendChild(el('rect',{x:cx-Rc,y:SUOLO-m(83.4),width:2*Rc,height:m(7.4),fill:'#8C9298',stroke:'#5C6167','stroke-width':1}));
+    return tank;
+  };
+
+  /* --- Sanmen 2, schiarito, sulla destra --- */
+  const dietro=el('g',{opacity:'.45'});
+  scudo(920,dietro);
+  dietro.appendChild(el('rect',{x:920+R,y:SUOLO-m(30),width:120,height:m(30),fill:'#D0D3CF',stroke:clsL,'stroke-width':1.2}));
+  add(dietro);
+  add(dett(testo(920,SUOLO-m(83.4)-10,'Sanmen 2','etichetta sec','middle')));
+
+  /* --- edifici di servizio bassi, a sinistra --- */
+  const serv=el('g',{});
+  serv.appendChild(el('rect',{x:30,y:SUOLO-m(12),width:150,height:m(12),fill:'#D9DCDD',stroke:biancoL,'stroke-width':1.2}));
+  add(conTitolo(serv,'Edifici di servizio: officine, magazzini, edifici amministrativi. Non hanno a che fare con il reattore.'));
+
+  /* --- Sanmen 1: schermo in cemento in dettaglio --- */
+  const cxS=300;
+  const unita=el('g',{});
+  const tank=scudo(cxS,unita);
+  add(unita);
+  add(conTitolo(tank,'Serbatoio in quota: circa 3 000 m³ d\'acqua sopra lo schermo in cemento, ad anello attorno al camino centrale. In emergenza valvole che si aprono da sole lasciano cadere l\'acqua sulla cupola d\'acciaio del contenimento, dove evapora e porta via il calore. Basta per 72 ore.'));
+
+  /* edificio ausiliario, addossato allo schermo */
+  const aux=el('g',{});
+  aux.appendChild(el('rect',{x:cxS+R,y:SUOLO-m(30),width:120,height:m(30),fill:'#D0D3CF',stroke:clsL,'stroke-width':1.5}));
+  for(let y=SUOLO-m(30)+m(6);y<SUOLO-4;y+=m(6)) aux.appendChild(el('line',{x1:cxS+R+2,y1:y,x2:cxS+R+118,y2:y,stroke:'#B9BDB8','stroke-width':.8}));
+  add(conTitolo(aux,'Edificio ausiliario: attaccato allo schermo, ospita i sistemi di supporto e la sala di controllo.'));
+
+  /* --- sala turbine, bianca con la fascia scura come nella foto --- */
+  const tW=290, tX=cxS+R+140, tTop=SUOLO-m(36);
+  add(el('rect',{x:tX,y:tTop,width:tW,height:SUOLO-tTop,fill:bianco,stroke:biancoL,'stroke-width':1.8}));
+  add(el('rect',{x:tX,y:SUOLO-m(20),width:tW,height:m(3),fill:'#4C5A5E'}));
+  const wX=tX+16,wW=tW-32,wTop=tTop+m(4),wBot=SUOLO-6;
+  add(el('rect',{x:wX,y:wTop,width:wW,height:wBot-wTop,fill:'#EEF2F4',stroke:'#4C6377','stroke-width':1,'stroke-dasharray':'4 3'}));
+  const TY=SUOLO-38;
+  add(pathTubo(`M${wX+6} ${TY} L${wX+wW-6} ${TY}`,'#1C2321',2,true));
+  const caso=(x,w,h)=>add(el('path',{d:`M${x} ${TY} L${x+w*0.14} ${TY-h/2} L${x+w*0.86} ${TY-h/2} L${x+w} ${TY} L${x+w*0.86} ${TY+h/2} L${x+w*0.14} ${TY+h/2} Z`,fill:'#E4E8E6',stroke:'#1C2321','stroke-width':1.3}));
+  caso(wX+8,22,16); caso(wX+38,36,28); caso(wX+82,36,28);
+  add(el('rect',{x:wX+wW-44,y:TY-11,width:36,height:22,rx:2,fill:'#C9CCC2',stroke:'#1C2321','stroke-width':1.2}));
+  add(el('rect',{x:wX+36,y:TY+16,width:84,height:wBot-(TY+16),rx:2,fill:'#DCEBF2',stroke:'#1C2321','stroke-width':1.2}));
+  for(let i=0;i<4;i++) add(el('line',{x1:wX+42,y1:TY+20+i*5,x2:wX+114,y2:TY+20+i*5,stroke:'#2E8FA8','stroke-width':.7}));
+
+  /* vapore dall'edificio ausiliario alla sala turbine, ritorno dell'acqua di alimento */
+  add(pathTubo(`M${cxS+R} ${SUOLO-m(24)} L${wX-10} ${SUOLO-m(24)} L${wX-10} ${TY-4} L${wX+8} ${TY-4}`,'#D2453A',4,true));
+  add(pathTubo(`M${wX+30} ${wBot} L${wX-4} ${wBot} L${wX-4} ${SUOLO-m(12)} L${cxS+R} ${SUOLO-m(12)}`,'#2E8FA8',3.5,true));
+
+  /* --- acqua di mare in una sola passata: presa a destra, scarico a sinistra --- */
+  const galleria=(d,col)=>{
+    add(el('path',{d,fill:'none',stroke:'#8E989A','stroke-width':10,'stroke-linecap':'round',opacity:'.45'}));
+    add(pathTubo(d,col,3.5,true));
+  };
+  galleria(`M1075 ${MARE+34} L1075 ${SUOLO+12} L${wX+82} ${SUOLO+12} L${wX+82} ${wBot}`,'#2E8FA8');
+  galleria(`M${wX+108} ${wBot} L${wX+108} ${SUOLO+22} L120 ${SUOLO+22} L120 ${MARE+40}`,'#D98B5F');
+  add(el('rect',{x:1067,y:MARE+30,width:16,height:8,rx:2,fill:'#8E989A',stroke:'#5A6360','stroke-width':1}));
+  [110,120,130].forEach(x=>add(el('circle',{cx:x,cy:MARE+42,r:3.2,fill:'#D98B5F',stroke:'#5A6360','stroke-width':.8})));
+
+  /* --- trasformatore e traliccio --- */
+  const trX=tX+tW+10,trW=26,trTop=SUOLO-m(8);
+  add(el('rect',{x:trX,y:trTop,width:trW,height:SUOLO-trTop,fill:'#3C4650'}));
+  for(let i=1;i<4;i++) add(el('line',{x1:trX+i*trW/4,y1:trTop+2,x2:trX+i*trW/4,y2:SUOLO-2,stroke:'#5C6873','stroke-width':1}));
+  const p=traliccio(tX+tW+62,SUOLO,34,[[20,7],[25,8.5],[30,6]]);
+  add(p.g);
+  add(campata([trX+trW,trTop+m(2)],p.sx[1],8));
+
+  /* alberi, solo sulla terra */
+  [[16,1.1,0],[190,.9,1],[476,.8,1],[1150,1,1]].forEach(([x,s,sc])=>add(albero(x,SUOLO+6,s,sc)));
+
+  scalaUmana(B,cxS+R+130,20,SUOLO+30,'end');
+
+  /* etichette */
+  add(testo(6,16,'il sito, in scala reale · vista dalla costa','etichetta sec'));
+  add(testo(cxS,SUOLO-m(83.4)-12,'edificio reattore','etichetta','middle'));
+  add(testo(tX+tW/2,tTop-8,'sala turbine','etichetta','middle'));
+  add(dett(
+    testo(cxS,SUOLO-m(83.4)-28,'schermo in cemento · alto 83,4 m · Ø 44,2 m','etichetta sec','middle'),
+    testo(cxS,SUOLO-m(66)-8,'prese d\'aria','etichetta sec','middle'),
+    testo(1075,MARE+22,'presa dal mare','etichetta sec','middle'),
+    testo(120,MARE+60,'scarico','etichetta sec','middle'),
+    testo(wX+82,wBot+16,'condensatore','etichetta sec','middle'),
+    testo(trX+trW/2,SUOLO+18,'trasformatore','etichetta sec','middle')
+  ));
+
+  return {
+    reattore:{x:cxS-R,y:SUOLO-m(83.4),w:2*R,h:m(83.4)},
+    turbina:[wX+46,TY], condensatore:[wX+108,wBot-8],
+    raffreddamento:[1075,MARE+16], trasformatore:[trX+trW/2,SUOLO-m(4)],
+    extra:{serbatoio:[cxS-m(9.3),SUOLO-m(79)]}
+  };
+}
+
+/* ---------------------------------------------------------------
+   SANMEN 1 — AP1000, sicurezza passiva. Sezione verticale.
+   Guscio d'acciaio: Ø 39,6 m, alto 65,6 m, parete di 4,5 cm, con
+   cupola ellittica; schermo in cemento: Ø 44,2 m, alto 83,4 m,
+   parete di 0,9 m; in cima il serbatoio d'acqua per 72 ore (≈ 3 000
+   m³) e il camino centrale dell'aria. Il calore del guscio se ne va
+   per due vie: l'acqua che cade dal serbatoio sulla cupola e l'aria
+   che sale per tiraggio naturale nell'intercapedine (Westinghouse,
+   AP1000 Design Control Document; NRC; World Nuclear News).
+   157 elementi di combustibile 17x17, altezza attiva 4,27 m (DCD).
+   Sistemi passivi: due serbatoi di compensazione del nocciolo (CMT), due
+   accumulatori con azoto, scambiatore di calore passivo (PRHR) immerso
+   nella vasca d'acqua interna (IRWST) (NRC; Bajorek, "AP1000 Passive
+   Safety Systems"). Due generatori di vapore, con quattro pompe a rotore
+   immerso agganciate al loro fondo. Le quote interne, il diametro del
+   recipiente, la disposizione dei sistemi passivi e la posizione
+   degli sfoghi d'aria sono indicativi; il ritorno dello scambiatore
+   passivo al circuito primario non è disegnato.
+   --------------------------------------------------------------- */
+function isolaSanmen(A,c,Y){
+  const S=7, CX=600;
+  const G=Y+40+S*86;                            // piano campagna
+  const X=r=>CX+r*S, Q=h=>G-h*S;
+  const add=x=>{A.appendChild(x);return x;};
+  const rettM=(r1,h1,r2,h2,att)=>add(el('rect',{x:Math.min(X(r1),X(r2)),y:Math.min(Q(h1),Q(h2)),
+    width:Math.abs(X(r2)-X(r1)),height:Math.abs(Q(h2)-Q(h1)),...att}));
+  const specchio=f=>[-1,1].forEach(f);
+  const cem='#E2E7EB', cemL='#BAC5CE', muro='#D2DAE0', vuoto='#E3E5E7', edif='#EEF2F5', edifL='#CDD6DD';
+  const comp={fill:'#BFE3F5',stroke:'#0B2440','stroke-width':2};
+  const acciaio={fill:'#B7C7D3',stroke:'#0B2440','stroke-width':1.4};
+  const acqua={fill:'#8FCDE6',stroke:'#2E8FA8','stroke-width':1};
+  const caldo='#D2453A', freddo='#2E8FA8', steel='#5A6360', aria='#6DB4DA';
+
+  const fondo=Q(-9);
+  add(el('rect',{x:30,y:Y,width:1140,height:fondo-Y,rx:6,fill:'#E3E5E7',stroke:'#C7CBCF','stroke-width':1.5}));
+  add(testo(42,Y+20,'DENTRO L\'EDIFICIO REATTORE · sezione verticale, proporzioni indicative','etichetta'));
+  add(el('rect',{x:31,y:G,width:1138,height:fondo-G-1,fill:'#E9DFCB'}));
+  add(el('line',{x1:31,y1:G,x2:1169,y2:G,stroke:'#9FB08A','stroke-width':1.5}));
+
+  /* ---------- edifici bassi ai lati (ausiliario e di servizio) ---------- */
+  const ausSx=el('g',{});
+  ausSx.appendChild(el('rect',{x:X(-46),y:Q(16),width:23.9*S,height:22*S,fill:edif,stroke:edifL,'stroke-width':1.2}));
+  add(conTitolo(ausSx,'Edificio ausiliario: attaccato allo schermo in cemento, ospita i sistemi di supporto e la sala di controllo.'));
+  rettM(22.1,-6,46,16,{fill:edif,stroke:edifL,'stroke-width':1.2});
+
+  /* ---------- schermo in cemento: cilindro, tetto conico, parete di 0,9 m ---------- */
+  conTitolo(add(el('path',{d:`M${X(-22.1)} ${Q(-6)} L${X(-22.1)} ${Q(68)} L${X(-14)} ${Q(76)} L${X(14)} ${Q(76)} L${X(22.1)} ${Q(68)} L${X(22.1)} ${Q(-6)} Z`,fill:muro,stroke:cemL,'stroke-width':1.2})),
+    'Schermo in cemento armato: parete di 0,9 m, Ø 44,2 m e alto 83,4 m. Protegge il guscio d\'acciaio dagli eventi esterni — per esempio l\'impatto di un aereo — e sostiene in cima il serbatoio d\'acqua.');
+  add(el('path',{d:`M${X(-21.2)} ${Q(-5)} L${X(-21.2)} ${Q(68)} L${X(-13.4)} ${Q(75.2)} L${X(13.4)} ${Q(75.2)} L${X(21.2)} ${Q(68)} L${X(21.2)} ${Q(-5)} Z`,fill:vuoto}));
+  rettM(-22.1,-9,22.1,-5,{fill:cem,stroke:cemL,'stroke-width':1});
+  /* prese d'aria in alto sulla parete */
+  specchio(s=>rettM(Math.min(s*22.1,s*21.2),63.5,Math.max(s*22.1,s*21.2),66,{fill:'#7A8288'}));
+
+  /* ---------- serbatoio in quota e camino centrale ---------- */
+  const serb=el('g',{});
+  [[-14,-4.6],[4.6,14]].forEach(([a,b])=>serb.appendChild(el('rect',{x:X(a),y:Q(82),width:(b-a)*S,height:6*S,fill:acqua.fill,stroke:acqua.stroke,'stroke-width':1.2,opacity:'.95'})));
+  for(let k=0;k<4;k++) [[-13,-5.6],[5.6,13]].forEach(([a,b])=>serb.appendChild(el('path',{d:`M${X(a)+k*10} ${Q(80.5)} q4 -2 8 0 t8 0`,fill:'none',stroke:'#1B5FA8','stroke-width':.8,opacity:.5})));
+  add(conTitolo(serb,'Serbatoio in quota: circa 3 000 m³ d\'acqua, ad anello attorno al camino centrale. In emergenza valvole che si aprono da sole, anche senza corrente, lasciano cadere l\'acqua sulla cupola d\'acciaio: evapora e porta via il calore. Basta per 72 ore.'));
+  const cam=el('g',{});
+  cam.appendChild(el('rect',{x:X(-4.6),y:Q(83.4),width:9.2*S,height:7.4*S,fill:'#EEF0F2',stroke:steel,'stroke-width':2}));
+  add(conTitolo(cam,'Camino centrale: l\'aria che ha risalito l\'intercapedine lungo il guscio, scaldandosi, esce da qui. Tiraggio naturale: nessun ventilatore.'));
+
+  /* ---------- guscio d'acciaio: cilindro con cupola ellittica ---------- */
+  const rc=19.8, hCyl=55.7, ryD=9.9;
+  const cvPath=`M${X(-rc)} ${Q(-5)} L${X(-rc)} ${Q(hCyl)} A${rc*S} ${ryD*S} 0 0 1 ${X(rc)} ${Q(hCyl)} L${X(rc)} ${Q(-5)}`;
+  add(el('path',{d:cvPath+' Z',fill:'#EDF0F2'}));
+  conTitolo(add(el('path',{d:cvPath,fill:'none',stroke:steel,'stroke-width':3.4})),
+    'Guscio d\'acciaio: Ø 39,6 m, alto 65,6 m, parete di 4,5 cm. Tiene dentro il vapore in caso di incidente e, essendo di metallo, conduce il calore verso l\'esterno: è esso stesso uno scambiatore.');
+  /* pellicola d'acqua sulla cupola e tubi di scarico dal serbatoio */
+  add(pathTubo(`M${X(-20.4)} ${Q(hCyl)} A${20.4*S} ${(ryD+.6)*S} 0 0 1 ${X(20.4)} ${Q(hCyl)}`,aria,2.4,true));
+  specchio(s=>add(pathTubo(`M${X(s*9.3)} ${Q(76)} L${X(s*9.3)} ${Q(65.2)}`,aria,2.4,true)));
+  /* flusso d'aria: dalle prese, giù lungo la parete, su lungo il guscio, fino al camino */
+  specchio(s=>add(pathTubo(`M${X(s*23.6)} ${Q(64.7)} L${X(s*20.9)} ${Q(64.7)} L${X(s*20.9)} ${Q(5.5)} L${X(s*20.1)} ${Q(5.5)} L${X(s*20.1)} ${Q(58)} L${X(s*13)} ${Q(68.6)} L${X(s*3)} ${Q(76)} L${X(s*3)} ${Q(81)}`,aria,2,true)));
+  rettM(-rc,-5,rc,-4,{fill:cem,stroke:cemL,'stroke-width':1});
+
+  /* ---------- vasca d'acqua in contenimento (IRWST) con lo scambiatore passivo ---------- */
+  const irwst=el('g',{});
+  irwst.appendChild(el('rect',{x:X(-14),y:Q(36),width:28*S,height:7*S,fill:acqua.fill,stroke:acqua.stroke,'stroke-width':1,opacity:'.9'}));
+  add(conTitolo(irwst,'Vasca d\'acqua in contenimento (IRWST): grande riserva d\'acqua sopra il nocciolo. Alimenta per gravità il raffreddamento di emergenza e fa da pozzo di calore per lo scambiatore passivo.'));
+  [[-14.8,-14],[14,14.8]].forEach(([a,b])=>rettM(a,29,b,36.4,{fill:cem,stroke:cemL,'stroke-width':1}));
+  rettM(-14.8,28.4,14.8,29,{fill:cem,stroke:cemL,'stroke-width':1});
+  add(testo(X(9.6),Q(32.6)+3,'IRWST','etichetta sec','middle'));
+  /* scambiatore passivo: fascio di tubi a C, immerso nella vasca */
+  const prhr=el('g',{});
+  prhr.appendChild(el('path',{d:`M${X(3)} ${Q(30.5)} L${X(-6)} ${Q(30.5)} L${X(-6)} ${Q(34.5)} L${X(3)} ${Q(34.5)}`,fill:'none',stroke:'#0B2440','stroke-width':3.2,'stroke-linejoin':'round'}));
+  [31.2,32.2,33.3].forEach(h=>prhr.appendChild(el('line',{x1:X(-5),y1:Q(h),x2:X(2.2),y2:Q(h),stroke:'#5A7590','stroke-width':.8})));
+  add(prhr);
+  add(pathTubo(`M${X(6.6)} ${Q(11.6)} L${X(6.6)} ${Q(30.5)} L${X(3)} ${Q(30.5)}`,caldo,3,true));
+
+  /* ---------- pozzo del reattore e recipiente in pressione ---------- */
+  specchio(s=>rettM(Math.min(s*2.6,s*4.5),-5,Math.max(s*2.6,s*4.5),12,{fill:cem,stroke:cemL,'stroke-width':1}));
+  conTitolo(rettM(-2,1,2,13.5,{...comp,rx:1.8*S}),
+    'Recipiente in pressione: contiene il nocciolo, l\'acqua a pressione altissima e, sul coperchio, i meccanismi delle barre di controllo.');
+  const coreW=3.0, coreH=4.27, coreB=3.6, coreTop=coreB+coreH;
+  add(el('rect',{x:X(-coreW/2-.35),y:Q(coreTop+.35),width:S*(coreW+.7),height:S*(coreH+.7),fill:'#2F6BFF',opacity:'.5',class:'glow',id:'glow'}));
+  const gCore=add(el('g',{}));
+  gCore.appendChild(el('rect',{x:X(-coreW/2),y:Q(coreTop),width:S*coreW,height:S*coreH,fill:'#D8CDB2',stroke:'#8A7A5A','stroke-width':1}));
+  for(let i=0;i<7;i++)
+    gCore.appendChild(el('rect',{x:X(-coreW/2)+1.5+i*((coreW*S-3)/7),y:Q(coreTop)+1.5,width:(coreW*S-3)/7-1.2,height:S*coreH-3,fill:'#C2762E',stroke:'#7A4A1F','stroke-width':.4}));
+  [-1.2,-.6,0,.6,1.2].forEach(rx=>{
+    rettM(rx-.2,13.5,rx+.2,15.8,{...acciaio,'stroke-width':1});
+    add(el('line',{x1:X(rx),y1:Q(13.5),x2:X(rx),y2:Q(coreTop),stroke:steel,'stroke-width':.8}));
+  });
+  const hRod=S*coreH;
+  const barre=add(el('g',{class:'barre',id:'barre'}));
+  [-1,-.3,.4,1].forEach(rx=>barre.appendChild(el('rect',{x:X(rx)-1.2,y:Q(coreTop+coreH),width:2.4,height:hRod,fill:'#1C2321'})));
+  barre.dataset.corsa=hRod;
+
+  /* ---------- due circuiti: generatore di vapore con le pompe attaccate al fondo ---------- */
+  specchio(s=>{
+    add(pathTubo(`M${X(s*2)} ${Q(11.6)} L${X(s*6.6)} ${Q(11.6)} L${X(s*6.6)} ${Q(5)} L${X(s*7.6)} ${Q(5)}`,caldo,4.5,true));
+    add(pathTubo(`M${X(s*8.4)} ${Q(-1.2)} L${X(s*4.6)} ${Q(-1.2)} L${X(s*4.6)} ${Q(9.6)} L${X(s*2)} ${Q(9.6)}`,freddo,4.5,true));
+    rettM(s*9.5-2.4,3,s*9.5+2.4,27,{...comp,rx:2.4*S});
+    for(let k=0;k<3;k++) add(el('line',{x1:X(s*9.5-1.7),y1:Q(8+k*1.5),x2:X(s*9.5+1.7),y2:Q(8+k*1.5),stroke:'#5A7590','stroke-width':.7}));
+    [-1.25,1.25].forEach(d=>rettM(s*9.5+d-1,-2.4,s*9.5+d+1,3,{...comp,rx:5}));
+    /* vapore e acqua di alimento, oltre i due gusci */
+    add(pathTubo(`M${X(s*11.9)} ${Q(24)} L${X(s*44)} ${Q(24)}`,caldo,4,true));
+    add(el('path',{d:`M${X(s*44)-s} ${Q(24)-6} L${X(s*45.6)} ${Q(24)} L${X(s*44)-s} ${Q(24)+6} Z`,fill:caldo}));
+    add(pathTubo(`M${X(s*44)} ${Q(22)} L${X(s*11.9)} ${Q(22)}`,freddo,3.5,true));
+    add(el('path',{d:`M${X(s*11.9)-s} ${Q(22)-5} L${X(s*11.9)+s*7} ${Q(22)} L${X(s*11.9)-s} ${Q(22)+5} Z`,fill:freddo}));
+  });
+
+  /* ---------- serbatoi di compensazione e accumulatori, passivi ---------- */
+  const cmt=el('g',{}), acc=el('g',{});
+  specchio(s=>{
+    cmt.appendChild(el('rect',{x:X(s*16)-1.5*S,y:Q(20.5),width:3*S,height:7*S,rx:9,fill:comp.fill,stroke:comp.stroke,'stroke-width':1.6}));
+    acc.appendChild(el('circle',{cx:X(s*16),cy:Q(8.5),r:2.4*S,fill:comp.fill,stroke:comp.stroke,'stroke-width':1.6}));
+  });
+  add(conTitolo(cmt,'Serbatoi di compensazione del nocciolo (CMT): due serbatoi di acqua borata, posti più in alto del nocciolo. In emergenza l\'acqua scende per gravità nel circuito primario, senza pompe.'));
+  add(conTitolo(acc,'Accumulatori: due serbatoi di acqua borata con azoto in pressione. Se la pressione del primario crolla, l\'azoto spinge l\'acqua dentro il circuito, senza bisogno di corrente.'));
+
+  /* gru polare, sotto la cupola */
+  const gru=el('g',{});
+  gru.appendChild(el('rect',{x:X(-18.8),y:Q(48.2),width:37.6*S,height:1.2*S,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  gru.appendChild(el('rect',{x:X(-3),y:Q(49.4),width:6*S,height:1.2*S,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  add(conTitolo(gru,'Gru polare: corre lungo la circonferenza del guscio d\'acciaio e solleva i componenti pesanti durante la manutenzione.'));
+
+  /* ---------- etichette dentro e accanto ---------- */
+  add(testo(X(-3.4),Q(5.2),'nocciolo','etichetta sec','end'));
+  add(testo(X(-45),Q(25.4),'vapore alla turbina','etichetta sec','end'));
+  add(testo(X(-45),Q(20.2),'acqua di alimento','etichetta sec','end'));
+
+  /* ---------- colonna di etichette a destra, con linee guida ---------- */
+  const LX=934;
+  const guida=(tx,th,ly,txt,cls)=>{
+    add(el('line',{x1:X(tx),y1:Q(th),x2:LX-6,y2:Q(ly),stroke:'#5A7590','stroke-width':.9,'stroke-dasharray':'3 3'}));
+    add(el('circle',{cx:X(tx),cy:Q(th),r:2.2,fill:'#5A7590'}));
+    add(testo(LX,Q(ly)+3.5,txt,cls||'etichetta sec'));
+  };
+  guida(4.6,80.5,86,'camino centrale dell\'aria');
+  guida(11,79,80,'serbatoio in quota · 3 000 m³','etichetta');
+  guida(22.1,65,72,'prese d\'aria');
+  guida(22.1,50,64,'schermo in cemento · parete di 0,9 m');
+  guida(19.8,45,56,'guscio d\'acciaio · 4,5 cm');
+  guida(14,33,46,'vasca d\'acqua in contenimento');
+  guida(11.9,22,38,'generatore di vapore','etichetta');
+  guida(17.5,21,31,'serbatoio di compensazione');
+  guida(18.4,8.5,22,'accumulatore d\'azoto');
+  guida(10.7,0.4,13,'pompa del refrigerante','etichetta');
+
+  return {
+    altezza:fondo-Y+8,
+    riquadro:{x:X(-22.1),y:Q(83.4),w:44.2*S,h:92.4*S},
+    punti:{nocciolo:[X(0),Q(5.7)], barre:[X(0),Q(10)],
+      generatore:[X(9.5),Q(15)], pompa:[X(9.5),Q(0.4)], prhr:[X(-1.5),Q(32.5)], contenimento:[X(-19.8),Q(38)]}
+  };
+}
+
 const SITI={
   pwr:{cielo:100, sito:sitoSizewell, isola:isolaSizewell},
   magnox:{cielo:145, sito:sitoCalderHall, isola:isolaCalderHall},
   rbmk:{cielo:190, sito:sitoChernobyl, isola:isolaChernobyl},
   bwr:{cielo:175, sito:sitoLeibstadt, isola:isolaLeibstadt},
   candu:{cielo:110, sito:sitoDarlington, isola:isolaDarlington},
-  epr:{cielo:140, sito:sitoOlkiluoto, isola:isolaOlkiluoto}
+  epr:{cielo:140, sito:sitoOlkiluoto, isola:isolaOlkiluoto},
+  ap1000:{cielo:105, sito:sitoSanmen, isola:isolaSanmen}
 };
 
 /* spaccato comune, usato dalle centrali non ancora ridisegnate */

@@ -3,7 +3,47 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-19 (sessione 10)
+Ultimo aggiornamento: 2026-09-19 (sessione 11)
+
+## Fatto — sessione 11
+
+- **Sanmen 1 (AP1000): settimo disegno dedicato**, stesso metodo. La foto
+  `img/ap1000.jpg` mostra il **cantiere** (edifici bianchi e grigi, gru a
+  torre, il contenimento dell'unità 1 in costruzione sullo sfondo), non
+  l'impianto finito: la forma viene dal progetto AP1000, dalla foto solo
+  il colore della sala turbine (bianca con una fascia scura).
+  - Sito: lo schermo in cemento con il tetto conico, il **grande serbatoio
+    d'acqua ad anello con il camino centrale dell'aria in cima**, le prese
+    d'aria, l'edificio ausiliario addossato, la sala turbine, Sanmen 2
+    schiarito a destra, mare con presa e scarico. Nessuna torre di
+    raffreddamento.
+  - Spaccato: schermo in cemento e guscio d'acciaio con **cupola ellittica**,
+    l'intercapedine con il **flusso d'aria** che sale per tiraggio naturale
+    (dalle prese, giù lungo la parete, su lungo il guscio, fino al camino),
+    la pellicola d'acqua sulla cupola con i tubi di scarico dal serbatoio,
+    la **vasca d'acqua in contenimento (IRWST)** con lo scambiatore
+    passivo a fascio di tubi a C, due serbatoi di compensazione e due
+    accumulatori con azoto, due generatori di vapore con le pompe
+    agganciate al fondo, recipiente con meccanismi delle barre sul
+    coperchio, barre che scendono lungo guide fisse (verificato: le barre
+    coprono l'altezza del nocciolo), gru polare.
+  - 3 pallini nuovi con fumetto (scambiatore passivo, guscio d'acciaio,
+    serbatoio in quota — quest'ultimo nel sito, con `extra`) più testi
+    specifici per nocciolo, generatore, pompa, raffreddamento.
+  - Fonti: guscio d'acciaio Ø 39,6 m, alto 65,6 m, parete di 4,5 cm; schermo
+    in cemento Ø 44,2 m, alto 83,4 m, parete di 0,9 m; 157 elementi di
+    combustibile da 264 barrette, altezza attiva 4,27 m (Westinghouse, AP1000
+    Design Control Document; NRC). Acqua di mare in passaggio unico dal
+    canale di Shefan (Wikipedia, "Sanmen Nuclear Power Station"). Sistemi
+    passivi: due CMT, due accumulatori, scambiatore passivo nella vasca
+    interna (NRC). **Indicativi, non verificati**: il serbatoio in quota
+    "circa 3 000 m³, per 72 ore" (da uno studio di ricerca, non dal DCD);
+    la disposizione interna di IRWST, CMT, accumulatori e scambiatore; il
+    diametro e l'altezza del recipiente; la forma del tetto conico e
+    dell'anello del serbatoio; le altezze di edificio ausiliario e sala
+    turbine; il ritorno dello scambiatore passivo al circuito primario,
+    non disegnato; il tipo di turbina (una di alta e due di bassa
+    pressione, generico).
 
 ## Fatto — sessione 10
 
@@ -313,11 +353,11 @@ Ultimo aggiornamento: 2026-09-19 (sessione 10)
    (Settings → Pages → `main`, `/`) — l'indirizzo dà 404; togliere
    `pubblica/index.html`, obsoleto; aggiungere descrizione per i motori di
    ricerca, anteprima social, icona, licenza. Nessuno è ancora fatto.
-1. **Interfaccia grafica delle centrali**: ridisegnare le altre 3
-   (Sanmen, Beloyarsk, Shidaowan) col metodo usato per Sizewell B, Calder
-   Hall, Chernobyl, Leibstadt, Darlington e Olkiluoto 3 → dettaglio in
-   `sessione 5`–`10` qui sopra. Richiesta diretta dell'utente, in corso. Le
-   3 rimaste hanno ancora i difetti originali (alberi in acqua, metà
+1. **Interfaccia grafica delle centrali**: ridisegnare le altre 2
+   (Beloyarsk, Shidaowan) col metodo usato per Sizewell B, Calder Hall,
+   Chernobyl, Leibstadt, Darlington, Olkiluoto 3 e Sanmen → dettaglio in
+   `sessione 5`–`11` qui sopra. Richiesta diretta dell'utente, in corso. Le
+   2 rimaste hanno ancora i difetti originali (alberi in acqua, metà
    destra vuota, bianco su bianco).
 2. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
    capacità, date, orizzonte di progetto. Fonti: Posiva (Onkalo), DOE/WIPP,
