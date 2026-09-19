@@ -54,8 +54,45 @@ Si procede un elemento alla volta, mostrando il risultato.
   - Verificato nel browser: nessun errore in console, 11 pallini con fumetto
     giusto, zoom e trascinamento, WIPP e Italia funzionano ancora col disegno
     generico.
-- **Da fare in questa richiesta**: WIPP, Deposito Nazionale, poi gli incidenti
-  (TMI, Chernobyl, Fukushima).
+- **WIPP: fatto.** Stessa struttura di Onkalo. (1) La superficie nel deserto
+  in scala reale: camion con i contenitori di trasporto, edificio di
+  movimentazione, torre del pozzo dei rifiuti, pozzi dell'aria e del sale,
+  cumulo del sale scavato, segnali permanenti, arbusti (niente alberi in
+  acqua né acqua). (2) La sezione in scala (0,72 px/m), a 950 m: coperture,
+  Rustler con la Culebra, Salado (sale) con i suoi strati di anidrite, Castile
+  con le sacche di salamoia, quattro pozzi, il livello a 655 m con due sale
+  viste per il lungo, scala di profondità e "due Torri Eiffel". (3) Dentro una
+  sala in scala (18 px/m): a sinistra appena riempita (pile di confezioni da
+  sette fusti in tre strati, scatole standard, sacchi di ossido di magnesio),
+  a destra dopo decenni, con il sale che si è chiuso attorno ai fusti; riquadro
+  con il fusto in sezione e la confezione da sette vista dall'alto. 12 pallini.
+  - Fonti: DOE e EPA (655 m = 2 150 piedi, quattro pozzi, pozzo grande da 20
+    piedi con ascensore da 45 t, otto pannelli da sette sale di 13 x 33 x 300
+    piedi, tredici siti di provenienza); Wikipedia ("Waste Isolation Pilot
+    Plant"); appendice MgO della domanda di certificazione del DOE (sacchi da
+    3 000–4 200 libbre sopra i contenitori); NRC e Beauheim/Holt (Culebra
+    spessa 7–8 m, sopra il deposito; Castile con sacche di salamoia circa 200
+    m sotto il livello del deposito); rapporti sull'incidente del 14 febbraio
+    2014 (sala 7 del pannello 7, fusto con nitrati, assorbente organico e
+    agente neutralizzante; nessun superamento dei limiti di dose).
+  - **Indicativi**: le quote delle formazioni sopra i 655 m e sotto (Rustler
+    100–235 m, Culebra a 200 m, Salado fino a 855 m) — le ho ricavate da
+    memoria e da un solo dato di fonte ("Castile 200 m sotto il deposito"); la
+    posizione dei pozzi tra loro; edifici, cumulo, camion e segnali; la
+    disposizione dei fusti, delle confezioni da sette e delle scatole; **i
+    tempi e il grado di chiusura della sala** ("dopo decenni" viene dalla
+    scheda, non da una fonte); il numero di segnali permanenti (non
+    specificato).
+  - **Da verificare nella scheda**: la barriera "Isolamento idrogeologico"
+    dice "nessuna falda sfruttabile sopra il deposito", ma sopra c'è la
+    Culebra, che è una falda; serve una fonte sulla qualità dell'acqua o
+    una riformulazione. La scheda dice "Il deposito restò chiuso tre anni":
+    il rilascio è del 14 febbraio 2014 e la riapertura di gennaio 2017 (quasi
+    tre anni).
+  - Verificato nel browser: nessun errore in console, 12 pallini con fumetto
+    giusto, zoom e trascinamento.
+- **Da fare in questa richiesta**: Deposito Nazionale, poi gli incidenti (TMI,
+  Chernobyl, Fukushima).
 
 ## Fatto — sessione 13
 

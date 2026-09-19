@@ -933,7 +933,16 @@ const DEPOSITI = [
     {n:'Sale che si richiude',d:'La roccia stessa è la barriera attiva: scorre lentamente e ingloba i fusti fino a sigillarli.'},
     {n:'Isolamento idrogeologico',d:'Nessuna falda sfruttabile sopra il deposito e nessun percorso rapido verso la superficie.'},
     {n:'Marcatura permanente',d:'Sistemi di segnalazione progettati per restare comprensibili per 10 000 anni, in qualunque lingua.'}
-  ]
+  ],
+  fumetti:{
+    camion:{t:'Contenitori di trasporto',d:'I rifiuti arrivano su camion, dentro contenitori di trasporto omologati, da tredici siti del Dipartimento dell\'Energia sparsi negli Stati Uniti. Prima di scendere, ogni contenitore viene controllato a vista.',p:'Nel disegno ne stanno tre sul rimorchio: numero e forma sono indicativi.'},
+    pozzo:{t:'Il pozzo dei rifiuti',d:'È il più grande dei quattro pozzi, largo circa 6 m (20 piedi): serve a personale, attrezzature e rifiuti, con un ascensore da 45 tonnellate che li porta giù fino a 655 m. Gli altri tre pozzi sono per il sale scavato, per l\'aria che entra e per quella che esce.'},
+    salecumulo:{t:'Il cumulo di sale',d:'Scavare le sale produce sale in quantità. Viene portato in superficie dal suo pozzo e resta accumulato accanto all\'impianto. Forma e dimensioni nel disegno sono indicative.'},
+    culebra:{t:'La falda della Culebra',d:'Lo strato d\'acqua più vicino al deposito è la Culebra, una dolomia spessa solo 7–8 m dentro la formazione Rustler, molto più in alto delle sale. Fra la falda e le sale c\'è sale, che l\'acqua non attraversa. Le quote delle formazioni sopra il deposito sono indicative.'},
+    castile:{t:'Salamoia sotto il deposito',d:'Circa 200 m sotto il livello delle sale la formazione Castile ha sacche di salamoia in pressione, scoperte durante le perforazioni esplorative. Il deposito è scavato nel Salado, sopra di esse. Nel disegno la loro posizione è d\'esempio.'},
+    mgo:{t:'Sacchi di ossido di magnesio',d:'Sopra i contenitori si mettono grandi sacchi di ossido di magnesio, ognuno oltre una tonnellata. Sono una barriera chimica: se in futuro entrasse salamoia, assorbono l\'anidride carbonica prodotta dai microbi che digeriscono la materia organica dei rifiuti (carta, plastica, gomma) e tengono bassa la solubilità del plutonio e degli altri attinidi.'},
+    incidente:{t:'Il 14 febbraio 2014',d:'Nella sala 7 del pannello 7 un fusto si aprì per una reazione chimica interna: conteneva residui di nitrati, un assorbente organico (una lettiera per gatti a base di grano) e un agente neutralizzante. Un rilascio di plutonio e americio raggiunse l\'ambiente e la ventilazione passò da sola ai filtri. Il deposito restò chiuso fino a gennaio 2017.',p:'I limiti di dose per lavoratori e pubblico non furono superati. Fu un errore di procedura, non di geologia.'}
+  }
 },
 {
   id:'italia', paeseCod:'IT', lat:42.5, lon:12.5, nome:'Deposito Nazionale', paese:'Italia', dove:'sito non ancora scelto',
@@ -5725,6 +5734,265 @@ function disegnaOnkalo(g,d){
   return {altezza:Y3+H3+12, punti};
 }
 DEP_DISEGNI.onkalo=disegnaOnkalo;
+
+/* ---------------------------------------------------------------
+   WIPP — Waste Isolation Pilot Plant, presso Carlsbad, Nuovo Messico.
+   Stessa struttura di Onkalo, tre fasce:
+   1. la superficie nel deserto, in scala reale (1 m = 2,6 px);
+   2. la sezione verticale, in scala (1 m = 0,72 px): sale, falda e
+      salamoia con la loro posizione, quattro pozzi, il livello dei rifiuti;
+   3. dentro una sala di deposito, in scala (1 m = 18 px): a sinistra
+      appena riempita, a destra dopo decenni, con il sale che si è chiuso.
+   Fonti (DOE, EPA, Wikipedia, NRC): deposito a 2 150 piedi (≈ 655 m) in un
+   banco di salgemma del Salado; quattro pozzi (uno da 20 piedi per
+   personale, attrezzature e rifiuti con ascensore da 45 t; uno per il sale;
+   uno per l'aria in ingresso, uno per l'uscita); pannelli da 7 sale, sala
+   di 13 x 33 x 300 piedi (≈ 4 x 10 x 91 m) con pilastri di sale di 100
+   piedi; grandi sacchi di ossido di magnesio (1 400–1 900 kg) sopra i
+   contenitori; la Culebra (Rustler) è la falda principale sopra il deposito
+   e spessa 7–8 m; la Castile, con sacche di salamoia in pressione, comincia
+   circa 200 m sotto il livello del deposito; rifiuti da tredici siti del
+   DOE; incidente del 14 febbraio 2014 nella sala 7 del pannello 7 (fusto con
+   nitrati, assorbente organico e agente neutralizzante), riapertura a gennaio
+   2017. Indicativi: quote delle formazioni sopra i 655 m e sotto, posizione
+   dei pozzi tra loro, edifici, cumulo di sale, camion, segnali, disposizione
+   e dimensioni di fusti, confezioni da sette e scatole nella sala, tempi e
+   grado di chiusura della sala.
+   --------------------------------------------------------------- */
+function disegnaWipp(g,d){
+  const add=x=>{g.appendChild(x);return x;};
+  const punti=[];
+  const pt=(x,y,n,chiave)=>punti.push({x,y,n,chiave});
+  const cls='#D9DDDF', clsL='#96A0A6', scuro='#B8BEC2';
+  const sale='#EFEAF4', saleL='#B9B1CC';
+  const comp={fill:'#BFE3F5',stroke:'#0B2440','stroke-width':1.6};
+  const arbusto=(x,s)=>{ const a=el('g',{}); a.appendChild(el('ellipse',{cx:x,cy:SU+2,rx:9*s,ry:5*s,fill:'#8C9A6B'})); a.appendChild(el('ellipse',{cx:x+5*s,cy:SU+3,rx:6*s,ry:3.6*s,fill:'#7A895B'})); return a; };
+
+  /* ============ FASCIA 1 · la superficie nel deserto, in scala reale ============ */
+  const SU=160;
+  add(el('rect',{x:0,y:0,width:1200,height:SU+30,fill:'url(#d-cielo)'}));
+  add(nuvola(240,50,1,0)); add(nuvola(880,34,.8,12));
+  add(collina(SU,40,'#DCCDA8',0)); add(collina(SU,22,'#CDBA90',220));
+  add(testo(6,16,'in superficie, in scala reale · deserto del Chihuahua, presso Carlsbad','etichetta sec'));
+  add(el('rect',{x:0,y:SU,width:1200,height:30,fill:'url(#d-terra)'}));
+  add(el('rect',{x:0,y:SU,width:1200,height:5,fill:'#C9B98A'}));
+  add(el('rect',{x:20,y:SU,width:220,height:4,fill:'#6B6F73'}));
+  [12,268,614,668,930,976,1132,1170].forEach((x,i)=>add(arbusto(x,.9+(i%3)*.2)));
+
+  /* camion con i contenitori di trasporto */
+  const cam=el('g',{});
+  cam.appendChild(el('rect',{x:60,y:SU-m(1.6),width:98,height:m(.7),fill:'#5A6360'}));
+  [70,100,130].forEach(x=>cam.appendChild(el('rect',{x,y:SU-m(1.6)-m(2.6),width:24,height:m(2.6),rx:5,fill:'#E4E8E6',stroke:'#5A6360','stroke-width':1.3})));
+  cam.appendChild(el('rect',{x:160,y:SU-m(3.4),width:24,height:m(3.4)-m(.5),rx:2,fill:'#B23A2A',stroke:'#5A2018','stroke-width':1.2}));
+  [72,90,126,150,172].forEach(x=>cam.appendChild(el('circle',{cx:x,cy:SU-2,r:4.5,fill:'#2A3038'})));
+  add(cam);
+  add(conTitolo(cam,'Camion con i contenitori di trasporto: sul rimorchio ce ne stanno tre. Disegno indicativo.'));
+
+  /* edificio di movimentazione e pozzo dei rifiuti */
+  const mov=el('g',{});
+  mov.appendChild(el('rect',{x:250,y:SU-m(14),width:220,height:m(14),fill:cls,stroke:clsL,'stroke-width':1.8}));
+  mov.appendChild(el('rect',{x:330,y:SU-m(20),width:90,height:m(6),fill:scuro,stroke:clsL,'stroke-width':1.6}));
+  for(let y=SU-m(14)+m(5);y<SU-4;y+=m(5)) mov.appendChild(el('line',{x1:252,y1:y,x2:468,y2:y,stroke:'#C3C9CC','stroke-width':.8}));
+  add(mov);
+  add(conTitolo(mov,'Edificio di ricezione e movimentazione dei rifiuti: qui i contenitori vengono scaricati, controllati e preparati per scendere. Dimensioni indicative.'));
+  const tel=el('g',{});
+  tel.appendChild(el('path',{d:`M472 ${SU} L472 ${SU-m(32)} L496 ${SU-m(32)} L496 ${SU} M472 ${SU} L496 ${SU-m(16)} L472 ${SU-m(32)} M496 ${SU} L472 ${SU-m(16)} L496 ${SU-m(32)}`,fill:'none',stroke:'#4A5560','stroke-width':1.5}));
+  tel.appendChild(el('rect',{x:470,y:SU-m(34),width:28,height:m(2.4),fill:scuro,stroke:clsL,'stroke-width':1.2}));
+  add(tel);
+  add(conTitolo(tel,'Torre del pozzo dei rifiuti: l\'ascensore che li porta giù. Altezza indicativa.'));
+
+  /* pozzi dell'aria e del sale */
+  const aria=el('g',{});
+  aria.appendChild(el('rect',{x:520,y:SU-m(7),width:22,height:m(7),fill:cls,stroke:clsL,'stroke-width':1.4}));
+  add(aria); add(conTitolo(aria,'Pozzo dell\'aria in ingresso.'));
+  const usc=el('g',{});
+  usc.appendChild(el('rect',{x:556,y:SU-m(9),width:40,height:m(9),fill:cls,stroke:clsL,'stroke-width':1.4}));
+  usc.appendChild(el('rect',{x:602,y:SU-m(22),width:9,height:m(22),fill:scuro,stroke:clsL,'stroke-width':1.4}));
+  add(usc); add(conTitolo(usc,'Pozzo dell\'aria in uscita, con il suo camino e i filtri.'));
+  const ps=el('g',{});
+  ps.appendChild(el('path',{d:`M628 ${SU} L628 ${SU-m(24)} L650 ${SU-m(24)} L650 ${SU} M628 ${SU} L650 ${SU-m(12)} L628 ${SU-m(24)} M650 ${SU} L628 ${SU-m(12)} L650 ${SU-m(24)}`,fill:'none',stroke:'#4A5560','stroke-width':1.4}));
+  add(ps); add(conTitolo(ps,'Torre del pozzo del sale: il sale scavato sale da qui.'));
+
+  /* cumulo del sale scavato */
+  const cum=el('g',{});
+  cum.appendChild(el('path',{d:`M690 ${SU} L742 ${SU-m(19)} L862 ${SU-m(19)} L926 ${SU} Z`,fill:'#F3F1EE',stroke:'#B9B4AC','stroke-width':1.4}));
+  for(let i=0;i<9;i++) cum.appendChild(el('path',{d:`M${716+i*20} ${SU-6} L${748+i*13} ${SU-m(19)+4}`,fill:'none',stroke:'#DAD6D0','stroke-width':1}));
+  add(cum);
+  add(conTitolo(cum,'Cumulo del sale scavato: dimensioni indicative.'));
+
+  /* segnali permanenti */
+  const seg=el('g',{});
+  [1010,1042,1074,1106].forEach((x,i)=>seg.appendChild(el('path',{d:`M${x} ${SU} L${x} ${SU-m(7)} L${x+7} ${SU-m(8)} L${x+13} ${SU-m(7)} L${x+13} ${SU} Z`,fill:'#B7B2A8',stroke:'#7A756B','stroke-width':1.3})));
+  add(seg);
+  add(conTitolo(seg,'Segnali permanenti: pilastri di pietra che dovranno restare comprensibili per 10 000 anni. Numero e altezza indicativi.'));
+
+  add(el('path',{d:`M20 ${SU+18} L20 ${SU+24} L${20+m(50)} ${SU+24} L${20+m(50)} ${SU+18}`,fill:'none',stroke:'#1C2321','stroke-width':1.4}));
+  add(testo(20+m(25),SU+16,'50 m','etichetta sec','middle'));
+  add(testo(360,SU-m(20)-8,'movimentazione dei rifiuti','etichetta','middle'));
+  add(testo(810,SU-m(19)-8,'cumulo del sale scavato','etichetta','middle'));
+  add(testo(1058,SU-m(8)-8,'segnali permanenti','etichetta','middle'));
+  add(dett(
+    testo(109,SU-m(4.5)-10,'camion con i contenitori','etichetta sec','middle'),
+    testo(484,SU-m(34)-8,'pozzo dei rifiuti','etichetta sec','middle'),
+    testo(531,SU-m(7)-8,'aria in ingresso','etichetta sec','middle'),
+    testo(580,SU-m(22)-8,'aria in uscita','etichetta sec','middle'),
+    testo(639,SU-m(24)-8,'pozzo del sale','etichetta sec','middle')
+  ));
+  pt(109,SU-m(4.5)-18,6,'camion');
+  pt(483,SU-m(16),7,'pozzo');
+  pt(790,SU-m(9),8,'salecumulo');
+  pt(1058,SU-m(3.6),5,'b4');
+
+  /* ============ FASCIA 2 · la sezione, in scala 1 m = 0,72 px ============ */
+  const K2=.72, Y0=SU+58, Z=dp=>Y0+dp*K2, PROF=950;
+  add(el('rect',{x:0,y:SU+30,width:1200,height:Y0-(SU+30),fill:'#EEF2F5'}));
+  add(el('line',{x1:0,y1:SU+30,x2:1200,y2:SU+30,stroke:'#C7CBCF','stroke-width':1}));
+  add(testo(6,SU+46,'la sezione, in scala · profondità vera, 1 m = 0,72 px','etichetta sec'));
+  add(el('rect',{x:0,y:Y0-24,width:1200,height:24,fill:'url(#d-cielo)'}));
+  const x2=x1=>460+(x1-250)*.277;
+  [[250,220,14],[330,90,20],[472,24,34],[520,22,7],[556,40,9],[602,9,22],[628,22,24],[690,236,19]].forEach(([x1,w1,hm])=>
+    add(el('rect',{x:x2(x1),y:Y0-hm*K2,width:w1*.277,height:hm*K2,fill:cls,stroke:clsL,'stroke-width':.8})));
+  /* strati */
+  const strato=(da,a,col,nome)=>add(el('rect',{x:0,y:Z(da),width:1200,height:Z(a)-Z(da),fill:col}));
+  strato(0,100,'#C8B183'); strato(100,235,'#B9A98E'); strato(235,855,sale); strato(855,PROF,'#D9D2C2');
+  strato(200,207.5,'#8FC1D9');
+  [[640,'#8C7A5E'],[668,'#8C7A5E'],[420,'#B7A98C'],[520,'#B7A98C'],[330,'#B7A98C']].forEach(([dp,c])=>add(el('rect',{x:0,y:Z(dp),width:1200,height:2,fill:c,opacity:'.75'})));
+  [235,855,100].forEach(dp=>add(el('line',{x1:0,y1:Z(dp),x2:1200,y2:Z(dp),stroke:'rgba(11,36,64,.2)','stroke-width':1.3})));
+  /* sacche di salamoia sotto il deposito */
+  [[880,'',880,905],[930,'',930,942]].forEach(([cx,,a,b])=>add(el('ellipse',{cx:cx,cy:Z((a+b)/2),rx:36,ry:(Z(b)-Z(a))/2,fill:'#7FB6D8',stroke:'#2E8FA8','stroke-width':1.2})));
+  add(el('rect',{x:0,y:Y0,width:1200,height:3,fill:'#C9B98A'}));
+  [100,200,300,400,500,600,700,800,900].forEach(dp=>add(el('line',{x1:0,y1:Z(dp),x2:1200,y2:Z(dp),stroke:'rgba(255,255,255,.35)','stroke-width':1,'stroke-dasharray':'3 5'})));
+
+  /* quattro pozzi */
+  const yR=Z(655);
+  const pozziV=el('g',{});
+  [[521,5],[533,3],[548,3],[562,3]].forEach(([x,w])=>pozziV.appendChild(el('rect',{x:x-w/2,y:Y0,width:w,height:yR-Y0,...comp,'stroke-width':1})));
+  add(pozziV);
+  add(conTitolo(pozziV,'Quattro pozzi verticali: rifiuti e personale, sale, aria in ingresso, aria in uscita. La loro posizione reciproca è indicativa.'));
+
+  /* il livello dei rifiuti: galleria principale e due sale, viste per il lungo */
+  const liv=el('g',{});
+  liv.appendChild(el('rect',{x:430,y:yR-2,width:250,height:4,fill:'#2A3038'}));
+  liv.appendChild(el('rect',{x:364,y:yR-2.5,width:66,height:5,fill:'#5A4E7A'}));
+  liv.appendChild(el('rect',{x:680,y:yR-2.5,width:66,height:5,fill:'#5A4E7A'}));
+  add(liv);
+  add(conTitolo(liv,'Il livello dei rifiuti, a 655 m: la galleria principale con i pozzi e, ai lati, le sale di deposito. La sezione ne taglia una per il lungo su ogni lato; le altre stanno davanti e dietro. Ogni sala è lunga circa 91 m, larga 10 e alta 4.'));
+
+  const Y3=Z(PROF)+34, H3=430, cxR=713;
+  add(el('rect',{x:cxR-38,y:yR-14,width:76,height:28,fill:'none',stroke:'#2F6BFF','stroke-width':1.6,'stroke-dasharray':'5 4'}));
+  add(el('line',{x1:cxR,y1:yR+16,x2:600,y2:Y3-4,stroke:'#2F6BFF','stroke-width':1.2,'stroke-dasharray':'4 4',opacity:'.75'}));
+
+  /* scala della profondità */
+  const RX=1150;
+  add(el('line',{x1:RX,y1:Y0,x2:RX,y2:Z(900),stroke:'#1C2321','stroke-width':1.2}));
+  [0,100,200,300,400,500,600,700,800,900].forEach(dp=>{
+    add(el('line',{x1:RX-5,y1:Z(dp),x2:RX+5,y2:Z(dp),stroke:'#1C2321','stroke-width':1.4}));
+    add(testo(RX-9,Z(dp)+3.5,dp+' m','etichetta sec','end'));
+  });
+  add(el('line',{x1:RX-12,y1:Z(655),x2:RX+5,y2:Z(655),stroke:'#B23A2A','stroke-width':2}));
+  add(testo(RX-62,Z(655)-6,'deposito: 655 m, circa due Torri Eiffel','etichetta sec','end'));
+
+  /* etichette degli strati e della sezione */
+  add(testo(14,Z(50)+3,'coperture sedimentarie','etichetta sec'));
+  add(testo(14,Z(150)+3,'formazione Rustler','etichetta sec'));
+  add(testo(14,Z(500)+3,'Salado · sale depositato 250 milioni di anni fa','etichetta sec'));
+  add(testo(14,Z(900)+3,'Castile','etichetta sec'));
+  add(dett(
+    testo(300,Z(203)+3,'falda della Culebra, spessa 7–8 m','etichetta sec'),
+    testo(930,Z(892)+3,'salamoia in pressione','etichetta sec'),
+    testo(600,Z(655)+30,'sale di deposito · viste per il lungo','etichetta sec','middle')
+  ));
+  pt(880,Z(204),9,'culebra');
+  pt(880,Z(892),10,'castile');
+  pt(720,Z(430),4,'b3');
+  pt(397,Z(655)-22,12,'incidente');
+
+  /* ============ FASCIA 3 · dentro una sala di deposito, 1 m = 18 px ============ */
+  const S3=18;
+  add(el('rect',{x:30,y:Y3,width:1140,height:H3,rx:6,fill:'#E3E5E7',stroke:'#C7CBCF','stroke-width':1.5}));
+  add(testo(42,Y3+20,'DENTRO UNA SALA DI DEPOSITO · sezione lungo la sala, in scala · a sinistra appena riempita, a destra dopo decenni','etichetta'));
+  const bx0=46, bx1=1154, by0=Y3+34, roofY=Y3+96, floorY=roofY+4*S3, by1=Y3+H3-14;
+  add(el('rect',{x:bx0,y:by0,width:bx1-bx0,height:by1-by0,fill:sale,stroke:saleL,'stroke-width':1.2}));
+  for(let i=0;i<5;i++) add(el('path',{d:`M${bx0} ${floorY+30+i*40} q90 -6 180 0 t180 0 t180 0 t180 0 t180 0 t228 0`,fill:'none',stroke:'rgba(90,78,122,.16)','stroke-width':1.1}));
+  for(let i=0;i<2;i++) add(el('path',{d:`M${bx0} ${by0+8+i*18} q90 -6 180 0 t180 0 t180 0 t180 0 t180 0 t228 0`,fill:'none',stroke:'rgba(90,78,122,.16)','stroke-width':1.1}));
+  add(el('rect',{x:bx0,y:floorY+96,width:bx1-bx0,height:3,fill:'#8C7A5E',opacity:'.7'}));
+  add(el('rect',{x:bx0,y:by0+3,width:bx1-bx0,height:3,fill:'#8C7A5E',opacity:'.7'}));
+  const roofC=roofY+24, floorC=floorY-6;
+  const sala=el('path',{d:`M${bx0} ${roofY} L560 ${roofY} C640 ${roofY} 660 ${roofC} 720 ${roofC} L${bx1} ${roofC} L${bx1} ${floorC} L720 ${floorC} C660 ${floorC} 640 ${floorY} 560 ${floorY} L${bx0} ${floorY} Z`,fill:'#E3E5E7',stroke:saleL,'stroke-width':1.6});
+  add(sala);
+  add(conTitolo(sala,'Sala di deposito: scavata nel sale, alta circa 4 m, larga 10 e lunga 91. A sinistra com\'è quando viene riempita; a destra, dopo decenni, il sale si è mosso da solo e l\'ha chiusa attorno ai fusti.'));
+
+  /* a sinistra: pile di confezioni da sette fusti, tre strati, con un sacco di ossido di magnesio sopra */
+  const pila=(x,alto,strato,bag,scatola)=>{
+    const p=el('g',{});
+    const w=scatola?36:30, h=scatola?alto*1.15:alto;
+    for(let k=0;k<3;k++){
+      if(scatola && k===2) break;
+      p.appendChild(el('rect',{x,y:floorY-(k+1)*(scatola?h:alto)-0,width:w,height:scatola?h:alto,rx:2,...comp,'stroke-width':1.1}));
+      if(!scatola){ p.appendChild(el('line',{x1:x+w/3,y1:floorY-(k+1)*alto,x2:x+w/3,y2:floorY-k*alto,stroke:'#5A7590','stroke-width':.6}));
+        p.appendChild(el('line',{x1:x+2*w/3,y1:floorY-(k+1)*alto,x2:x+2*w/3,y2:floorY-k*alto,stroke:'#5A7590','stroke-width':.6})); }
+    }
+    const n=scatola?2:3, tot=n*(scatola?h:alto);
+    p.appendChild(el('rect',{x:x+1,y:floorY-tot-bag,width:w-2,height:bag,rx:3,fill:'#F3EBD8',stroke:'#A89970','stroke-width':1}));
+    return p;
+  };
+  const pilaSx=[];
+  for(let x=64,i=0;x<560;x+=35,i++){ const s=pila(x,15,3,9,i===4||i===9); add(s); pilaSx.push(x); }
+  /* a destra: le stesse pile schiacciate dal sale */
+  for(let x=744,i=0;x<1140;x+=34,i++){ const s=pila(x,8,3,6,false); add(s); }
+
+  /* frecce del sale che scorre */
+  const fr=(x,y,dir)=>add(el('path',{d:`M${x} ${y} L${x} ${y+dir*14} M${x-6} ${y+dir*8} L${x} ${y+dir*14} L${x+6} ${y+dir*8}`,fill:'none',stroke:'#B23A2A','stroke-width':2.2}));
+  fr(640,roofY-20,1); fr(640,floorY+20,-1); fr(680,roofY-16,1); fr(680,floorY+16,-1);
+  add(el('line',{x1:650,y1:by0-2,x2:650,y2:by1,stroke:'#2F6BFF','stroke-width':1,'stroke-dasharray':'4 4',opacity:'.6'}));
+  add(testo(300,by0+16,'subito dopo il riempimento','etichetta','middle'));
+  add(testo(900,by0+16,'dopo decenni','etichetta','middle'));
+  add(testo(650,by0+16,'tempo →','etichetta sec','middle'));
+
+  /* quota */
+  add(el('path',{d:`M76 ${roofY} L76 ${floorY} M71 ${roofY} L81 ${roofY} M71 ${floorY} L81 ${floorY}`,fill:'none',stroke:'#1C2321','stroke-width':1.2}));
+  add(testo(84,(roofY+floorY)/2+4,'4 m','etichetta sec'));
+
+  /* riquadro: il collo di fusti, in sezione e dall'alto */
+  const rx=60, ry=floorY+22, rw=360, rh=by1-ry-10, dc=rx+70, dy0=ry+56;
+  add(el('rect',{x:rx,y:ry,width:rw,height:rh,rx:6,fill:'rgba(255,255,255,.94)',stroke:'#1B5FA8','stroke-width':1.5}));
+  add(testo(rx+rw/2,ry+16,'IL FUSTO E LA CONFEZIONE DA SETTE','etichetta sec','middle'));
+  /* fusto in sezione: 0,57 x 0,88 m a 80 px/m */
+  add(el('rect',{x:dc-23,y:dy0,width:46,height:70,rx:4,fill:'#E9EFF1',stroke:'#3C4650','stroke-width':2}));
+  add(el('rect',{x:dc-19,y:dy0+5,width:38,height:60,rx:2,fill:'#F7F2E6',stroke:'#A89970','stroke-width':1}));
+  add(el('path',{d:`M${dc-15} ${dy0+16} q4 -8 8 0 t8 0 M${dc-14} ${dy0+30} l10 -6 l4 4 l10 -4 M${dc-13} ${dy0+46} l8 0 l0 8 l-8 0 Z M${dc+2} ${dy0+42} q6 -6 12 0 q0 8 -6 10 q-6 -2 -6 -10 Z`,fill:'none',stroke:'#7A756B','stroke-width':1.3}));
+  add(testo(dc,dy0+104,'un fusto, in sezione','etichetta sec','middle'));
+  add(testo(dc,dy0+116,'guanti, attrezzi, stracci','etichetta sec','middle'));
+  /* confezione da sette, vista dall'alto */
+  const c7x=rx+250, c7y=ry+92, rr=17;
+  [[0,0],[1,0],[.5,.866],[-.5,.866],[-1,0],[-.5,-.866],[.5,-.866]].forEach(([a,b])=>
+    add(el('circle',{cx:c7x+a*rr*2.05,cy:c7y+b*rr*2.05,r:rr,fill:'#E9EFF1',stroke:'#3C4650','stroke-width':1.6})));
+  add(el('circle',{cx:c7x,cy:c7y,r:rr*3.15,fill:'none',stroke:'#5A7590','stroke-width':1.6,'stroke-dasharray':'4 3'}));
+  add(testo(c7x,ry+160,'sette fusti insieme','etichetta sec','middle'));
+  add(testo(c7x,ry+172,'vista dall\'alto','etichetta sec','middle'));
+
+  /* etichette con linee guida */
+  const guida=(tx,ty,lx,ly,txt,anch)=>{
+    add(el('line',{x1:tx,y1:ty,x2:lx,y2:ly,stroke:'#5A7590','stroke-width':.9,'stroke-dasharray':'3 3'}));
+    add(el('circle',{cx:tx,cy:ty,r:2.2,fill:'#5A7590'}));
+    add(testo(lx+(anch==='end'?-5:5),ly+3.5,txt,'etichetta sec',anch||'start'));
+  };
+  guida(230,floorY-36,270,roofY-16,'pila di confezioni da sette fusti');
+  guida(365,floorY-45,405,roofY-30,'sacco di ossido di magnesio');
+  guida(pilaSx[4]+18,floorY-16,100,roofY-30,'scatola standard per rifiuti');
+  add(testo(bx1-8,floorY+16,'sale','etichetta sec','end'));
+  add(testo(bx1-8,roofY-10,'sala: 10 m di larghezza, 91 m di lunghezza','etichetta sec','end'));
+  add(testo(700,floorY+70,'i fusti restano inglobati nel sale','etichetta sec','middle'));
+
+  /* pallini: le barriere portano il numero della scheda "Barriera n" */
+  pt(dc,dy0+34,1,'b0');
+  pt(pilaSx[6]+15,floorY-24,2,'b1');
+  pt(610,roofY+38,3,'b2');
+  pt(pilaSx[10]+15,floorY-57,11,'mgo');
+
+  return {altezza:Y3+H3+12, punti};
+}
+DEP_DISEGNI.wipp=disegnaWipp;
 
 function selezionaDeposito(id){
   depCorrente=DEPOSITI.find(d=>d.id===id);
