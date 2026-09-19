@@ -3,7 +3,50 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-17 (sessione 7)
+Ultimo aggiornamento: 2026-09-19 (sessione 8)
+
+## Fatto — sessione 8
+
+- **Leibstadt (BWR): quarto disegno dedicato**, stesso metodo. Vista dal
+  Reno, foto `img/bwr.jpg` come riferimento.
+  - **Correzione di merito**: il disegno generico rappresentava Leibstadt
+    con raffreddamento a fiume; la centrale ha invece una **grande torre di
+    raffreddamento** (144 m, Ø 120 m alla base), con il Reno usato solo per
+    il reintegro (≈ 1 000 L/s, un millesimo della portata). `scena.raffreddamento`
+    passa da `'fiume'` a `'torre'`. Nessuna affermazione del sito diceva il
+    contrario (la scheda dice solo "sul Reno"), ma il disegno sì.
+  - Sito: torre, cupola bianca con basamento basso, camino rosso e bianco
+    di 99 m, sala macchine con turbogruppo, gallerie sotterranee dell'acqua
+    verso la torre e presa di reintegro dal Reno, Reno in primo piano.
+  - Spaccato: edificio in calcestruzzo (pareti 1,2 m) con cupola; dentro,
+    il contenimento in acciaio (guscio 3,8 cm), il drywell in cemento, la
+    **piscina di soppressione** attorno, recipiente in pressione con
+    separatori e asciugatori sopra il nocciolo, **barre di controllo che
+    partono a riposo sotto il nocciolo e lo SCRAM spinge in su** (verificato:
+    `translateY(-33.3px)`, le barre attraversano il nocciolo), pompa di
+    ricircolo, cavità e ponte di ricarica, gru polare, piscina del
+    combustibile nell'edificio ausiliario. Etichette in una colonna a destra
+    con linee guida — necessario perché dentro il drywell non c'è spazio.
+  - 3 pallini nuovi con fumetto (pompa di ricircolo, piscina di
+    soppressione, separatori e asciugatori) più nocciolo/barre; il fumetto
+    delle barre e quello del raffreddamento hanno testo specifico.
+  - Fonti: KKL (kkl.ch): torre 144 m e Ø 120 m, camino 99 m, pareti 1,2 m,
+    recipiente 600 t con acciaio da 15 cm, 648 elementi di combustibile,
+    prelievo dal Reno. Altezza dell'edificio 58,6 m: Wikipedia. **Da
+    riverificare su fonte migliore**: recipiente ≈ 6 m x 22 m e piscina di
+    soppressione ≈ 4 000 m³ (fonte secondaria, non l'operatore) — il
+    diametro della cupola è dedotto dalla foto. Segnati come indicativi
+    nel disegno.
+  - Il PDF "Technical Description" di KKL contiene con ogni probabilità le
+    quote ufficiali del contenimento, ma non si riesce a leggere da qui:
+    manca poppler. Un controllo a mano vale la pena.
+- **Bug corretto in Calder Hall**: le torri di raffreddamento erano
+  asimmetriche (punto di controllo sbagliato sul lato destro del profilo).
+  Ora c'è una funzione condivisa `profiloTorre()`, usata anche da Leibstadt.
+- **Verificato che il sito online non esiste ancora**: l'indirizzo GitHub
+  Pages risponde 404 (Pages non attivo). `pubblica/index.html` è obsoleto:
+  non contiene nessuno dei disegni nuovi. Da sistemare prima della
+  pubblicazione — vedi "Da fare".
 
 ## Fatto — sessione 7
 
@@ -184,11 +227,16 @@ Ultimo aggiornamento: 2026-09-17 (sessione 7)
 
 ## Da fare, in ordine
 
-1. **Interfaccia grafica delle centrali**: ridisegnare le altre 6 (Leibstadt,
-   Darlington, Olkiluoto 3, Sanmen, Beloyarsk, Shidaowan) col metodo usato
-   per Sizewell B, Calder Hall e Chernobyl → dettaglio in `sessione 5`,
-   `sessione 6` e `sessione 7` qui sopra. Richiesta diretta dell'utente, in
-   corso.
+0. **Prima di pubblicare** (verificato il 2026-09-19): attivare GitHub Pages
+   (Settings → Pages → `main`, `/`) — l'indirizzo dà 404; togliere
+   `pubblica/index.html`, obsoleto; aggiungere descrizione per i motori di
+   ricerca, anteprima social, icona, licenza. Nessuno è ancora fatto.
+1. **Interfaccia grafica delle centrali**: ridisegnare le altre 5
+   (Darlington, Olkiluoto 3, Sanmen, Beloyarsk, Shidaowan) col metodo usato
+   per Sizewell B, Calder Hall, Chernobyl e Leibstadt → dettaglio in
+   `sessione 5`–`8` qui sopra. Richiesta diretta dell'utente, in corso. Le
+   5 rimaste hanno ancora i difetti originali (alberi in acqua, metà
+   destra vuota, bianco su bianco).
 2. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
    capacità, date, orizzonte di progetto. Fonti: Posiva (Onkalo), DOE/WIPP,
    ISIN/Sogin (Deposito Nazionale).
