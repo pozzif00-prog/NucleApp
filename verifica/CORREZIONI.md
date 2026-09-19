@@ -16,6 +16,11 @@ Per annullare una correzione basta rimettere il valore della colonna "prima".
 | 4 | Sanmen 1 | potenza netta | ≈ 1 100 MW | ≈ 1 150 MW | fonte: 1157 MWe (scarto 5 %) |
 | 5 | Olkiluoto 3 | potenza netta | 1 600 MW | ≈ 1 575 MW | era dichiarata come valore esatto |
 | 6 | Sizewell B | fattore di capacità | ≈ 85–90 % | ≈ 84 % | lifetime load factor ≈ 84 %; aggiunta la definizione, che mancava |
+| 7 | HTR-PM | fumetto del nocciolo | "Non ci sono barre né assemblaggi: 400 000 sfere di grafite …" e "Ogni sfera contiene 12 000 granelli" | "Niente assemblaggi di combustibile: un cilindro alto circa 11 m e largo 3 m riempito di sfere …" e "circa 12 000 granelli" | le barre di regolazione ci sono: scorrono nei canali del riflettore laterale (24), non tra le sfere; il numero dei granelli varia da sfera a sfera (10 000–20 000 secondo GRS, 12 000 secondo POWER) |
+
+Correzione 7 (2026-09-19, sessione 13, con il ridisegno di Shidaowan): il testo
+precedente stava nella riga `fumetti:{nocciolo:…}` della scheda `htrpm` in
+`index.html`; ora c'è anche un fumetto proprio per le barre.
 
 Correzione 4: aggiornato anche il paragone, da "1,8 milioni di persone" a
 "1,9 milioni".

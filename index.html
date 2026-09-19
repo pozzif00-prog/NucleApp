@@ -869,7 +869,16 @@ const REATTORI = [
     precedente:'Nel 2024 il test è stato fatto sul serio: raffreddamento attivo staccato su entrambi i reattori in funzione, nessun intervento. Il nocciolo si è spento e raffreddato da solo. È la differenza tra affermare che un reattore è sicuro e dimostrarlo su un impianto in esercizio.'
   },
   scena:{loops:2,gas:true,core:'sfere',contenimento:true,raffreddamento:'mare',etichetteLoop:['Elio 750 °C','Elio 250 °C']},
-  fumetti:{nocciolo:{t:'Nocciolo a letto di sfere',d:'Non ci sono barre né assemblaggi: 400 000 sfere di grafite grandi come palline da tennis, che scendono lentamente per gravità mentre l\'elio le attraversa.',p:'Ogni sfera contiene 12 000 granelli di uranio, ciascuno chiuso in quattro gusci ceramici. Il contenimento è microscopico e moltiplicato per miliardi.'}}
+  fumetti:{
+    nocciolo:{t:'Nocciolo a letto di sfere',d:'Niente assemblaggi di combustibile: un cilindro alto circa 11 m e largo 3 m riempito di sfere di grafite grandi come palline da tennis, che scendono lentamente per gravità mentre l\'elio le attraversa. Nel disegno le sfere sono molto più grandi del vero.',p:'Ogni sfera contiene circa 12 000 granelli di uranio, ciascuno chiuso in quattro gusci ceramici. Il contenimento è microscopico e moltiplicato per miliardi.'},
+    barre:{t:'Barre di regolazione',d:'Non entrano tra le sfere: scorrono in canali scavati nel riflettore di grafite che circonda il nocciolo, ai lati (24 in tutto). Quando cadono assorbono i neutroni dal bordo e fermano la reazione. Un secondo sistema di arresto usa sferette assorbenti che cadono per gravità in altri canali del riflettore.',p:'La prima difesa, però, non è una barra: se il nocciolo si scalda, la fisica dell\'uranio riduce da sola la reazione.'},
+    sfere:{t:'Ricarica a reattore acceso',d:'Dal fondo del nocciolo un tubo raccoglie le sfere una alla volta. Ognuna passa da un misuratore che ne stima il consumo: se ha ancora combustibile viene rilanciata in cima con un flusso di gas, altrimenti va al deposito del combustibile esaurito e al suo posto entra una sfera nuova.',p:'Ogni sfera attraversa il nocciolo circa quindici volte prima di essere scartata.'},
+    condotto:{t:'Condotto coassiale',d:'Un tubo dentro un tubo. Al centro l\'elio caldo (750 °C) va dal reattore al generatore di vapore, nell\'intercapedine torna quello freddo (250 °C). Il tubo esterno fa parte dello stesso confine a pressione del circuito primario.',p:'Reattore e generatore stanno in due recipienti separati e affiancati: è il condotto a unirli.'},
+    generatore:{t:'Generatore di vapore',d:'Un fascio di tubi a elica: dentro scorre l\'acqua, che diventa vapore a circa 566 °C e 13 MPa; fuori l\'elio caldo cede il suo calore. L\'acqua non tocca mai il nocciolo.',p:'C\'è un generatore per ogni reattore, e i due moduli alimentano una sola turbina da 210 MW.'},
+    soffiante:{t:'Soffiante dell\'elio',d:'Sta sopra il generatore di vapore e fa circolare l\'elio: lo spinge verso il reattore e lo riprende dopo il generatore. Con il reattore acceso serve a portare il calore fuori dal nocciolo.',p:'Se si ferma, il reattore non ha bisogno di lei per non fondere: il calore residuo se ne va da solo attraverso la grafite e le pareti.'},
+    rccs:{t:'Raffreddamento passivo della cavità',d:'Pannelli pieni d\'acqua sulle pareti della cavità raccolgono il calore che il recipiente cede per irraggiamento. L\'acqua circola da sola, per convezione naturale, fino a una torre ad aria che disperde il calore nell\'atmosfera. Nessuna pompa, nessun operatore.',p:'È la strada del calore residuo quando tutto il resto è spento.'},
+    raffreddamento:{t:'Acqua del Mar Giallo',d:'L\'acqua di raffreddamento viene dal mare: passa una sola volta nel condensatore, si scalda un poco e torna in mare da un altro punto. Non entra mai in contatto con il circuito del reattore.',p:'Per questo il sito sta sulla costa: il mare è il lato freddo del ciclo.'}
+  }
 }
 ];
 
@@ -4173,6 +4182,357 @@ function isolaBeloyarsk(A,c,Y){
   };
 }
 
+/* ---------------------------------------------------------------
+   SHIDAOWAN (Shidao Bay) — HTR-PM, Rongcheng, Shandong, Mar Giallo
+   Vista dal mare: la costa, la diga frangiflutti, i due edifici
+   reattore affiancati, la sala turbine, il trasformatore e, sullo
+   sfondo, un'unità Hualong One in costruzione sullo stesso sito.
+   Foto img/htrpm.jpg: immagine radar satellitare del sito, vista
+   dall'alto: non mostra l'aspetto degli edifici. Due moduli da 250 MW
+   termici per una turbina da 210 MW elettrici (Wikipedia, "HTR-PM";
+   World Nuclear News); acqua di raffreddamento dal Mar Giallo
+   (Wikipedia, "Shidao Bay Nuclear Power Plant"); reattori Hualong One
+   in costruzione dal 2024 sullo stesso sito (stessa voce). Altezze e
+   larghezze degli edifici, la torre d'aria sul tetto, la diga e il
+   deposito del combustibile esaurito sono indicativi.
+   --------------------------------------------------------------- */
+function sitoShidaowan(B,c){
+  const add=x=>B.appendChild(x);
+  const MARE=SUOLO+34;
+  const cls='#D9DDDF', clsL='#96A0A6', scuro='#B8BEC2';
+
+  /* cielo, nuvole */
+  add(el('rect',{x:0,y:0,width:1200,height:SUOLO+88,fill:'url(#c-cielo)'}));
+  add(nuvola(170,SUOLO-m(72),1,0)); add(nuvola(600,SUOLO-m(80),.75,9)); add(nuvola(1040,SUOLO-m(60),.85,16));
+
+  /* terra e mare */
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:34,fill:'url(#c-terra)'}));
+  add(el('rect',{x:0,y:SUOLO,width:1200,height:6,fill:'#8FA97A'}));
+  add(el('rect',{x:0,y:MARE,width:1200,height:SUOLO+88-MARE,fill:'#7FB6D8'}));
+  add(el('line',{x1:0,y1:MARE,x2:1200,y2:MARE,stroke:'#2E8FA8','stroke-width':1.5}));
+  for(let x=10;x<1200;x+=78) add(el('path',{d:`M${x} ${MARE+22} q12 -6 24 0 t24 0`,fill:'none',stroke:'#1B5FA8','stroke-width':1.1,opacity:'.5'}));
+
+  /* diga frangiflutti: un argine di massi nel mare, a riparo della presa d'acqua */
+  const diga=el('g',{});
+  diga.appendChild(el('path',{d:`M20 ${MARE+46} L44 ${MARE-6} L238 ${MARE-6} L272 ${MARE+46} Z`,fill:'#A3ABA6',stroke:'#7A847E','stroke-width':1.2}));
+  for(let i=0;i<22;i++) diga.appendChild(el('circle',{cx:58+i*8.4+(i%2)*3,cy:MARE+(i%3)*7+3,r:2.6,fill:'#8A948E',opacity:'.8'}));
+  add(diga);
+  add(conTitolo(diga,'Diga frangiflutti: un argine di massi che ripara la costa e le prese d\'acqua dalle onde. Nella foto satellitare del sito se ne vedono di lunghe lungo la riva.'));
+
+  /* --- unità Hualong One in costruzione, schiarita, sullo sfondo a destra --- */
+  const cH=980, RH=m(23);
+  const dietro=el('g',{opacity:'.42'});
+  dietro.appendChild(el('rect',{x:cH-RH,y:SUOLO-m(30),width:2*RH,height:m(30),fill:cls,stroke:clsL,'stroke-width':1.3}));
+  for(let i=0;i<=8;i++) dietro.appendChild(el('line',{x1:cH-RH+i*RH/4,y1:SUOLO-m(30),x2:cH-RH+i*RH/4,y2:SUOLO-m(34),stroke:clsL,'stroke-width':1}));
+  dietro.appendChild(el('rect',{x:cH+RH+8,y:SUOLO-m(22),width:m(20),height:m(22),fill:scuro,stroke:clsL,'stroke-width':1.2}));
+  const gruX=cH-RH-24, gruT=SUOLO-m(74);
+  dietro.appendChild(el('path',{d:`M${gruX-4} ${SUOLO} L${gruX-4} ${gruT} M${gruX+4} ${SUOLO} L${gruX+4} ${gruT}`,fill:'none',stroke:clsL,'stroke-width':1.3}));
+  for(let y=SUOLO;y>gruT;y-=14) dietro.appendChild(el('path',{d:`M${gruX-4} ${y} L${gruX+4} ${y-14} M${gruX+4} ${y} L${gruX-4} ${y-14}`,fill:'none',stroke:clsL,'stroke-width':.7}));
+  dietro.appendChild(el('path',{d:`M${gruX-m(24)} ${gruT} L${gruX+m(46)} ${gruT} M${gruX} ${gruT-12} L${gruX-m(24)} ${gruT} M${gruX} ${gruT-12} L${gruX+m(46)} ${gruT}`,fill:'none',stroke:clsL,'stroke-width':1.3}));
+  add(dietro);
+  add(dett(testo(cH,SUOLO-m(34)-8,'Hualong One · in costruzione, stesso sito','etichetta sec','middle')));
+
+  /* --- edifici di servizio bassi, a sinistra --- */
+  const serv=el('g',{});
+  serv.appendChild(el('rect',{x:28,y:SUOLO-m(9),width:90,height:m(9),fill:'#D9DCDD',stroke:clsL,'stroke-width':1.2}));
+  add(conTitolo(serv,'Edifici di servizio: officine, magazzini, edifici amministrativi. Non hanno a che fare con il reattore.'));
+
+  /* --- deposito del combustibile esaurito: uno solo per i due reattori --- */
+  const aX=166, aW=m(22), aH=m(15);
+  const dep=el('g',{});
+  dep.appendChild(el('rect',{x:aX,y:SUOLO-aH,width:aW,height:aH,fill:scuro,stroke:clsL,'stroke-width':1.4}));
+  for(let y=SUOLO-aH+m(5);y<SUOLO-4;y+=m(5)) dep.appendChild(el('line',{x1:aX+2,y1:y,x2:aX+aW-2,y2:y,stroke:'#A9AEB0','stroke-width':.8}));
+  add(dep);
+  add(conTitolo(dep,'Deposito del combustibile esaurito: uno solo per i due reattori. Le sfere che hanno finito il loro ciclo restano qui per tutta la vita dell\'impianto. Posizione indicativa.'));
+
+  /* --- i due edifici reattore, affiancati --- */
+  const rW=m(38), rH=m(33), tw=m(6.2), th=m(4.6);
+  const x1=232, x2=Math.round(x1+rW+6);
+  const unita=x=>{
+    const g=el('g',{});
+    g.appendChild(el('rect',{x,y:SUOLO-rH,width:rW,height:rH,fill:cls,stroke:clsL,'stroke-width':1.8}));
+    for(let y=SUOLO-rH+m(6);y<SUOLO-4;y+=m(6)) g.appendChild(el('line',{x1:x+2,y1:y,x2:x+rW-2,y2:y,stroke:'#C3C9CC','stroke-width':.8}));
+    add(g);
+    /* torre d'aria del raffreddamento passivo, sul tetto */
+    const t=el('g',{});
+    const tx=x+m(4);
+    t.appendChild(el('rect',{x:tx,y:SUOLO-rH-th,width:tw,height:th,fill:scuro,stroke:clsL,'stroke-width':1.4}));
+    for(let i=1;i<4;i++) t.appendChild(el('line',{x1:tx+2,y1:SUOLO-rH-th+i*th/4,x2:tx+tw-2,y2:SUOLO-rH-th+i*th/4,stroke:'#8E989A','stroke-width':1}));
+    add(t);
+    add(conTitolo(t,'Torre ad aria del raffreddamento passivo della cavità: l\'aria sale da sola e porta via il calore dell\'acqua che circola nei pannelli attorno al recipiente. Posizione indicativa.'));
+  };
+  unita(x1); unita(x2);
+  const xu2=x2+rW;
+
+  /* --- sala turbine --- */
+  const tW=250, tX=Math.round(xu2+14), tTop=SUOLO-m(28);
+  add(el('rect',{x:tX,y:tTop,width:tW,height:SUOLO-tTop,fill:'#E4E7E8',stroke:clsL,'stroke-width':1.8}));
+  add(el('rect',{x:tX,y:SUOLO-m(16),width:tW,height:m(2.6),fill:'#6B7A80'}));
+  const wX=tX+16,wW=tW-32,wTop=tTop+m(4),wBot=SUOLO-6;
+  add(el('rect',{x:wX,y:wTop,width:wW,height:wBot-wTop,fill:'#EEF2F4',stroke:'#4C6377','stroke-width':1,'stroke-dasharray':'4 3'}));
+  const TY=SUOLO-34;
+  add(pathTubo(`M${wX+6} ${TY} L${wX+wW-6} ${TY}`,'#1C2321',2,true));
+  const caso=(x,w,h)=>add(el('path',{d:`M${x} ${TY} L${x+w*0.14} ${TY-h/2} L${x+w*0.86} ${TY-h/2} L${x+w} ${TY} L${x+w*0.86} ${TY+h/2} L${x+w*0.14} ${TY+h/2} Z`,fill:'#E4E8E6',stroke:'#1C2321','stroke-width':1.3}));
+  caso(wX+8,22,16); caso(wX+38,34,26); caso(wX+78,34,26);
+  add(el('rect',{x:wX+wW-42,y:TY-10,width:34,height:20,rx:2,fill:'#C9CCC2',stroke:'#1C2321','stroke-width':1.2}));
+  add(el('rect',{x:wX+36,y:TY+15,width:78,height:wBot-(TY+15),rx:2,fill:'#DCEBF2',stroke:'#1C2321','stroke-width':1.2}));
+  for(let i=0;i<3;i++) add(el('line',{x1:wX+42,y1:TY+19+i*5,x2:wX+108,y2:TY+19+i*5,stroke:'#2E8FA8','stroke-width':.7}));
+
+  /* vapore dai due edifici reattore alla sala turbine (una sola turbina); ritorno dell'acqua di alimento sotto terra */
+  add(pathTubo(`M${xu2} ${SUOLO-m(10.6)} L${wX-10} ${SUOLO-m(10.6)} L${wX-10} ${TY-4} L${wX+8} ${TY-4}`,'#D2453A',4,true));
+  add(pathTubo(`M${wX+30} ${wBot} L${wX-4} ${wBot} L${wX-4} ${SUOLO+m(4.4)} L${xu2} ${SUOLO+m(4.4)}`,'#2E8FA8',3.5,true));
+
+  /* --- acqua di mare in una sola passata: presa a sinistra, dietro la diga; scarico a destra --- */
+  const galleria=(d,col)=>{
+    add(el('path',{d,fill:'none',stroke:'#8E989A','stroke-width':10,'stroke-linecap':'round',opacity:'.45'}));
+    add(pathTubo(d,col,3.5,true));
+  };
+  galleria(`M${wX+82} ${wBot} L${wX+82} ${SUOLO+14} L300 ${SUOLO+14} L300 ${MARE+36}`,'#2E8FA8');
+  galleria(`M${wX+108} ${wBot} L${wX+108} ${SUOLO+22} L830 ${SUOLO+22} L830 ${MARE+40}`,'#D98B5F');
+  add(el('rect',{x:292,y:MARE+30,width:16,height:8,rx:2,fill:'#8E989A',stroke:'#5A6360','stroke-width':1}));
+  [820,830,840].forEach(x=>add(el('circle',{cx:x,cy:MARE+42,r:3.2,fill:'#D98B5F',stroke:'#5A6360','stroke-width':.8})));
+
+  /* --- trasformatore e traliccio --- */
+  const trX=tX+tW+10,trW=26,trTop=SUOLO-m(8);
+  add(el('rect',{x:trX,y:trTop,width:trW,height:SUOLO-trTop,fill:'#3C4650'}));
+  for(let i=1;i<4;i++) add(el('line',{x1:trX+i*trW/4,y1:trTop+2,x2:trX+i*trW/4,y2:SUOLO-2,stroke:'#5C6873','stroke-width':1}));
+  const p=traliccio(trX+trW+36,SUOLO,34,[[20,7],[25,8.5],[30,6]]);
+  add(p.g);
+  add(campata([trX+trW,trTop+m(2)],p.sx[1],8));
+
+  /* alberi, solo sulla terra */
+  [[14,1.1,0],[142,.9,1],[1150,1,0],[1178,.85,1]].forEach(([x,s,sc])=>add(albero(x,SUOLO+6,s,sc)));
+
+  scalaUmana(B,1118,1035,SUOLO+30,'end');
+
+  /* etichette */
+  add(testo(6,16,'il sito, in scala reale · vista dal mare (Mar Giallo)','etichetta sec'));
+  add(testo(x1+rW/2,SUOLO-rH-th-8,'reattore 1','etichetta','middle'));
+  add(testo(x2+rW/2,SUOLO-rH-8,'reattore 2','etichetta','middle'));
+  add(testo(tX+tW/2,tTop-8,'sala turbine','etichetta','middle'));
+  add(dett(
+    testo(aX+aW,SUOLO-aH-8,'deposito combustibile esaurito','etichetta sec','end'),
+    testo(141,MARE+30,'diga frangiflutti','etichetta sec','middle'),
+    testo(316,MARE+20,'presa dal mare','etichetta sec'),
+    testo(846,MARE+44,'scarico','etichetta sec'),
+    testo(wX+82,wBot+16,'condensatore','etichetta sec','middle'),
+    testo(trX+trW/2,SUOLO+18,'trasformatore','etichetta sec','middle')
+  ));
+
+  return {
+    reattore:{x:x1,y:SUOLO-rH-th,w:rW,h:rH+th},
+    turbina:[wX+46,TY], condensatore:[wX+108,wBot-8],
+    raffreddamento:[300,MARE+16], trasformatore:[trX+trW/2,SUOLO-m(4)]
+  };
+}
+
+/* ---------------------------------------------------------------
+   SHIDAOWAN — HTR-PM. Sezione verticale di un modulo: il recipiente
+   del reattore e quello del generatore di vapore, affiancati e uniti
+   dal condotto coassiale dell'elio; la soffiante sopra il generatore.
+   Fonti: due moduli da 250 MW termici, una turbina da 210 MW elettrici
+   (Wikipedia, "HTR-PM"); elio a 250 °C in ingresso e 750 °C in uscita
+   dal nocciolo, generatore di vapore a tubi elicoidali con vapore a
+   circa 13 MPa e 566 °C (POWER, "Nuclear Milestone: China's HTR-PM";
+   articoli su HTR-PM ricavati da ricerca); recipiente in pressione
+   alto circa 25 m, reattore e generatore in due recipienti separati
+   uniti da un condotto concentrico, soffiante sulla sommità del
+   generatore (World Nuclear News, "Key components of second HTR-PM
+   reactor connected"; GRS, "The pebble bed reactor at the Shidaowan
+   nuclear power plant"); nocciolo Ø 3 m e alto 11 m, 24 barre di
+   regolazione nel riflettore laterale, sistema di arresto a sferette
+   assorbenti, elio a circa 7 MPa (sintesi da ricerca su articoli
+   tecnici, da riverificare sul testo originale); scarico dal fondo,
+   misura del consumo e ricircolo in cima, un solo deposito del
+   combustibile esaurito per i due reattori; sistema passivo di
+   raffreddamento della cavità con pannelli d'acqua e torre ad aria
+   (articoli tecnici sull'RCCS dell'HTR-PM). Quote interne, cavità,
+   percorso interno dell'elio nel generatore, posizione della torre ad
+   aria e del deposito, e condotto con l'elio caldo al centro, sono
+   indicativi. Le sfere sono disegnate ingrandite.
+   --------------------------------------------------------------- */
+function isolaShidaowan(A,c,Y){
+  const S=8.5, CX=600;
+  const G=Y+40+S*38.5;                          // piano campagna
+  const X=r=>CX+r*S, Q=h=>G-h*S;
+  const add=x=>{A.appendChild(x);return x;};
+  const rettM=(r1,h1,r2,h2,att)=>add(el('rect',{x:Math.min(X(r1),X(r2)),y:Math.min(Q(h1),Q(h2)),
+    width:Math.abs(X(r2)-X(r1)),height:Math.abs(Q(h2)-Q(h1)),...att}));
+  const specchio=f=>[-1,1].forEach(f);
+  const cem='#E2E7EB', cemL='#BAC5CE', muro='#D2DAE0', vuoto='#E3E5E7';
+  const comp={fill:'#BFE3F5',stroke:'#0B2440','stroke-width':2};
+  const grafite={fill:'#CFCBC1',stroke:'#8A857A','stroke-width':1};
+  const elioC='#E8791C', elioF='#C9A227', acqua='#2E8FA8', vapore='#D2453A', steel='#5A6360';
+  const xr=-8, xs=6.6, R=3.1, RS=2.7;
+  const freccia=(x,y,dir,col)=>add(el('path',{d:`M${x-dir} ${y-5} L${x+dir*7} ${y} L${x-dir} ${y+5} Z`,fill:col}));
+
+  const fondo=Q(-16);
+  add(el('rect',{x:30,y:Y,width:1140,height:fondo-Y,rx:6,fill:'#E3E5E7',stroke:'#C7CBCF','stroke-width':1.5}));
+  add(testo(42,Y+20,'DENTRO L\'EDIFICIO REATTORE · sezione di un modulo, reattore e generatore di vapore affiancati · proporzioni indicative, sfere ingrandite','etichetta'));
+  add(el('rect',{x:31,y:G,width:1138,height:fondo-G-1,fill:'#E9DFCB'}));
+  add(el('line',{x1:31,y1:G,x2:1169,y2:G,stroke:'#9FB08A','stroke-width':1.5}));
+
+  /* ---------- edificio, cavità, sala in alto con la gru ---------- */
+  conTitolo(rettM(-19,-13,19,33,{fill:muro,stroke:cemL,'stroke-width':1.2}),
+    'Edificio del reattore: cemento armato, senza cupola, in parte sotto il piano di campagna. Non è un contenimento a tenuta di pressione: a trattenere i prodotti di fissione è il rivestimento ceramico di ogni granello di combustibile.');
+  rettM(-18,-11.6,18,32,{fill:vuoto});
+  rettM(-19,-13,19,-11.6,{fill:cem,stroke:cemL,'stroke-width':1});
+  rettM(-19,32,19,33,{fill:cem,stroke:cemL,'stroke-width':1});
+  conTitolo(rettM(-14.1,-11.6,12.3,23,{fill:cem,stroke:cemL,'stroke-width':1.2}),
+    'Pareti delle cavità: cemento armato spesso. Il recipiente del reattore e quello del generatore di vapore stanno in due cavità separate.');
+  rettM(-12.1,-11.6,-3.9,21.4,{fill:vuoto});           // cavità del reattore
+  rettM(2.9,-8.6,10.3,21.4,{fill:vuoto});               // cavità del generatore
+  /* gru a ponte nella sala */
+  const gru=el('g',{});
+  gru.appendChild(el('rect',{x:X(-17.6),y:Q(27.8),width:35.2*S,height:1.2*S,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  gru.appendChild(el('rect',{x:X(-3),y:Q(29.2),width:6*S,height:1.4*S,fill:'#C9D2D9',stroke:'#A3AFB9','stroke-width':1}));
+  add(conTitolo(gru,'Gru a ponte della sala del reattore, per movimentare i componenti a impianto fermo.'));
+
+  /* ---------- pannelli d'acqua sulle pareti della cavità e circuito verso la torre ad aria ---------- */
+  const pannelli=el('g',{});
+  [[-12.1,-11.6],[-4.4,-3.9]].forEach(([a,b])=>pannelli.appendChild(el('rect',{x:X(a),y:Q(20.8),width:(b-a)*S,height:31.6*S,...comp,'stroke-width':1.2})));
+  add(pannelli);
+  add(conTitolo(pannelli,'Pannelli d\'acqua sulle pareti della cavità: raccolgono il calore che il recipiente cede per irraggiamento. L\'acqua circola da sola, per convezione naturale, fino alla torre ad aria sul tetto.'));
+  add(pathTubo(`M${X(-9.3)} ${Q(33)} L${X(-9.3)} ${Q(31)} L${X(-4.15)} ${Q(31)} L${X(-4.15)} ${Q(-10.3)} L${X(-11.85)} ${Q(-10.3)} L${X(-11.85)} ${Q(33)}`,acqua,2.4,true));
+  const torre=el('g',{});
+  torre.appendChild(el('rect',{x:X(-15),y:Q(37.6),width:6.2*S,height:4.6*S,...comp}));
+  for(let i=1;i<5;i++) torre.appendChild(el('line',{x1:X(-15)+3,y1:Q(37.6)+i*4.6*S/5,x2:X(-8.8)-3,y2:Q(37.6)+i*4.6*S/5,stroke:'#5A7590','stroke-width':1}));
+  add(torre);
+  add(conTitolo(torre,'Torre ad aria del raffreddamento passivo: scambiatore tra l\'acqua dei pannelli e l\'aria, che sale per tiraggio naturale. Posizione indicativa.'));
+
+  /* ---------- recipiente del reattore ---------- */
+  const dRPV=`M${X(xr-R)} ${Q(-5.6)} L${X(xr-R)} ${Q(15.4)} A${R*S} ${2.2*S} 0 0 1 ${X(xr+R)} ${Q(15.4)} L${X(xr+R)} ${Q(-5.6)} A${R*S} ${2.4*S} 0 0 1 ${X(xr-R)} ${Q(-5.6)} Z`;
+  add(conTitolo(el('path',{d:dRPV,fill:'#BFE3F5',stroke:'#0B2440','stroke-width':2.6}),
+    'Recipiente in pressione del reattore: acciaio, alto circa 25 m. Dentro ci sono il nocciolo, il riflettore di grafite e l\'elio ad alta pressione.'));
+
+  /* riflettore di grafite: ai lati, sopra e sotto il letto di sfere */
+  specchio(s=>rettM(xr+Math.min(s*1.5,s*2.4),-5,xr+Math.max(s*1.5,s*2.4),14.6,{...grafite}));
+  rettM(xr-2.4,-5,xr+2.4,-0.6,{...grafite});
+  rettM(xr-2.4,11,xr+2.4,14.6,{...grafite});
+  conTitolo(rettM(xr-2.4,-6.6,xr+2.4,-5,{fill:'#F6D9BA',stroke:'#B5651D','stroke-width':1}),
+    'Camera dell\'elio caldo: qui il gas che ha attraversato il letto di sfere si raccoglie e prende il condotto verso il generatore di vapore.');
+
+  /* letto di sfere: cilindro di 3 m x 11 m e cono di scarico, con le sfere disegnate ingrandite */
+  const dLetto=`M${X(xr-1.5)} ${Q(10.4)} L${X(xr+1.5)} ${Q(10.4)} L${X(xr+1.5)} ${Q(-0.6)} L${X(xr+0.3)} ${Q(-2.9)} L${X(xr-0.3)} ${Q(-2.9)} L${X(xr-1.5)} ${Q(-0.6)} Z`;
+  rettM(xr-.3,-8.4,xr+.3,-2.9,{fill:steel});
+  add(el('rect',{x:X(xr-1.5)-S*0.4,y:Q(10.8),width:S*(3+0.8),height:S*11.8,fill:'#2F6BFF',opacity:'.5',class:'glow',id:'glow'}));
+  const cp=el('clipPath',{id:'clip-letto'}); cp.appendChild(el('path',{d:dLetto})); A.appendChild(cp);
+  const gCore=add(el('g',{}));
+  gCore.appendChild(el('path',{d:dLetto,fill:'#D8CDB2',stroke:'#8A7A5A','stroke-width':1}));
+  const peb=el('g',{'clip-path':'url(#clip-letto)'});
+  for(let i=0,h=10.1;h>-2.8;i++,h-=.6) for(let k=-3;k<=3;k++)
+    peb.appendChild(el('circle',{cx:X(xr+k*.5+(i%2?.25:0)),cy:Q(h),r:2.3,fill:'#4A4A4A'}));
+  gCore.appendChild(peb);
+  add(conTitolo(gCore,'Letto di sfere: circa 400 000 sfere di grafite. Qui sono disegnate molto più grandi del vero.'));
+
+  /* tubo di caricamento delle sfere, dall'alto */
+  rettM(xr-.25,10.6,xr+.25,19.6,{fill:steel});
+  rettM(xr-.6,19.6,xr+.6,20.3,{...comp,'stroke-width':1.2});
+
+  /* barre di regolazione: nei canali del riflettore laterale, guide fisse, barre che scendono allo SCRAM */
+  specchio(s=>{
+    add(el('line',{x1:X(xr+s*1.85),y1:Q(17),x2:X(xr+s*1.85),y2:Q(3.6),stroke:steel,'stroke-width':.9}));
+    rettM(xr+s*1.85-.45,17,xr+s*1.85+.45,19,{...comp,'stroke-width':1.2});
+  });
+  const barre=add(el('g',{class:'barre',id:'barre'}));
+  specchio(s=>barre.appendChild(el('rect',{x:X(xr+s*1.85)-2.2,y:Q(14.6),width:4.4,height:S*4,fill:'#1C2321'})));
+  barre.dataset.corsa=S*7;
+
+  /* ---------- recipiente del generatore di vapore ---------- */
+  const dSG=`M${X(xs-RS)} ${Q(-5.4)} L${X(xs-RS)} ${Q(13)} A${RS*S} ${2.2*S} 0 0 1 ${X(xs+RS)} ${Q(13)} L${X(xs+RS)} ${Q(-5.4)} A${RS*S} ${2.2*S} 0 0 1 ${X(xs-RS)} ${Q(-5.4)} Z`;
+  add(conTitolo(el('path',{d:dSG,fill:'#BFE3F5',stroke:'#0B2440','stroke-width':2.6}),
+    'Recipiente del generatore di vapore: affiancato a quello del reattore, alla sua altezza circa. Dentro, un fascio di tubi a elica in cui l\'acqua diventa vapore.'));
+  rettM(xs-2.4,-5,xs-1.9,14.4,{fill:'#F3E7B5'});
+  rettM(xs+1.9,-5,xs+2.4,14.4,{fill:'#F3E7B5'});
+  const fascio=el('g',{});
+  specchio(s=>{
+    fascio.appendChild(el('rect',{x:X(xs+Math.min(s*.9,s*1.9)),y:Q(11),width:S,height:14.2*S,fill:'#D6ECF7',stroke:'#5A7590','stroke-width':.8}));
+    for(let h=-3.2;h<10.8;h+=.55) fascio.appendChild(el('line',{x1:X(xs+s*.9),y1:Q(h),x2:X(xs+s*1.9),y2:Q(h+.3),stroke:'#5A7590','stroke-width':.9}));
+  });
+  add(fascio);
+  rettM(xs-.5,-6.3,xs+.5,12,{fill:'#FBE1C8',stroke:'#B5651D','stroke-width':1});
+
+  /* ---------- condotto coassiale: elio caldo dentro, elio freddo nell'intercapedine ---------- */
+  const condotto=el('g',{});
+  condotto.appendChild(el('rect',{x:X(xr+R-.1),y:Q(-4.9),width:(xs-RS-(xr+R)+.2)*S,height:1.8*S,fill:'#F3E7B5',stroke:'#0B2440','stroke-width':1.6}));
+  condotto.appendChild(el('rect',{x:X(xr+R-.1),y:Q(-6.1),width:(xs-RS-(xr+R)+.2)*S,height:.6*S,fill:'#FBE1C8',stroke:'#B5651D','stroke-width':1}));
+  add(condotto);
+  add(conTitolo(condotto,'Condotto coassiale: un tubo dentro un tubo. Al centro l\'elio caldo dal reattore al generatore, nell\'intercapedine quello freddo di ritorno. Il tubo esterno fa parte dello stesso confine a pressione del circuito primario.'));
+
+  /* ---------- soffiante dell'elio sulla sommità del generatore ---------- */
+  const sof=el('g',{});
+  sof.appendChild(el('rect',{x:X(xs-1.5),y:Q(17.8),width:3*S,height:2.8*S,...comp,rx:6}));
+  sof.appendChild(el('rect',{x:X(xs-.9),y:Q(20.6),width:1.8*S,height:2.8*S,...comp,rx:4}));
+  sof.appendChild(el('line',{x1:X(xs),y1:Q(20.2),x2:X(xs),y2:Q(15.4),stroke:steel,'stroke-width':1.6}));
+  add(sof);
+
+  /* ---------- flusso dell'elio: freddo in oro, caldo in arancio ---------- */
+  specchio(s=>{
+    add(pathTubo(`M${X(xr+s*2.62)} ${Q(-4.6)} L${X(xr+s*2.62)} ${Q(15)} L${X(xr+s*.75)} ${Q(15)} L${X(xr+s*.75)} ${Q(10.6)}`,elioF,2.6,true));
+  });
+  /* freddo: dalla soffiante giù per il generatore, nell'intercapedine del condotto, su lungo il reattore */
+  add(pathTubo(`M${X(xs-1)} ${Q(16.6)} L${X(xs-1)} ${Q(14.4)} L${X(xs-2.15)} ${Q(14.4)} L${X(xs-2.15)} ${Q(-6.4)} L${X(xr+2.62)} ${Q(-6.4)} L${X(xr+2.62)} ${Q(-4.6)}`,elioF,2.6,true));
+  add(pathTubo(`M${X(xs-2.15)} ${Q(-5.2)} L${X(xr+2.62)} ${Q(-5.2)}`,elioF,2.6,true));
+  /* caldo: giù nel letto, nella camera, lungo il condotto, su nel tubo centrale del generatore, giù sul fascio */
+  add(pathTubo(`M${X(xr-.75)} ${Q(10.6)} L${X(xr-.75)} ${Q(-5.8)} L${X(xr+.75)} ${Q(-5.8)}`,elioC,2.6,true));
+  add(pathTubo(`M${X(xr+.75)} ${Q(10.6)} L${X(xr+.75)} ${Q(-5.8)} L${X(xs)} ${Q(-5.8)} L${X(xs)} ${Q(12)} L${X(xs+1.4)} ${Q(12)} L${X(xs+1.4)} ${Q(-2.8)}`,elioC,2.6,true));
+  /* freddo, dal fascio alla soffiante nell'intercapedine di destra */
+  add(pathTubo(`M${X(xs+1.4)} ${Q(-2.8)} L${X(xs+2.15)} ${Q(-2.8)} L${X(xs+2.15)} ${Q(14.4)} L${X(xs+1)} ${Q(14.4)} L${X(xs+1)} ${Q(16.6)}`,elioF,2.6,true));
+
+  /* ---------- acqua e vapore ---------- */
+  add(pathTubo(`M${X(31)} ${Q(-4.4)} L${X(xs+1.5)} ${Q(-4.4)} L${X(xs+1.5)} ${Q(-3.0)}`,acqua,3.5,true));
+  freccia(X(31)+2,Q(-4.4),-1,acqua);
+  add(pathTubo(`M${X(xs+1.5)} ${Q(10.6)} L${X(31)} ${Q(10.6)}`,vapore,4,true));
+  freccia(X(31)-1,Q(10.6),1,vapore);
+
+  /* ---------- scarico e misura delle sfere, ricircolo, deposito ---------- */
+  const scarico=el('g',{});
+  scarico.appendChild(el('rect',{x:X(xr-1.3),y:Q(-8.4),width:2.6*S,height:2.2*S,...comp,'stroke-width':1.6}));
+  add(scarico);
+  add(pathTubo(`M${X(xr-1.3)} ${Q(-9.2)} L${X(-16.5)} ${Q(-9.2)} L${X(-16.5)} ${Q(25.5)} L${X(xr)} ${Q(25.5)} L${X(xr)} ${Q(19.6)}`,steel,2.6,true));
+  add(pathTubo(`M${X(xr-1.3)} ${Q(-10.4)} L${X(-19.9)} ${Q(-10.4)}`,steel,2.6,true));
+  freccia(X(-19.9),Q(-10.4),-1,steel);
+
+  /* ---------- etichette dentro e accanto ---------- */
+  const LXL=X(-19)-16;
+  const guidaL=(tx,th,ly,txt,cls)=>{
+    add(el('line',{x1:X(tx),y1:Q(th),x2:LXL+6,y2:Q(ly),stroke:'#5A7590','stroke-width':.9,'stroke-dasharray':'3 3'}));
+    add(el('circle',{cx:X(tx),cy:Q(th),r:2.2,fill:'#5A7590'}));
+    add(testo(LXL,Q(ly)+3.5,txt,cls||'etichetta sec','end'));
+  };
+  guidaL(-15,35.3,36,'torre ad aria · raffreddamento passivo');
+  guidaL(-17.6,27.2,28,'gru a ponte');
+  guidaL(-16.5,21,20,'risalita pneumatica delle sfere');
+  guidaL(xr-1.85,12.6,15.5,'barre di regolazione, nel riflettore');
+  guidaL(xr-1.5,6,8,'nocciolo a letto di sfere · Ø 3 m, alto 11 m','etichetta');
+  guidaL(xr-2,0.5,1.8,'riflettore di grafite');
+  guidaL(-11.85,-2.5,-2,'pannelli d\'acqua (raffreddamento passivo)');
+  guidaL(xr-R,-6.5,-5.8,'recipiente in pressione · alto ≈ 25 m','etichetta');
+  guidaL(xr-1.3,-8.6,-8.6,'scarico e misura delle sfere');
+  add(testo(LXL,Q(-10.4)+3.5,'sfere esaurite, al deposito','etichetta sec','end'));
+
+  const LX=884;
+  const guida=(tx,th,ly,txt,cls)=>{
+    add(el('line',{x1:X(tx),y1:Q(th),x2:LX-6,y2:Q(ly),stroke:'#5A7590','stroke-width':.9,'stroke-dasharray':'3 3'}));
+    add(el('circle',{cx:X(tx),cy:Q(th),r:2.2,fill:'#5A7590'}));
+    add(testo(LX,Q(ly)+3.5,txt,cls||'etichetta sec'));
+  };
+  guida(xs+.9,19.5,20,'soffiante dell\'elio');
+  guida(xs+1.5,7,14.5,'generatore di vapore','etichetta');
+  add(testo(LX,Q(10.6)+3.5,'vapore alla turbina','etichetta sec'));
+  guida(xs+2.15,4.5,4.5,'elio freddo 250 °C, risale alla soffiante');
+  add(testo(LX,Q(-4.4)+3.5,'acqua di alimento','etichetta sec'));
+  guida(.5,-6.3,-8.4,'condotto coassiale · 750 °C dentro, 250 °C fuori');
+
+  return {
+    altezza:fondo-Y+8,
+    riquadro:{x:X(-19),y:Q(38.4),w:38*S,h:51.4*S},
+    punti:{nocciolo:[X(xr),Q(4.5)], barre:[X(xr-1.85),Q(16.1)], sfere:[X(xr),Q(-9.6)],
+      condotto:[X(-0.5),Q(-5.8)], generatore:[X(xs-1.4),Q(5)], soffiante:[X(xs),Q(19.2)],
+      rccs:[X(-11.85),Q(8)]}
+  };
+}
+
 const SITI={
   pwr:{cielo:100, sito:sitoSizewell, isola:isolaSizewell},
   magnox:{cielo:145, sito:sitoCalderHall, isola:isolaCalderHall},
@@ -4181,7 +4541,8 @@ const SITI={
   candu:{cielo:110, sito:sitoDarlington, isola:isolaDarlington},
   epr:{cielo:140, sito:sitoOlkiluoto, isola:isolaOlkiluoto},
   ap1000:{cielo:105, sito:sitoSanmen, isola:isolaSanmen},
-  bn800:{cielo:120, sito:sitoBeloyarsk, isola:isolaBeloyarsk}
+  bn800:{cielo:120, sito:sitoBeloyarsk, isola:isolaBeloyarsk},
+  htrpm:{cielo:88, sito:sitoShidaowan, isola:isolaShidaowan}
 };
 
 /* spaccato comune, usato dalle centrali non ancora ridisegnate */

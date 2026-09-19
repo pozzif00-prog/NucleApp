@@ -3,7 +3,75 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-19 (sessione 12)
+Ultimo aggiornamento: 2026-09-19 (sessione 13)
+
+## Fatto — sessione 13
+
+- **Shidaowan (HTR-PM): nono e ultimo disegno dedicato.** Con questo tutte le
+  9 centrali hanno sito e spaccato propri; `sitoGenerico` e `isolaGenerica`
+  restano in `index.html` come ripiego ma nessuna centrale li usa più (codice
+  morto: si possono togliere).
+  - La foto `img/htrpm.jpg` è un'**immagine radar satellitare** del sito
+    (Umbra, giugno 2023, cantiere di Shidaowan), vista dall'alto: mostra costa,
+    dighe di massi, terreno pianeggiante, ma non l'aspetto degli edifici.
+  - Sito: vista dal mare (Mar Giallo) con la diga frangiflutti, i **due
+    edifici reattore affiancati** ("reattore 1" e "reattore 2", il primo
+    evidenziato e collegato allo spaccato), il deposito del combustibile
+    esaurito, la sala turbine (una sola per i due moduli), trasformatore e
+    traliccio, e sullo sfondo, schiarito, il cantiere di un'unità Hualong One
+    con la gru. Presa d'acqua di mare a sinistra dietro la diga, scarico a
+    destra: nessun albero in acqua, nessun traliccio in acqua.
+  - Spaccato di un modulo: **due recipienti separati e affiancati** — reattore
+    (alto ≈ 25 m) e generatore di vapore — uniti dal **condotto coassiale**,
+    con la **soffiante sopra il generatore**. Il nocciolo è disegnato alle
+    misure vere (Ø 3 m, alto 11 m: lungo e stretto) con le sfere ingrandite,
+    cono di scarico in basso, riflettore di grafite attorno, camera dell'elio
+    caldo sotto. Le **barre di regolazione stanno nel riflettore laterale**, non
+    nel letto (SCRAM verificato: le barre scendono e finiscono sull'altezza del
+    nocciolo). Elio freddo in oro, caldo in arancio, con il giro completo.
+    Sotto il recipiente: scarico e misura delle sfere, ricircolo pneumatico in
+    cima, uscita verso il deposito. Ai lati della cavità del reattore i
+    **pannelli d'acqua del raffreddamento passivo**, collegati a una torre ad
+    aria sul tetto. Niente cupola: l'edificio è a parete di cemento, come
+    "contenimento funzionale" (la barriera è il granello TRISO).
+  - 4 pallini nuovi con fumetto (sfere, condotto coassiale, soffiante,
+    raffreddamento passivo) più testi propri per nocciolo, barre, generatore
+    di vapore e acqua di mare: **11 pallini in tutto**.
+  - Fonti: 2 moduli da 250 MW termici e una turbina da 210 MW elettrici
+    (Wikipedia, "HTR-PM"; World Nuclear News); elio 250/750 °C; generatore di
+    vapore a tubi elicoidali, vapore ≈ 13 MPa e 566 °C (POWER "Nuclear
+    Milestone: China's HTR-PM"; articoli tecnici); recipiente ≈ 25 m e ≈ 700 t
+    (WNN, "Key components of second HTR-PM reactor connected"); reattore e
+    generatore in due recipienti separati, condotto concentrico, soffiante
+    sulla sommità del generatore, "contenimento funzionale" invece di un
+    edificio a tenuta (GRS, "The pebble bed reactor at the Shidaowan nuclear
+    power plant"); scarico dal fondo, ricircolo, un deposito per i due
+    reattori, ≈ 15 passaggi per sfera (articoli tecnici, POWER); raffreddamento
+    dal Mar Giallo (Wikipedia, "Shidao Bay Nuclear Power Plant"); RCCS passivo
+    a pannelli d'acqua con "torre ad aria" (articoli tecnici sull'RCCS
+    dell'HTR-PM).
+  - **Da riverificare sul testo originale** (arrivano da sintesi di ricerca,
+    non da una lettura diretta): nocciolo Ø 3 m e alto 11 m, **24 barre di
+    regolazione nel riflettore laterale** e sistema di arresto a sferette
+    assorbenti (sei canali), elio a ≈ 7 MPa. Le due pagine con più dettagli
+    (Engineering 2016, MDPI RCCS) davano 403 e non le ho lette.
+  - **Indicativi**: tutte le quote interne (altezze e posizioni di recipienti,
+    cavità, camera calda, pannelli, gru); l'altezza dell'edificio (33 m), la sua
+    larghezza (38 m) e l'assenza di cupola, non trovate su una fonte; **il
+    percorso interno dell'elio nel generatore** (caldo su nel tubo centrale e
+    giù sul fascio, freddo su nell'intercapedine, discesa dalla soffiante
+    sull'altro lato); **l'elio caldo al centro del condotto e il freddo
+    nell'intercapedine** (disposizione consueta, non verificata); la
+    **posizione della torre ad aria sul tetto** e del deposito del combustibile
+    esaurito; la diga; il cantiere Hualong One (cilindro basso e gru).
+  - **Discrepanza da sistemare nella scheda**: `worst.precedente` dice "Nel 2024
+    il test è stato fatto sul serio"; POWER data il test a metà 2023 (annunciato
+    e pubblicato nel 2024). Va scelta la data giusta e indicata. Non toccato.
+  - Corretto il fumetto del nocciolo, che diceva "Non ci sono barre": vedi
+    correzione 7 in `CORREZIONI.md`.
+  - Verificato nel browser: nessun errore in console, 9 centrali su 9 si
+    disegnano, SCRAM e tutti gli 11 fumetti funzionano, doppio click su un
+    pallino nuovo non dà errori.
 
 ## Fatto — sessione 12
 
@@ -409,11 +477,11 @@ Ultimo aggiornamento: 2026-09-19 (sessione 12)
    (Settings → Pages → `main`, `/`) — l'indirizzo dà 404; togliere
    `pubblica/index.html`, obsoleto; aggiungere descrizione per i motori di
    ricerca, anteprima social, icona, licenza. Nessuno è ancora fatto.
-1. **Interfaccia grafica delle centrali**: ridisegnare l'ultima, Shidaowan
-   (HTR-PM), col metodo usato per le altre otto → dettaglio in `sessione
-   5`–`12` qui sopra. Richiesta diretta dell'utente, in corso. Ha ancora i
-   difetti originali (alberi in acqua, metà destra vuota, bianco su
-   bianco).
+1. **Interfaccia grafica delle centrali**: FATTO per tutte e 9 le centrali →
+   dettaglio in `sessione 5`–`13` qui sopra. Restano solo i punti "da
+   riverificare" e "indicativi" elencati in ogni sessione, e due
+   cose sulle schede: potenza netta di Beloyarsk 4 (820 contro 789 MW) e data
+   del test di perdita del raffreddamento di Shidaowan (2023 o 2024).
 2. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
    capacità, date, orizzonte di progetto. Fonti: Posiva (Onkalo), DOE/WIPP,
    ISIN/Sogin (Deposito Nazionale).
