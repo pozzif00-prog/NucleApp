@@ -27,9 +27,9 @@ Ultimo aggiornamento: 2026-09-19 (sessione 12)
     generatori di vapore, con il ramo verso gli scambiatori aria-sodio sul
     tetto. Tre circuiti visibili in fila: sodio primario, sodio
     intermedio, acqua e vapore.
-  - 3 pallini nuovi con fumetto (scambiatore intermedio, scambiatori
-    aria-sodio nel sito, più pompa e generatore con testo specifico) e
-    testi specifici per nocciolo, barre e raffreddamento.
+  - 3 pallini nuovi con fumetto (scambiatore intermedio, pompa primaria,
+    scambiatori aria-sodio nel sito) e testi specifici per generatore di
+    vapore, nocciolo, barre e raffreddamento.
   - Fonti: potenza 2 100 MW termici; tre circuiti (sodio primario e
     secondario, acqua e vapore); ogni circuito con una pompa primaria, due
     scambiatori intermedi, una pompa secondaria e un generatore; tre barre
@@ -47,9 +47,11 @@ Ultimo aggiornamento: 2026-09-19 (sessione 12)
     la disposizione di scambiatori e pompe (uno per lato, non due
     scambiatori per circuito); le altezze degli edifici. **La torre di
     raffreddamento** viene dalla scheda originale ("torre" nella
-    configurazione della scena), non verificata su una fonte: il testo del
-    fumetto dice solo che "serve al raffreddamento" il bacino e che
-    "qui una torre ..." — da controllare.
+    configurazione della scena), non verificata su una fonte: il fumetto
+    "Acqua del bacino di Beloyarsk" (riga ~842 di `index.html`) dice
+    però che "qui una torre di raffreddamento disperde nell'aria il calore
+    dei condensatori", cioè lo afferma — da controllare prima di
+    pubblicare, o da attenuare.
   - **Da allineare nella scheda**: la potenza netta dichiarata è ≈ 820 MW
     (Wikipedia); POWER dà 789 MW netti e 864 lordi. Il numero giusto dipende
     dalla definizione: va scelta una fonte di riferimento e indicata.
