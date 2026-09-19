@@ -3,7 +3,59 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-19 (sessione 13)
+Ultimo aggiornamento: 2026-09-19 (sessione 14)
+
+## Fatto — sessione 14 (depositi e incidenti: grafica come per le centrali)
+
+Nuova richiesta dell'utente: ridisegnare anche la grafica dei **depositi**
+(Onkalo, WIPP, Deposito Nazionale) e degli **incidenti** (TMI, Chernobyl,
+Fukushima) nello stesso modo delle centrali: un disegno dedicato e fedele per
+ciascuno, elementi appoggiati e non sospesi, ogni elemento spiegato da un
+pallino numerato con fumetto o da un suggerimento al passaggio del mouse.
+Si procede un elemento alla volta, mostrando il risultato.
+
+- **Infrastruttura dei depositi** (una volta per tutte): la scena ha ora
+  l'altezza che le serve (aspect-ratio dal disegno), zoom e trascinamento con
+  pulsanti sotto il disegno, livelli di dettaglio come nelle centrali, e ogni
+  deposito può avere una propria funzione di disegno registrata in
+  `DEP_DISEGNI`; chi non ce l'ha usa `disegnaDepositoGenerico` (il vecchio
+  disegno). I pallini delle barriere si chiamano `b0`…`b4` e prendono il testo
+  da `barriere` della scheda, così il testo resta uno solo; gli altri pallini
+  prendono il testo da `fumetti` del deposito. I numeri dei pallini delle
+  barriere coincidono con "Barriera n" nella tendina sotto il disegno.
+- **Onkalo: fatto.** Tre fasce. (1) la superficie in scala reale (2,6 px/m):
+  impianto di incapsulamento, testa del pozzo dei contenitori, pozzo del
+  personale, camini di ventilazione, ingresso della rampa, mare e conifere
+  solo sulla terra; (2) la sezione in scala (0,72 px/m) con la profondità vera
+  e la **rampa a spirale con pendenza 1:10 alla sua lunghezza vera** (22 tratti
+  in fila, ≈ 4 km), quattro pozzi verticali, il livello del deposito a
+  400–430 m, scala di profondità con la Torre Eiffel a 330 m, zone di frattura
+  evitate; (3) dentro una galleria di deposito in scala (30 px/m): tre buche
+  (8 m, Ø 1,75 m) con contenitore e bentonite, galleria riempita di blocchi,
+  tappo, quote, e il contenitore in sezione trasversale (12 canali). 11 pallini.
+  - Fonti: Posiva ("How ONKALO works", "Disposal canister", "Deposition
+    holes"); INIS/OSTI ("ONKALO – Main drawings in 2007"); Tunnels &
+    Tunnelling; Wikipedia ("Onkalo…", "KBS-3"). Quattro pozzi (personale,
+    contenitori, due di ventilazione), 6 500 tU in ≈ 3 250 contenitori, rampa
+    1:10, deposito a 400–430 m, buca ≈ 8 m e Ø 1,75 m, contenitore Ø 1,05 m,
+    4,75 m, 24,5 t, rame 5 cm, 12 elementi, > 20 t di bentonite per buca,
+    30–40 buche per galleria, prima galleria ≈ 330 m.
+  - **Indicativi**: dimensioni e posizioni degli edifici di superficie;
+    posizione della rampa rispetto ai pozzi; la disposizione delle gallerie di
+    deposito (disegnate di taglio); le zone di frattura (d'esempio); il
+    tappo di calcestruzzo e il riempimento a blocchi; la disposizione dei 12
+    canali; la lunghezza della rampa (fonti: da 4,2 km nelle prime fasi a
+    5,6 km).
+  - **Da allineare nella scheda**: la profondità "≈ 430 m" è coerente con
+    Posiva (deposito a 400–430 m, livello di caratterizzazione a 420 m), ma
+    Wikipedia dà 520 m come profondità finale del complesso (livello
+    inferiore). Va scelta la definizione e indicata. "Gneiss granitico" è una
+    semplificazione (Posiva parla di gneiss migmatitico).
+  - Verificato nel browser: nessun errore in console, 11 pallini con fumetto
+    giusto, zoom e trascinamento, WIPP e Italia funzionano ancora col disegno
+    generico.
+- **Da fare in questa richiesta**: WIPP, Deposito Nazionale, poi gli incidenti
+  (TMI, Chernobyl, Fukushima).
 
 ## Fatto — sessione 13
 
