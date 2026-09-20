@@ -500,6 +500,7 @@ p.fonte-dati{margin:.8rem 0 0;border-top:1px dotted var(--linea);padding-top:.5r
              a sinistra di x=296: parto ritagliato per non sprecare mezza
              colonna in bianco -->
         <svg id="scena-inc" viewBox="280 0 920 620" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Animazione della dinamica dell'incidente"></svg>
+        <div class="fumetto" id="fumetto-inc"><button aria-label="Chiudi">×</button><div id="fumetto-inc-corpo"></div></div>
         <div class="zoom-ind">zoom <span id="inc-zoom-val">1.0</span>× · trascina per spostarti</div>
         <div class="comandi">
           <button id="inc-zout" title="Riduci zoom">−</button>
@@ -984,13 +985,25 @@ const INCIDENTI = [
 {
   id:'tmi', anno:'1979', nome:'Three Mile Island', dove:'Pennsylvania, USA', ines:'INES 5',
   passi:[
-    {t:'Si ferma l\'acqua di alimento',d:'Un guasto banale nel circuito secondario blocca le pompe che alimentano i generatori di vapore. Il reattore si spegne automaticamente in pochi secondi, come previsto.',s:{scram:1}},
-    {t:'Una valvola resta aperta',d:'Una valvola di sfogo si apre per abbassare la pressione, poi non si richiude. In sala controllo la spia indica il comando inviato, non la posizione reale: gli operatori credono che sia chiusa.',s:{scram:1,perdita:1}},
-    {t:'Il refrigerante se ne va',d:'Per ore l\'acqua del circuito primario esce dalla valvola aperta. Nessuno se ne accorge perché nessuno strumento misura direttamente il livello nel recipiente.',s:{scram:1,perdita:1,livello:1}},
-    {t:'Gli operatori spengono l\'emergenza',d:'I sistemi di iniezione partono da soli e fanno la cosa giusta. Gli operatori, interpretando male gli strumenti, li riducono: temono di riempire troppo il circuito.',s:{scram:1,perdita:1,livello:2}},
-    {t:'Metà del nocciolo fonde',d:'Scoperto e senza raffreddamento, il combustibile raggiunge temperature altissime. Circa la metà del nocciolo si degrada, buona parte fonde e si raccoglie sul fondo del recipiente.',s:{scram:1,perdita:1,livello:2,fusione:1}},
-    {t:'Il contenimento tiene',d:'Il combustibile fuso resta dentro il recipiente in acciaio, e ciò che esce resta dentro l\'edificio di contenimento. All\'esterno i rilasci sono trascurabili.',s:{scram:1,fusione:1,contenuto:1}}
+    {t:'Si ferma l\'acqua di alimento',d:'Un guasto banale nel circuito secondario blocca le pompe che alimentano i generatori di vapore. Il reattore si spegne automaticamente in pochi secondi, come previsto.',s:{scram:1,pompe:1},ora:'28 marzo 1979, ore 4:00 · il reattore si spegne da solo in pochi secondi'},
+    {t:'Una valvola resta aperta',d:'Una valvola di sfogo si apre per abbassare la pressione, poi non si richiude. In sala controllo la spia indica il comando inviato, non la posizione reale: gli operatori credono che sia chiusa.',s:{scram:1,perdita:1,pompe:1,hpi:1},ora:'ore 4:00 · la valvola si apre a circa 15,5 MPa e non si richiude'},
+    {t:'Il refrigerante se ne va',d:'Per ore l\'acqua del circuito primario esce dalla valvola aperta. Nessuno se ne accorge perché nessuno strumento misura direttamente il livello nel recipiente.',s:{scram:1,perdita:1,livello:1,pompe:1,hpi:1},ora:'dalle 4:15 · il serbatoio di scarico si rompe e l\'acqua finisce nell\'edificio'},
+    {t:'Gli operatori spengono l\'emergenza',d:'I sistemi di iniezione partono da soli e fanno la cosa giusta. Gli operatori, interpretando male gli strumenti, li riducono: temono di riempire troppo il circuito.',s:{scram:1,perdita:1,livello:2,pompe:1,hpi:2},ora:'nelle prime ore · il livello nel pressurizzatore è alto, quello nel recipiente scende'},
+    {t:'Metà del nocciolo fonde',d:'Scoperto e senza raffreddamento, il combustibile raggiunge temperature altissime. Circa la metà del nocciolo si degrada, buona parte fonde e si raccoglie sul fondo del recipiente.',s:{scram:1,perdita:1,livello:2,fusione:1,pompe:0,hpi:2},ora:'dopo circa 80 minuti · le pompe vanno in cavitazione e il nocciolo si scopre'},
+    {t:'Il contenimento tiene',d:'Il combustibile fuso resta dentro il recipiente in acciaio, e ciò che esce resta dentro l\'edificio di contenimento. All\'esterno i rilasci sono trascurabili.',s:{scram:1,fusione:1,contenuto:1,pompe:0,hpi:2,blocco:1},ora:'ore 6:22 la perdita si ferma · verso le 13:50 dell\'idrogeno brucia nel contenimento'}
   ],
+  fumetti:{
+    nocciolo:{t:'Il nocciolo',d:'Il combustibile sta nella parte bassa del recipiente, sotto l\'acqua. Anche a reattore spento produce calore: se l\'acqua scende e lo lascia scoperto, si surriscalda, la guaina di zirconio reagisce col vapore e produce idrogeno, e il combustibile può fondere.',p:'Alla fine almeno il 45 % del nocciolo (circa 62 tonnellate) era fuso; circa 19 tonnellate erano colate sul fondo del recipiente, che è rimasto integro.'},
+    barre:{t:'Barre di controllo',d:'Cadono dall\'alto tra gli elementi di combustibile e fermano la reazione a catena. È l\'arresto (scram): qui è avvenuto, come previsto, pochi secondi dopo il guasto. Da quel momento il problema non è più la reazione, ma il calore che il combustibile continua a produrre.'},
+    pressurizzatore:{t:'Il pressurizzatore',d:'Un serbatoio con acqua sotto e un cuscino di vapore sopra, che serve a tenere sotto controllo la pressione del circuito primario. Il suo livello è quasi l\'unico segnale, indiretto, di quanta acqua c\'è nel circuito. Quel segnale, qui, ha ingannato: con la pressione che cala e il vapore che si forma, il livello saliva mentre il recipiente si svuotava.',p:'Gli operatori, credendo il circuito troppo pieno, ridussero l\'iniezione di emergenza.'},
+    valvola:{t:'La valvola di sfogo (PORV)',d:'Si apre da sola quando la pressione supera circa 15,5 MPa e dovrebbe richiudersi appena scende. Non si richiuse. Per ore l\'acqua del circuito primario uscì da qui: circa 120 metri cubi in tutto, finché alle 6:22 un nuovo capoturno chiuse la valvola di blocco che le sta a monte.',p:'La stessa valvola aveva già dato problemi in altri impianti: un episodio simile a Davis-Besse, diciotto mesi prima, era stato risolto in 20 minuti.'},
+    scarico:{t:'Il serbatoio di scarico',d:'Raccoglie quello che esce dalla valvola di sfogo. Si riempì, il suo disco di sicurezza si ruppe (alle 4:15 circa) e l\'acqua radioattiva si riversò sul pavimento del contenimento e nel pozzetto.'},
+    generatore:{t:'Il generatore di vapore',d:'Qui il calore del circuito primario passa all\'acqua del circuito secondario, che diventa vapore per la turbina. Dopo la perdita dell\'alimento principale, le pompe di emergenza partirono ma due valvole sulla loro linea erano rimaste chiuse: l\'acqua di emergenza non arrivò ai generatori per i primi minuti.',p:'Nel disegno il generatore è uno solo e semplificato: l\'impianto ne aveva due, di tipo a passaggio unico (Babcock & Wilcox).'},
+    pompa:{t:'Pompa di circolazione',d:'Fa scorrere l\'acqua attraverso il nocciolo. Quando nel circuito si formò vapore le pompe cominciarono a vibrare e, dopo circa 80 minuti, gli operatori le spensero: finì la circolazione forzata e il nocciolo restò scoperto.',p:'Le pompe erano quattro, due per generatore; il disegno ne mostra una.'},
+    iniezione:{t:'Iniezione di emergenza',d:'Un sistema di pompe che immette acqua borata nel circuito primario se la pressione scende. Partì da sola, fece la cosa giusta e per un po\' compensò la perdita. Ma il livello alto nel pressurizzatore convinse gli operatori a ridurla: fu una delle decisioni che portarono alla fusione.'},
+    spia:{t:'La spia della valvola',d:'In sala controllo una spia indicava lo stato della valvola di sfogo, ma seguiva il comando elettrico inviato alla valvola, non la sua posizione vera. Spenta significava: nessun comando di apertura. Non: valvola chiusa. Non c\'era uno strumento che mostrasse la posizione reale né una misura diretta del livello nel recipiente.',p:'Dopo l\'incidente le interfacce di sala controllo furono riprogettate da zero.'},
+    contenimento:{t:'Il contenimento',d:'Un edificio in calcestruzzo armato con rivestimento d\'acciaio, pensato per trattenere ciò che esce dal circuito primario. Ha retto: il combustibile fuso è rimasto nel recipiente e i rilasci verso l\'esterno sono stati molto piccoli. Verso le 13:50 dell\'idrogeno accumulato bruciò all\'interno, con un picco di pressione di circa 2 bar, e l\'edificio resse.',p:'La dose media agli abitanti nel raggio di 16 km fu una frazione della radiazione naturale di un anno.'}
+  },
   esiti:[
     ['Conseguenze sanitarie','Nessun effetto sanitario sulla popolazione è stato rilevato dagli studi successivi. La dose media agli abitanti nel raggio di 16 km fu una frazione di quella naturale annua.'],
     ['Conseguenze reali','Il danno vero fu economico e politico: il reattore fu perso, e negli Stati Uniti gli ordini di nuove centrali si fermarono per trent\'anni.'],
@@ -6212,9 +6225,40 @@ function selezionaDeposito(id){
 const scenaInc=document.getElementById('scena-inc');
 let incCorrente=null, passo=0, timer=null;
 
-function disegnaIncidente(inc,s){
+/* ogni incidente può avere il suo disegno: {vista, disegna(g,s,passo,inc)} →
+   pallini [{x,y,n,chiave}], con i testi in inc.fumetti; gli incidenti non
+   ancora ridisegnati usano il disegno generico qui sotto */
+const INC_DISEGNI={};
+const fumI=document.getElementById('fumetto-inc'), fumIC=document.getElementById('fumetto-inc-corpo');
+fumI.querySelector('button').onclick=()=>fumI.classList.remove('on');
+let incMosso=false;
+function mostraFumettoInc(inc,chiave,nodo){
+  const f=(inc.fumetti||{})[chiave]; if(!f) return;
+  fumIC.innerHTML=`<h4>${f.t}</h4><div>${f.d}</div>${f.p?`<div class="paragone">${f.p}</div>`:''}`;
+  const r=nodo.getBoundingClientRect(), box=scenaInc.parentElement.getBoundingClientRect();
+  fumI.classList.add('on');
+  let px=r.left-box.left+r.width+14, py=r.top-box.top-10;
+  if(px+fumI.offsetWidth>box.width-10) px=r.left-box.left-fumI.offsetWidth-14;
+  fumI.style.left=Math.max(10,px)+'px';
+  fumI.style.top=Math.min(Math.max(py,10),box.height-fumI.offsetHeight-10)+'px';
+}
+function disegnaIncidente(inc,s,p){
   scenaInc.innerHTML='';
   const g=el('g',{}); scenaInc.appendChild(g);
+  const D=INC_DISEGNI[inc.id];
+  if(D){
+    defsCielo(scenaInc,'i');
+    const punti=D.disegna(g,s,p,inc);
+    const H=el('g',{});
+    punti.forEach(q=>{
+      const hp=hotspot(q.x,q.y,q.n,q.chiave);
+      hp.addEventListener('click',ev=>{ if(incMosso) return; ev.stopPropagation(); mostraFumettoInc(inc,q.chiave,hp); });
+      hp.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); hp.dispatchEvent(new MouseEvent('click')); } });
+      H.appendChild(hp);
+    });
+    g.appendChild(H);
+    return;
+  }
   g.appendChild(el('rect',{x:0,y:0,width:1200,height:620,fill:'#fff'}));
   g.appendChild(el('rect',{x:0,y:500,width:1200,height:120,fill:'#E3E5DD'}));
 
@@ -6296,9 +6340,236 @@ function disegnaIncidente(inc,s){
     g.appendChild(testo(900,440,'oltre 150 000 persone allontanate','etichetta','middle'));
   }
 }
+/* ---------------------------------------------------------------
+   THREE MILE ISLAND 2 — 28 marzo 1979. Sezione del contenimento di un
+   reattore ad acqua in pressione di tipo Babcock & Wilcox, con un solo
+   circuito disegnato (l'impianto ne aveva due, con due generatori di vapore
+   e quattro pompe). Scala circa 1 m = 10 px. Fonti: World Nuclear
+   Association ("Three Mile Island Accident"); Wikipedia ("Three Mile
+   Island accident"); Commissione Kemeny e NRC (schede dell'incidente).
+   Sequenza: perdita dell'alimento principale alle 4:00, arresto del reattore
+   dopo 8 s, valvola di sfogo del pressurizzatore (PORV) aperta a 2 255 psi
+   che non si richiude, spia che segue il comando e non la posizione, due
+   valvole dell'alimento di emergenza chiuse, livello del pressurizzatore che
+   sale mentre il recipiente si svuota, rottura del serbatoio di scarico alle
+   4:15, pompe di circolazione che vibrano per il vapore, valvola di blocco
+   chiusa alle 6:22, almeno il 45 % del nocciolo fuso (≈ 62 t) e ≈ 19 t sul
+   fondo del recipiente, combustione di idrogeno nel contenimento verso le
+   13:50 (+ 28 psi), edificio integro. Indicativi: forma e quote dei
+   componenti, posizione dei tubi, livelli dell'acqua nei vari passi, tempi
+   dei passi intermedi, un solo circuito. */
+function disegnaTMI(g,s,p,inc){
+  const add=x=>{g.appendChild(x);return x;};
+  const punti=[]; const pt=(x,y,n,chiave)=>punti.push({x,y,n,chiave});
+  const F=690, rx=290, sgx=500, ppx=416;
+  const caldo='#D2453A', freddo='#2E8FA8', steel='#5A6360', conc='#B9C0C4', acq='#BFD4DB';
+  const tubo=(d,col,anim,w=7)=>{
+    add(el('path',{d,fill:'none',stroke:'#8E989A','stroke-width':w+5,'stroke-linecap':'round','stroke-linejoin':'round',opacity:'.5'}));
+    return add(pathTubo(d,col,w,anim));
+  };
+  const liv=s.livello||0, fus=!!s.fusione, pompe=s.pompe!==0;
+  const perde=!!s.perdita&&!s.blocco;
+  const quanto=liv===1?1:(liv===2||fus)?2:0;
+
+  /* sfondo, terreno, ora */
+  add(el('rect',{x:0,y:0,width:1000,height:F,fill:'url(#i-cielo)'}));
+  add(el('rect',{x:0,y:F,width:1000,height:90,fill:'#CFCBBE'}));
+  add(el('rect',{x:0,y:F,width:1000,height:5,fill:'#8FA97A'}));
+  if(p&&p.ora){ const o=testo(20,34,p.ora,'etichetta','start',true); o.setAttribute('style','font-size:17px'); add(o); }
+  add(testo(20,58,'schema semplificato: l\'impianto aveva due generatori di vapore e quattro pompe, qui ne è disegnato uno','etichetta sec','start'));
+
+  /* contenimento: pareti in calcestruzzo con rivestimento d'acciaio, sezionato */
+  const dC=`M190 ${F} L190 270 A190 120 0 0 1 570 270 L570 ${F}`;
+  const cont=el('g',{});
+  cont.appendChild(el('path',{d:dC+' Z',fill:'#F7F8F8'}));
+  cont.appendChild(el('path',{d:dC,fill:'none',stroke:s.contenuto?'#2A6B7C':conc,'stroke-width':14,'stroke-linejoin':'round'}));
+  cont.appendChild(el('path',{d:`M197 ${F} L197 270 A183 113 0 0 1 563 270 L563 ${F}`,fill:'none',stroke:steel,'stroke-width':2}));
+  add(cont);
+  add(conTitolo(cont,'Edificio di contenimento: calcestruzzo armato con rivestimento d\'acciaio. Ha il compito di trattenere quello che esce dal circuito primario. Nell\'incidente ha funzionato come previsto.'));
+  add(el('rect',{x:176,y:F,width:408,height:26,fill:conc,stroke:'#8E989A','stroke-width':1}));
+
+  /* acqua sul pavimento e nel pozzetto */
+  add(el('rect',{x:456,y:F,width:50,height:22,fill:'#F7F8F8',stroke:steel,'stroke-width':1.2}));
+  if(quanto){
+    add(el('rect',{x:457,y:F+22-8*quanto,width:48,height:8*quanto,fill:'#8FA8B4'}));
+    add(el('rect',{x:198,y:F-4*quanto,width:258,height:4*quanto,fill:'#9BB7C4',opacity:'.85'}));
+    add(el('rect',{x:506,y:F-4*quanto,width:56,height:4*quanto,fill:'#9BB7C4',opacity:'.85'}));
+  }
+  add(testo(481,F+18,'pozzetto','etichetta sec','middle'));
+
+  /* tubazioni del circuito primario, dietro ai recipienti */
+  tubo(`M${rx+24} 585 L352 585 L352 395 L${sgx} 395 L${sgx} 420`,caldo,pompe,7);
+  tubo(`M${sgx} 645 L${sgx} 670 L462 670`,freddo,pompe,7);
+  tubo(`M418 670 L340 670 L340 615 L${rx+24} 615`,freddo,pompe,7);
+  tubo(`M${ppx} 470 L${ppx} 490 L352 490`,caldo,false,5);
+  add(conTitolo(g.lastChild,'Collegamento fra il circuito primario e il pressurizzatore: attraverso questo tubo sale e scende l\'acqua quando la pressione cambia.'));
+
+  /* iniezione di emergenza: serbatoio d'acqua borata fuori dal contenimento, pompa, tubo fino al circuito */
+  const hpiCol=s.hpi?freddo:'#B5BCC0';
+  add(el('path',{d:`M78 688 L78 708 L134 708 M164 708 L400 708 L400 676`,fill:'none',stroke:'#8E989A','stroke-width':11,'stroke-linecap':'round',opacity:'.5'}));
+  if(s.hpi) add(pathTubo(`M78 688 L78 708 L134 708 M164 708 L400 708 L400 676`,hpiCol,s.hpi===2?2.5:6,true));
+  const bor=el('g',{});
+  bor.appendChild(el('rect',{x:46,y:596,width:64,height:92,rx:10,fill:'#E4EEF6',stroke:'#1B5FA8','stroke-width':2}));
+  bor.appendChild(el('rect',{x:48,y:626,width:60,height:60,rx:8,fill:acq}));
+  add(bor); add(conTitolo(bor,'Serbatoio d\'acqua borata per l\'iniezione di emergenza: fuori dal contenimento.'));
+  const pmp=el('g',{});
+  pmp.appendChild(el('circle',{cx:149,cy:708,r:15,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':2}));
+  pmp.appendChild(el('path',{d:'M139 708 L159 708 M149 698 L149 718',stroke:s.hpi?freddo:'#B5BCC0','stroke-width':2.2,class:s.hpi?'rotore':''}));
+  add(pmp);
+  add(testo(78,592,'acqua borata','etichetta sec','middle'));
+
+  /* reattore: recipiente, CRDM, barre, acqua, nocciolo */
+  const rpv=el('g',{});
+  rpv.appendChild(el('rect',{x:rx-24,y:552,width:48,height:136,rx:14,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':3}));
+  add(rpv);
+  add(conTitolo(rpv,'Recipiente del reattore: acciaio spesso, alto circa 13 m. Contiene il nocciolo, immerso nell\'acqua che lo raffredda.'));
+  const yAcq = fus?668 : liv===2?624 : liv===1?606 : 558;
+  add(el('rect',{x:rx-21,y:yAcq,width:42,height:684-yAcq,fill:acq,opacity:'.9'}));
+  if(liv||fus){ for(let i=0;i<12;i++) add(el('circle',{cx:rx-15+(i*13)%30,cy:566+((i*29)%(Math.max(yAcq-570,10))),r:2.3,fill:'#fff',stroke:'#7A9AA8','stroke-width':.8})); }
+  const crdm=el('g',{});
+  crdm.appendChild(el('rect',{x:rx-18,y:506,width:36,height:46,fill:'#D6DDE2',stroke:'#5A6360','stroke-width':1.6}));
+  for(let i=1;i<4;i++) crdm.appendChild(el('line',{x1:rx-18+i*9,y1:508,x2:rx-18+i*9,y2:550,stroke:'#8E989A','stroke-width':1}));
+  add(crdm); add(conTitolo(crdm,'Meccanismi delle barre di controllo, sopra il coperchio del recipiente.'));
+  /* nocciolo */
+  const colNoc = fus?'#A8442A' : liv===2?'#D07A2A' : liv===1?'#B8934A' : '#8A8474';
+  const hNoc = fus?14:40;
+  const noc=el('g',{});
+  for(let i=0;i<6;i++) noc.appendChild(el('rect',{x:rx-17+i*6,y:595,width:5,height:hNoc,fill:colNoc}));
+  if(fus){ [[rx-14,618],[rx+2,624],[rx+10,614]].forEach(([fx,fy])=>noc.appendChild(el('rect',{x:fx,y:fy,width:5,height:6,fill:'#A8442A'}))); }
+  add(noc);
+  if(fus){
+    add(el('path',{d:`M${rx-19} 682 L${rx-19} 664 Q${rx-8} 652 ${rx} 658 Q${rx+10} 650 ${rx+19} 664 L${rx+19} 682 Z`,fill:'#A8442A',stroke:'#5A2018','stroke-width':1.2}));
+  }
+  add(conTitolo(noc,fus?'Nocciolo dopo la fusione: circa metà del combustibile si è degradato, una parte è colata sul fondo del recipiente.':liv?'Nocciolo scoperto: l\'acqua è scesa e il combustibile, che produce ancora calore, si surriscalda.':'Nocciolo: sotto l\'acqua, come deve stare. Anche a reattore spento produce calore.'));
+  /* barre di controllo, inserite dopo lo scram */
+  const barre=el('g',{});
+  [-12,-4,4,12].forEach(dx=>barre.appendChild(el('rect',{x:rx+dx-1.6,y:552,width:3.2,height:s.scram?76:34,fill:'#1C2321'})));
+  add(barre);
+
+  /* generatore di vapore */
+  const sg=el('g',{});
+  sg.appendChild(el('rect',{x:sgx-22,y:420,width:44,height:225,rx:12,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':3}));
+  add(sg);
+  add(conTitolo(sg,'Generatore di vapore: l\'acqua calda del circuito primario passa dentro tubi, e cede calore all\'acqua del circuito secondario, che diventa vapore per la turbina.'));
+  const yS=(s.hpi||liv||fus)?496:566;
+  add(el('rect',{x:sgx-19,y:yS,width:38,height:642-yS,fill:'#DCEBF2',opacity:'.9'}));
+  for(let i=0;i<5;i++) add(el('line',{x1:sgx-14+i*7,y1:434,x2:sgx-14+i*7,y2:630,stroke:'#D2453A','stroke-width':1.3,opacity:'.7'}));
+  add(testo(sgx+38,520,'generatore di vapore','etichetta sec','start'));
+
+  /* pompa di circolazione */
+  const pom=el('g',{});
+  pom.appendChild(el('circle',{cx:440,cy:670,r:18,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':2.5}));
+  pom.appendChild(el('path',{d:'M428 670 L452 670 M440 658 L440 682',stroke:pompe?freddo:'#B5BCC0','stroke-width':2.6,class:pompe?'rotore':''}));
+  add(pom);
+  add(conTitolo(pom,pompe?'Pompa di circolazione del refrigerante: tiene l\'acqua in movimento attraverso il nocciolo.':'Pompa di circolazione ferma: spenta dagli operatori perché vibrava, aspirando vapore invece di acqua.'));
+
+  /* pressurizzatore, valvola di blocco, valvola di sfogo, scarico */
+  const yP=s.blocco||liv? 348 : (s.perdita?372:398);
+  const pres=el('g',{});
+  pres.appendChild(el('rect',{x:ppx-13,y:340,width:26,height:130,rx:10,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':3}));
+  add(pres);
+  add(conTitolo(pres,'Pressurizzatore: un serbatoio che tiene la pressione del circuito primario, con un cuscino di vapore sopra e acqua sotto. Il suo livello è l\'unica misura indiretta dell\'acqua nel circuito.'));
+  add(el('rect',{x:ppx-11,y:yP,width:22,height:468-yP,fill:acq,opacity:'.9'}));
+  tubo(`M${ppx} 340 L${ppx} 296`,'#8E989A',false,4);
+  const vBlocco=el('g',{});
+  vBlocco.appendChild(el('path',{d:`M${ppx-7} 316 L${ppx+7} 326 L${ppx+7} 316 L${ppx-7} 326 Z`,fill:s.blocco?'#1C2321':'#FFFFFF',stroke:'#0B2440','stroke-width':1.6}));
+  add(vBlocco);
+  add(conTitolo(vBlocco,s.blocco?'Valvola di blocco: chiusa. Alle 6:22 un nuovo capoturno la chiude e la perdita si ferma.':'Valvola di blocco: è aperta. Chiuderla avrebbe fermato la perdita, ma nessuno sapeva che ce ne fosse bisogno.'));
+  const vSfogo=el('g',{});
+  vSfogo.appendChild(el('path',{d:`M${ppx-8} 296 L${ppx+8} 308 L${ppx+8} 296 L${ppx-8} 308 Z`,fill:s.perdita?caldo:'#FFFFFF',stroke:'#0B2440','stroke-width':1.6}));
+  vSfogo.appendChild(el('rect',{x:ppx+10,y:294,width:12,height:14,fill:'#D6DDE2',stroke:'#5A6360','stroke-width':1.2}));
+  add(vSfogo);
+  add(conTitolo(vSfogo,s.perdita?'Valvola di sfogo del pressurizzatore (PORV): si è aperta come previsto e non si è richiusa. L\'acqua del circuito primario esce da qui.':'Valvola di sfogo del pressurizzatore (PORV): si apre da sola se la pressione sale troppo e si richiude quando scende.'));
+  const scar=`M${ppx} 296 L${ppx} 290 L560 290 L560 634`;
+  add(el('path',{d:scar,fill:'none',stroke:'#8E989A','stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round',opacity:'.5'}));
+  if(perde) add(pathTubo(scar,caldo,5,true));
+  else if(s.perdita) add(pathTubo(scar,'#C9A9A4',3,false));
+
+  /* serbatoio di scarico, con il disco che si rompe */
+  const rcdt=el('g',{});
+  rcdt.appendChild(el('rect',{x:530,y:634,width:36,height:54,rx:7,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':2.5}));
+  add(rcdt);
+  add(conTitolo(rcdt,'Serbatoio di scarico del refrigerante: raccoglie ciò che esce dalla valvola di sfogo. Ha un disco che si rompe se si riempie troppo.'));
+  const yT=quanto?678:(s.perdita?656:688);
+  if(yT<688) add(el('rect',{x:532,y:yT,width:32,height:686-yT,fill:acq,opacity:'.9'}));
+  if(quanto){
+    add(el('path',{d:'M534 636 l6 6 l-4 5 l7 5',fill:'none',stroke:'#B23A2A','stroke-width':2}));
+    add(el('path',{d:'M534 690 q-10 3 -18 0',fill:'none',stroke:'#7A9AA8','stroke-width':2.4}));
+  }
+  add(testo(548,628,'serbatoio','etichetta sec','middle'));
+
+  /* alimento di acqua e vapore, fuori dal contenimento */
+  const tb=el('g',{});
+  tb.appendChild(el('rect',{x:600,y:566,width:180,height:124,fill:'#E4E7E8',stroke:'#96A0A6','stroke-width':1.8}));
+  tb.appendChild(el('rect',{x:632,y:610,width:88,height:22,rx:3,fill:'#DCEBF2',stroke:'#4C6377','stroke-width':1.2}));
+  tb.appendChild(el('path',{d:'M640 645 L714 645',stroke:'#1C2321','stroke-width':2}));
+  add(tb);
+  add(conTitolo(tb,'Sala delle turbine: fuori dal contenimento. Con l\'arresto del reattore la turbina si è fermata.'));
+  add(testo(690,680,'sala turbine','etichetta sec','middle'));
+  tubo(`M${sgx+22} 440 L680 440 L680 566`,'#D9DCDD',false,5);
+  add(testo(650,432,'vapore','etichetta sec','middle'));
+  tubo(`M600 596 L${sgx+22} 596`,'#B5D0DC',false,5);
+  const xm=(x,y)=>add(el('path',{d:`M${x-7} ${y-7} L${x+7} ${y+7} M${x+7} ${y-7} L${x-7} ${y+7}`,stroke:'#B23A2A','stroke-width':3,'stroke-linecap':'round'}));
+  xm(589,596);
+  add(testo(606,586,'alimento principale fermo','etichetta sec','start'));
+  const emerg=(s.hpi||liv||fus);
+  tubo(`M600 616 L${sgx+22} 616`,emerg?'#2E8FA8':'#B5D0DC',emerg,5);
+  if(!emerg){ xm(589,616); }
+  add(testo(606,636,emerg?'alimento di emergenza':'alimento di emergenza: valvole chiuse','etichetta sec','start'));
+
+  /* etichette dentro il contenimento */
+  add(testo(rx-32,616,'nocciolo','etichetta sec','end'));
+  add(testo(rx,498,'recipiente del reattore','etichetta sec','middle'));
+  add(testo(ppx+34,330,'pressurizzatore','etichetta sec','start'));
+  add(testo(ppx+34,352,'valvola di sfogo','etichetta sec','start'));
+  add(testo(380,146,'contenimento','etichetta','middle'));
+
+  /* sala di controllo: che cosa vedono gli operatori */
+  const cx0=620, cy0=70, cw=360, ch=300;
+  add(el('rect',{x:cx0,y:cy0,width:cw,height:ch,rx:6,fill:'rgba(255,255,255,.95)',stroke:'#1B5FA8','stroke-width':1.6}));
+  add(testo(cx0+cw/2,cy0+18,'SALA DI CONTROLLO · cosa vedono gli operatori','etichetta sec','middle'));
+  /* spia della valvola */
+  add(el('circle',{cx:cx0+30,cy:cy0+52,r:11,fill:'#ECECEC',stroke:'#5A6360','stroke-width':2}));
+  add(testo(cx0+52,cy0+48,'spia della valvola di sfogo: spenta','etichetta sec','start'));
+  add(testo(cx0+52,cy0+62,s.perdita?'segue il comando, non la posizione della valvola':'la valvola è chiusa, come deve','etichetta sec','start'));
+  if(s.perdita) add(testo(cx0+52,cy0+76,'realtà: la valvola è aperta','etichetta','start'));
+  /* livello del pressurizzatore */
+  const gx=cx0+30, gy=cy0+118, gh=110, fr=(liv||s.blocco)?0.97:(s.perdita?0.8:0.6);
+  add(el('rect',{x:gx,y:gy,width:22,height:gh,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':1.6}));
+  add(el('rect',{x:gx+1,y:gy+gh*(1-fr),width:20,height:gh*fr,fill:acq}));
+  add(testo(gx+34,gy+14,'livello nel pressurizzatore','etichetta sec','start'));
+  add(testo(gx+34,gy+30,fr>.9?'ALTO, quasi pieno':fr>.7?'in salita':'normale','etichetta','start'));
+  add(testo(gx+34,gy+50,'l\'unico segnale indiretto','etichetta sec','start'));
+  add(testo(gx+34,gy+64,'dell\'acqua nel circuito','etichetta sec','start'));
+  /* livello nel recipiente */
+  add(el('rect',{x:cx0+220,y:gy,width:22,height:gh,fill:'#FDFEFF',stroke:'#7A8288','stroke-width':1.4,'stroke-dasharray':'4 3'}));
+  add(testo(cx0+231,gy+gh/2+6,'?','etichetta','middle'));
+  add(testo(cx0+250,gy+14,'livello nel recipiente','etichetta sec','start'));
+  add(testo(cx0+250,gy+30,'non misurato','etichetta','start'));
+  add(testo(cx0+250,gy+46,'nessuno strumento','etichetta sec','start'));
+  add(testo(cx0+250,gy+60,'lo indica','etichetta sec','start'));
+  /* stato dell'iniezione e delle pompe */
+  add(testo(cx0+30,cy0+ch-38,'iniezione di emergenza: '+(s.hpi===2?'ridotta dagli operatori':s.hpi?'in funzione':'ferma'),'etichetta sec','start'));
+  add(testo(cx0+30,cy0+ch-20,'pompe di circolazione: '+(pompe?'in funzione':'spente')+(s.blocco?' · valvola di blocco: chiusa':''),'etichetta sec','start'));
+
+  pt(rx,615,1,'nocciolo');
+  pt(rx,530,2,'barre');
+  pt(ppx-30,410,3,'pressurizzatore');
+  pt(ppx+34,302,4,'valvola');
+  pt(548,660,5,'scarico');
+  pt(sgx,520,6,'generatore');
+  pt(440,646,7,'pompa');
+  pt(250,708,8,'iniezione');
+  pt(cx0+30,cy0+52,9,'spia');
+  pt(220,270,10,'contenimento');
+  return punti;
+}
+INC_DISEGNI.tmi={vista:{x:0,y:0,w:1000,h:780},disegna:disegnaTMI};
+
 function mostraPasso(){
   const p=incCorrente.passi[passo];
-  disegnaIncidente(incCorrente,p.s);
+  fumI.classList.remove("on");
+  disegnaIncidente(incCorrente,p.s,p);
   document.getElementById('inc-tit').textContent=p.t;
   document.getElementById('inc-desc').textContent=p.d;
   const ka=APPRO_INC[`${incCorrente.id}.${passo+1}`];
@@ -6316,6 +6587,7 @@ function selezionaIncidente(id){
   // ogni coppia in un div: serve a farle diventare schede affiancate nella griglia
   document.getElementById('inc-esiti').innerHTML=incCorrente.esiti.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
   document.getElementById('inc-fonte').textContent=incCorrente.fonte;
+  Object.assign(INC_BASE,(INC_DISEGNI[id]||{}).vista||{x:280,y:0,w:920,h:620});
   incReset();                     // nuovo incidente, vista intera
   mostraPasso();
 }
@@ -6364,7 +6636,7 @@ scenaInc.addEventListener('pointermove',e=>{
   const dx=e.clientX-incTrascina.x, dy=e.clientY-incTrascina.y;
   if(!incTrascina.mosso){
     if(Math.hypot(dx,dy)<5) return;
-    incTrascina.mosso=true;
+    incTrascina.mosso=true; incMosso=true; fumI.classList.remove("on");
     scenaInc.setPointerCapture(incTrascina.id); scenaInc.classList.add('trascina');
   }
   const r=scenaInc.getBoundingClientRect();
@@ -6375,6 +6647,7 @@ scenaInc.addEventListener('pointermove',e=>{
 ['pointerup','pointercancel'].forEach(ev=>scenaInc.addEventListener(ev,e=>{
   if(incTrascina&&incTrascina.mosso) scenaInc.releasePointerCapture(incTrascina.id);
   incTrascina=null; scenaInc.classList.remove('trascina');
+  setTimeout(()=>{incMosso=false;},0);           // dopo il click che chiude il trascinamento
 }));
 document.getElementById('inc-zin').onclick=()=>incZoomA(1.4);
 document.getElementById('inc-zout').onclick=()=>incZoomA(1/1.4);

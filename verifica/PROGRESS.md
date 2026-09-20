@@ -130,8 +130,56 @@ Si procede un elemento alla volta, mostrando il risultato.
     giusto, zoom e trascinamento.
 - **Depositi: finiti tutti e 3.** `disegnaDepositoGenerico` non è più usato
   da nessuno (codice morto, come le funzioni generiche delle centrali).
-- **Da fare in questa richiesta**: gli incidenti (TMI, Chernobyl,
-  Fukushima).
+- **Infrastruttura degli incidenti** (una volta per tutte): ogni incidente può
+  avere il suo disegno, registrato in `INC_DISEGNI` con la sua vista e una
+  funzione `disegna(g,s,passo,inc)` che restituisce i pallini; i testi dei
+  pallini stanno in `fumetti` dell'incidente, mostrati nel fumetto dentro la
+  scena (`#fumetto-inc`); ogni passo può avere un campo `ora` con l'orario.
+  Chi non ha un disegno proprio usa il vecchio disegno generico (Chernobyl e
+  Fukushima, per ora).
+- **Three Mile Island: fatto.** Sezione del contenimento di un reattore ad
+  acqua in pressione con un solo circuito (il disegno lo dichiara): recipiente
+  con nocciolo, barre, coperchio e meccanismi; generatore di vapore;
+  pressurizzatore con valvola di blocco e valvola di sfogo (PORV); pompa di
+  circolazione; serbatoio di scarico con il disco che si rompe; pozzetto e
+  acqua sul pavimento; iniezione di emergenza (serbatoio d'acqua borata fuori
+  dal contenimento, pompa, tubo); alimento principale fermo e alimento di
+  emergenza con le valvole chiuse; sala turbine; pannello **"sala di
+  controllo: cosa vedono gli operatori"** con la spia (spenta, ma la valvola è
+  aperta), il livello alto nel pressurizzatore e il livello nel recipiente
+  che nessuno strumento misura. I sei passi cambiano: livello dell'acqua nel
+  recipiente e nel pressurizzatore, stato del nocciolo (intatto, scoperto,
+  fuso sul fondo), barre, valvole, pompe ferme o in moto, iniezione in
+  funzione o ridotta, acqua sul pavimento, contenimento evidenziato all'ultimo
+  passo. 10 pallini con fumetto.
+  - Fonti: World Nuclear Association ("Three Mile Island Accident"); Wikipedia
+    ("Three Mile Island accident"): 4:00 del 28 marzo 1979, arresto del
+    reattore, PORV aperta a 2 255 psi che non si richiude, spia che segue il
+    comando, due valvole dell'alimento di emergenza chiuse, ≈ 32 000 galloni
+    (≈ 120 m³) di refrigerante persi, livello del pressurizzatore che sale,
+    disco del serbatoio di scarico rotto alle 4:15, pompe che vibrano dopo
+    ≈ 80 minuti, valvola di blocco chiusa alle 6:22, almeno il 45 % del nocciolo
+    fuso (≈ 62 t) e ≈ 19 t sul fondo, combustione di idrogeno verso le 13:50
+    con + 28 psi, contenimento integro; PORV già guasta 11 volte in altri
+    impianti e caso simile a Davis-Besse 18 mesi prima (risolto in 20
+    minuti). La pagina dell'NRC dava 403.
+  - **Da riverificare**: il tipo dei generatori di vapore (a passaggio unico,
+    Babcock & Wilcox) e "quattro pompe, due per generatore" sono dalla mia
+    memoria, non da una fonte letta; le valvole dell'alimento di emergenza
+    chiuse "per i primi minuti" (la fonte dice solo che erano chiuse; dalla
+    memoria: circa 8 minuti); l'arresto "dopo 8 secondi" (Wikipedia) contro
+    "circa un secondo" (WNA): nel disegno e nel fumetto ho scritto "pochi
+    secondi"; che l'acqua del serbatoio di scarico sia stata poi pompata in
+    un edificio ausiliario (dalla memoria: non scritto); la dose media
+    (0,08 mSv entro 16 km per WNA, 1,4 mrem = 0,014 mSv per Wikipedia).
+  - **Indicativi**: forma e quote di tutti i componenti, posizione dei tubi,
+    livelli dell'acqua nei sei passi, tempi dei passi intermedi.
+  - **Da sistemare nella scheda**: `esiti` dice "Nessun effetto sanitario ...
+    rilevato": coerente con WNA; le tre fonti danno dosi diverse, va scelta
+    una definizione.
+  - Verificato nel browser: nessun errore in console, sei passi, 10 fumetti,
+    Chernobyl e Fukushima funzionano ancora col disegno generico.
+- **Da fare in questa richiesta**: Chernobyl, Fukushima.
 
 ## Fatto — sessione 13
 
