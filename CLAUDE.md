@@ -13,10 +13,9 @@ Sito di divulgazione scientifica sull'energia nucleare, in italiano. Rispondi in
 - `index.html` è il sorgente: le modifiche si fanno qui. Pubblicato con GitHub
   Pages (branch `main`, cartella `/`): ogni push su `main` aggiorna il sito
   online in circa un minuto.
-- `pubblica/index.html` è una versione derivata, con immagini, font e crediti
-  incorporati. Non va modificata a mano ma rigenerata dal sorgente. Non esiste
-  ancora uno script che lo faccia: dopo ogni modifica a `index.html` va
-  rifatta a mano (o lo script va scritto).
+- Non esiste più una versione derivata (`pubblica/index.html` è stata tolta il
+  2026-09-20: era obsoleta, senza i nuovi disegni): il sito online è
+  `index.html` così com'è, con le foto lette da `img/`.
 - Foto in `img/` e crediti si generano con `prepara-immagini.ps1`.
 
 ## Regole sui contenuti

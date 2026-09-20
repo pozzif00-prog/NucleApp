@@ -12,9 +12,8 @@ verificati su fonti citate.
 |---|---|
 | `index.html` | Il sito: HTML, CSS e JavaScript in un unico file. È il file da modificare. Pubblicato con GitHub Pages |
 | `img/` | Fotografie degli impianti e relativi crediti (`crediti.json`, `crediti.js`) |
-| `pubblica/index.html` | Versione in un solo file, con immagini, font e crediti incorporati |
 | `verifica/` | Verifica delle fonti: metodo, registro fonti, affermazioni controllate, correzioni e stato del lavoro |
-| `prepara-immagini.ps1` | Scarica le foto da Wikimedia Commons e genera i crediti (`prepara-immagini.py` è la versione Python originale) |
+| `prepara-immagini.ps1` | Scarica le foto da Wikimedia Commons e genera i crediti |
 
 ## Vedere il sito
 
