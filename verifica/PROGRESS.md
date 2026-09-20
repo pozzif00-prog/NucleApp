@@ -179,7 +179,47 @@ Si procede un elemento alla volta, mostrando il risultato.
     una definizione.
   - Verificato nel browser: nessun errore in console, sei passi, 10 fumetti,
     Chernobyl e Fukushima funzionano ancora col disegno generico.
-- **Da fare in questa richiesta**: Chernobyl, Fukushima.
+- **Chernobyl: fatto.** Di notte, come nella realtà. Sezione dell'edificio
+  dell'unità 4: nocciolo di grafite con 16 canali disegnati (ne ha 1 661) e
+  combustibile, barre con la punta di grafite in chiaro e il tratto d'acqua
+  sotto, piastra superiore, sala del reattore con la macchina di carico,
+  separatori di vapore ai lati, pompe, vasche di soppressione sotto il piano
+  di campagna, sala turbine con la turbina che gira per inerzia fino al passo
+  4, e il pannello **"sala di controllo"** con la potenza, le barre in campo,
+  il test e il pulsante **AZ-5** (che si abbassa al passo 4). I sei passi
+  cambiano: barre estratte o in ingresso, bolle di vapore nei canali,
+  bagliore blu e poi arancio, all'esplosione la piastra sollevata e inclinata,
+  la sala squarciata, il nocciolo sventrato, il fuoco, i detriti a terra, e
+  all'ultimo passo il pennacchio con la piastra ricaduta di sbieco. 9 pallini
+  con fumetto.
+  - Fonti: World Nuclear Association ("Chernobyl Accident": 3 200 MW termici,
+    1 000 MW elettrici, nocciolo ≈ 7 x 12 m, 211 barre, piastra da 1 000 t,
+    coefficiente di vuoto positivo, punte di grafite, 28 morti per sindrome
+    acuta) e Wikipedia ("Chernobyl disaster": 1 661 canali, test della turbina
+    con 5,5 MW per ≈ 45 s, cronologia dal 25 aprile 01:06 al 26 aprile 01:23:40,
+    ≈ 30 MW alle 00:05, 160 MW alle 00:39, due pompe in più alle 01:05, minimo
+    di 15 barre, oltre 530 MW, ≈ 30 000 MW, seconda esplosione 2–3 s dopo,
+    incendio fino al 10 maggio, sarcofago dicembre 1986, New Safe
+    Confinement 2016–2018).
+  - **Da riverificare**: la piastra "ricaduta di sbieco sopra il reattore
+    aperto" (dalla memoria); le vasche di soppressione come protezione
+    parziale contro la rottura di tubi (dalla memoria); la macchina di carico
+    nella sala; la "seconda esplosione" come esplosione di idrogeno o di
+    altra natura (le fonti divergono: WNA dice "probabilmente idrogeno",
+    Wikipedia non decide).
+  - **Indicativi**: forma e quote dell'edificio, disposizione di separatori,
+    pompe, tubi e vasche, quanti canali e barre si disegnano, il tetto, la
+    posizione dei detriti.
+  - **Discrepanze da sistemare nella scheda**: il passo 5 dice "la potenza
+    supera di decine di volte il valore nominale"; con ≈ 30 000 MW su
+    3 200 MW nominali si tratta di circa dieci volte (Wikipedia). Le stime
+    variano (il fumetto lo dice) e il testo del passo va reso coerente:
+    proposta "di molte volte". Non toccato. La grafite di WNA (1 200 t) e la
+    piastra (1 000 t) contro altre fonti (grafite ≈ 1 700 t, piastra ≈ 2 000
+    t) non entrano nel disegno.
+  - Verificato nel browser: nessun errore in console, sei passi, 9 pallini con
+    fumetto giusto; TMI e Fukushima funzionano.
+- **Da fare in questa richiesta**: Fukushima.
 
 ## Fatto — sessione 13
 

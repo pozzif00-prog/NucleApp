@@ -1015,13 +1015,24 @@ const INCIDENTI = [
 {
   id:'chernobyl', anno:'1986', nome:'Chernobyl', dove:'Pripyat, URSS', ines:'INES 7',
   passi:[
-    {t:'Un test a bassa potenza',d:'Si vuole verificare se l\'inerzia della turbina basta ad alimentare le pompe per i secondi che servono ai diesel per partire. Il test viene rinviato di ore e finisce sul turno di notte, con personale non preparato.',s:{}},
-    {t:'La potenza crolla e viene risollevata',d:'Il reattore scende quasi a zero. In quello stato è instabile e le procedure imporrebbero di fermarlo. Per non perdere il test, gli operatori estraggono quasi tutte le barre di controllo per farlo risalire.',s:{barreFuori:1}},
-    {t:'Si formano bolle nei canali',d:'A bassa potenza e con poche barre inserite, l\'acqua nei canali comincia a bollire. In questo progetto le bolle non frenano la reazione: la accelerano. La potenza inizia a salire da sola.',s:{barreFuori:1,vuoto:1}},
-    {t:'Lo spegnimento la accelera',d:'Viene premuto il pulsante di arresto rapido. Ma le barre hanno la punta in grafite: entrando spingono via l\'acqua e nei primi secondi aumentano la reattività invece di ridurla.',s:{barreFuori:1,vuoto:1,escursione:1}},
-    {t:'Escursione di potenza ed esplosione',d:'In pochi secondi la potenza supera di decine di volte il valore nominale. Il vapore fa saltare il coperchio da mille tonnellate; una seconda esplosione scoperchia l\'edificio. La grafite prende fuoco e brucia per giorni.',s:{escursione:1,esplosione:1,incendio:1}},
-    {t:'Niente contenimento, rilascio diretto',d:'Non c\'è nessun edificio a tenuta sopra il nocciolo. Il pennacchio dell\'incendio porta i prodotti di fissione in atmosfera e li distribuisce su mezza Europa.',s:{esplosione:1,incendio:1,pennacchio:1}}
+    {t:'Un test a bassa potenza',d:'Si vuole verificare se l\'inerzia della turbina basta ad alimentare le pompe per i secondi che servono ai diesel per partire. Il test viene rinviato di ore e finisce sul turno di notte, con personale non preparato.',s:{},ora:'25 aprile 1986 · il test, previsto di giorno, viene rinviato fino alle 23:04'},
+    {t:'La potenza crolla e viene risollevata',d:'Il reattore scende quasi a zero. In quello stato è instabile e le procedure imporrebbero di fermarlo. Per non perdere il test, gli operatori estraggono quasi tutte le barre di controllo per farlo risalire.',s:{barreFuori:1},ora:'26 aprile, dalle 00:05 · la potenza cade a circa 30 MW e viene risollevata a 160 MW'},
+    {t:'Si formano bolle nei canali',d:'A bassa potenza e con poche barre inserite, l\'acqua nei canali comincia a bollire. In questo progetto le bolle non frenano la reazione: la accelerano. La potenza inizia a salire da sola.',s:{barreFuori:1,vuoto:1},ora:'01:05 due pompe in più · 01:23:04 comincia il test'},
+    {t:'Lo spegnimento la accelera',d:'Viene premuto il pulsante di arresto rapido. Ma le barre hanno la punta in grafite: entrando spingono via l\'acqua e nei primi secondi aumentano la reattività invece di ridurla.',s:{barreFuori:1,vuoto:1,escursione:1},ora:'01:23:40 · viene premuto il pulsante AZ-5'},
+    {t:'Escursione di potenza ed esplosione',d:'In pochi secondi la potenza supera di decine di volte il valore nominale. Il vapore fa saltare il coperchio da mille tonnellate; una seconda esplosione scoperchia l\'edificio. La grafite prende fuoco e brucia per giorni.',s:{escursione:1,esplosione:1,incendio:1},ora:'pochi secondi dopo · due esplosioni a 2–3 secondi l\'una dall\'altra'},
+    {t:'Niente contenimento, rilascio diretto',d:'Non c\'è nessun edificio a tenuta sopra il nocciolo. Il pennacchio dell\'incendio porta i prodotti di fissione in atmosfera e li distribuisce su mezza Europa.',s:{esplosione:1,incendio:1,pennacchio:1},ora:'fino al 10 maggio · l\'incendio della grafite'}
   ],
+  fumetti:{
+    nocciolo:{t:'Il nocciolo RBMK',d:'Un cilindro di grafite alto circa 7 m e largo circa 12, attraversato da 1 661 canali verticali: in ognuno un tubo in pressione con il combustibile, raffreddato da acqua che bolle nel canale. La grafite rallenta i neutroni, l\'acqua ne assorbe.',p:'Se l\'acqua bolle e diventa vapore, assorbe meno neutroni: in questo progetto la reazione, invece di calare, aumenta. È il coefficiente di vuoto positivo, il difetto di fondo del progetto.'},
+    barre:{t:'Le barre di controllo',d:'Sono 211 e hanno in punta un tratto di grafite. Quando una barra è estratta, sotto la punta resta un tratto pieno d\'acqua; quando la barra scende, la grafite prende il posto dell\'acqua che assorbe neutroni, e per i primi secondi la reattività aumenta invece di calare.',p:'Dopo il 1986 le punte furono ridisegnate e in campo si tengono più barre.'},
+    piastra:{t:'La piastra superiore',d:'Un disco di acciaio e calcestruzzo (circa 1 000 tonnellate) che chiude il reattore sopra i canali. Sopra c\'è il pavimento della sala del reattore. La prima esplosione, di vapore, la sollevò e la proiettò attraverso il tetto.',p:'Nel disegno, ricadde di sbieco sopra il reattore aperto.'},
+    separatori:{t:'Separatori di vapore',d:'Grandi tamburi dove l\'acqua e il vapore che escono dai canali si separano: il vapore va alla turbina, l\'acqua torna alle pompe e ai canali. Il disegno ne mostra uno per lato, in sezione; la disposizione è indicativa.'},
+    pompe:{t:'Pompe di circolazione',d:'Spingono l\'acqua verso il fondo dei canali. Nel test quattro pompe erano alimentate dalla turbina che rallentava: con la portata che calava l\'acqua nei canali bolliva di più, e in questo reattore più vapore significa più potenza.',p:'Alle 01:05 furono avviate due pompe in più, e per compensare gli operatori estrassero ancora barre, sotto il minimo di 15.'},
+    vasche:{t:'Vasche di soppressione',d:'Sotto il reattore ci sono vasche d\'acqua che condensano il vapore se si rompe un tubo del circuito. Sono una protezione parziale, pensata per la rottura di tubi, non per un\'esplosione che scoperchia il nocciolo. Posizione e forma nel disegno sono indicative.'},
+    turbina:{t:'Il test della turbina',d:'Si voleva verificare se una turbina che rallenta per inerzia dopo un blackout produce energia sufficiente (circa 5,5 MW per circa 45 secondi) per alimentare le pompe di emergenza nei secondi che servono ai diesel per partire. Il test, previsto di giorno, fu rimandato di ore per richiesta della rete elettrica e finì sul turno di notte.'},
+    edificio:{t:'L\'edificio: non un contenimento',d:'Sopra il nocciolo c\'era un edificio industriale, non un contenimento a tenuta di pressione. Quando il reattore esplose, niente trattenne quello che usciva: il combustibile, la grafite in fiamme e i prodotti di fissione andarono in atmosfera.',p:'Il sarcofago fu completato a dicembre 1986; la nuova copertura (New Safe Confinement) è del 2016–2018.'},
+    az5:{t:'AZ-5: l\'arresto di emergenza',d:'Il pulsante inserisce tutte le barre. Premuto alle 01:23:40, con quasi tutte le barre estratte: le punte di grafite, entrando per prime, tolsero acqua dal fondo del nocciolo e aggiunsero reattività. In pochi secondi la potenza salì oltre 530 MW e poi fino a una stima di circa 30 000 MW, molto oltre il valore nominale di 3 200.',p:'Le stime del picco variano da una ricostruzione all\'altra.'}
+  },
   esiti:[
     ['Conseguenze immediate','2 lavoratori morti nell\'esplosione. 134 persone colpite da sindrome acuta da radiazioni, di cui 28 decedute nelle settimane successive.'],
     ['Conseguenze a lungo termine','Migliaia di tumori della tiroide tra chi era bambino o adolescente nelle aree contaminate — in larga parte evitabili con una distribuzione tempestiva di iodio e col blocco del latte contaminato, che l\'URSS non fece. La sopravvivenza per questo tumore è alta, ma i casi restano.'],
@@ -6565,6 +6576,235 @@ function disegnaTMI(g,s,p,inc){
   return punti;
 }
 INC_DISEGNI.tmi={vista:{x:0,y:0,w:1000,h:780},disegna:disegnaTMI};
+
+/* ---------------------------------------------------------------
+   CHERNOBYL, unità 4 — 26 aprile 1986, di notte. Sezione dell'edificio
+   di un RBMK-1000: nocciolo di grafite (≈ 7 m di altezza, ≈ 12 m di
+   diametro) con 1 661 canali verticali e 211 barre di controllo con la
+   punta di grafite, piastra superiore (≈ 1 000 t), separatori di vapore ai
+   lati, pompe di circolazione in basso, vasche di soppressione sotto il
+   reattore, sala del reattore sopra la piastra, sala turbine a destra.
+   Scala circa 1 m = 8 px. Fonti: World Nuclear Association ("Chernobyl
+   Accident"); Wikipedia ("Chernobyl disaster"): 3 200 MW termici e 1 000 MW
+   elettrici; coefficiente di vuoto positivo; test della turbina che rallenta
+   (5,5 MW per ≈ 45 s alle pompe di emergenza); 25 aprile 14:00 rete che
+   ritarda lo spegnimento, 23:04 ripresa; 00:05 la potenza cade a ≈ 30 MW;
+   00:39 160 MW; 01:05 altre due pompe e barre estratte oltre il minimo di 15;
+   01:23:04 inizio del test con quattro pompe alimentate dalla turbina;
+   01:23:40 AZ-5; oltre 530 MW in pochi secondi, ≈ 30 000 MW stimati;
+   prima esplosione (vapore), seconda 2–3 s dopo; incendio della grafite fino
+   al 10 maggio. Indicativi: quote, disposizione di separatori, pompe e
+   tubi, numero dei componenti disegnati, forma dell'edificio e della
+   piastra prima e dopo, vasche di soppressione, macchina di carico. */
+function disegnaChernobyl(g,s,p,inc){
+  const add=x=>{g.appendChild(x);return x;};
+  const punti=[]; const pt=(x,y,n,chiave)=>punti.push({x,y,n,chiave});
+  const G=680, cx=500;
+  const esp=!!s.esplosione, fuoco=!!s.incendio, pen=!!s.pennacchio, vuoto=!!s.vuoto, fuori=!!s.barreFuori, esc=!!s.escursione;
+  const acq='#BFD4DB', steel='#5A6360', conc='#C9D2D9', concL='#7A8792';
+  const passoN=(inc.passi||[]).indexOf(p)+1;
+
+  /* cielo notturno e bagliore */
+  const defs=el('defs',{});
+  const gr=el('linearGradient',{id:'ch-notte',x1:'0',y1:'0',x2:'0',y2:'1'});
+  gr.appendChild(el('stop',{offset:'0%','stop-color':'#0B1B3A'})); gr.appendChild(el('stop',{offset:'100%','stop-color':'#2C4268'}));
+  defs.appendChild(gr);
+  const rg=el('radialGradient',{id:'ch-bagliore'});
+  rg.appendChild(el('stop',{offset:'0%','stop-color':'#FFB347','stop-opacity':'.85'})); rg.appendChild(el('stop',{offset:'100%','stop-color':'#FFB347','stop-opacity':'0'}));
+  defs.appendChild(rg);
+  add(defs);
+  add(el('rect',{x:0,y:0,width:1000,height:G,fill:'url(#ch-notte)'}));
+  [[60,40],[140,110],[230,60],[330,26],[420,90],[560,36],[640,70],[760,30],[860,96],[940,52],[110,190],[900,170]].forEach(([x,y])=>add(el('circle',{cx:x,cy:y,r:1.4,fill:'#DDE6F5',opacity:'.75'})));
+  if(esp||fuoco) add(el('circle',{cx:500,cy:470,r:esp&&!pen?330:250,fill:'url(#ch-bagliore)',opacity:pen?'.6':'.9'}));
+  add(el('rect',{x:0,y:G,width:1000,height:80,fill:'#3A3F44'}));
+  add(el('rect',{x:0,y:G,width:1000,height:4,fill:'#5A6068'}));
+  if(p&&p.ora){ const o=testo(20,34,p.ora,'etichetta','start',true); o.setAttribute('style','font-size:17px'); add(o); }
+
+  /* edifici laterali (sale dei separatori) e sala turbine */
+  [[212,340],[660,788]].forEach(([a,b])=>{
+    const e=el('g',{});
+    e.appendChild(el('rect',{x:a,y:360,width:b-a,height:G-360,fill:'#E3E9ED',stroke:concL,'stroke-width':2.4}));
+    add(e);
+  });
+  const tur=el('g',{});
+  tur.appendChild(el('rect',{x:830,y:440,width:150,height:G-440,fill:'#D5DCE1',stroke:concL,'stroke-width':2.4}));
+  tur.appendChild(el('rect',{x:846,y:570,width:84,height:34,rx:6,fill:'#EEF2F4',stroke:'#1C2321','stroke-width':1.6}));
+  tur.appendChild(el('rect',{x:934,y:566,width:34,height:42,rx:3,fill:'#C9CCC2',stroke:'#1C2321','stroke-width':1.4}));
+  const rot=passoN&&passoN<=4;
+  tur.appendChild(el('path',{d:'M858 587 L920 587 M889 573 L889 601',stroke:'#1C2321','stroke-width':2,class:rot?'rotore':''}));
+  add(tur);
+  add(conTitolo(tur,'Sala delle turbine. Il test riguardava proprio la turbina: se, dopo un blackout, l\'energia della turbina che rallenta per inerzia basta ad alimentare le pompe di emergenza per i secondi che servono ai diesel per partire.'));
+  add(testo(905,548,'sala turbine','etichetta sec','middle'));
+
+  /* corpo del reattore sotto il pavimento della sala; vasche di soppressione sotto il piano di campagna */
+  const blocco=el('g',{});
+  blocco.appendChild(el('rect',{x:340,y:456,width:320,height:G-456,fill:'#E3E5E7',stroke:concL,'stroke-width':2.4}));
+  add(blocco);
+  const vasche=el('g',{});
+  vasche.appendChild(el('rect',{x:380,y:G,width:240,height:56,fill:'#D6DDE2',stroke:concL,'stroke-width':2}));
+  vasche.appendChild(el('rect',{x:388,y:G+14,width:224,height:36,fill:'#7FA8B8'}));
+  for(let i=0;i<7;i++) vasche.appendChild(el('circle',{cx:402+i*30,cy:G+22,r:3,fill:'#DDEAF0',stroke:'#4C7A8C','stroke-width':.8}));
+  add(vasche);
+  add(conTitolo(vasche,'Vasche di soppressione, sotto il reattore: condensano il vapore se si rompe un tubo del circuito. Sono una protezione parziale, pensata per la rottura di tubi, non per un\'esplosione del nocciolo. Disegno indicativo.'));
+  add(testo(500,G+70,'vasche di soppressione','etichetta sec','middle'));
+
+  /* sala del reattore sopra il pavimento: integra oppure squarciata */
+  const sala=el('g',{});
+  if(!esp){
+    sala.appendChild(el('path',{d:'M340 456 L340 190 L500 172 L660 190 L660 456 Z',fill:'#EEF1F3',stroke:concL,'stroke-width':3}));
+    sala.appendChild(el('path',{d:'M334 190 L500 168 L666 190',fill:'none',stroke:'#4A5560','stroke-width':4}));
+    /* gru e macchina di carico */
+    sala.appendChild(el('rect',{x:372,y:262,width:256,height:8,fill:'#C9D2D9',stroke:'#7A8792','stroke-width':1}));
+    sala.appendChild(el('rect',{x:468,y:270,width:52,height:78,fill:'#D9DEE2',stroke:'#7A8792','stroke-width':1.2}));
+  }else{
+    sala.appendChild(el('path',{d:'M340 456 L340 318 L352 306 L344 292 L358 280 L348 264 L360 262 L360 456 Z',fill:'#D5DCE1',stroke:concL,'stroke-width':1.5}));
+    sala.appendChild(el('path',{d:'M660 456 L660 352 L650 338 L658 322 L646 312 L640 456 Z',fill:'#D5DCE1',stroke:concL,'stroke-width':1.5}));
+    sala.appendChild(el('path',{d:'M372 236 L420 246 L440 232 M560 214 L610 226 L640 210',fill:'none',stroke:'#4A5560','stroke-width':3,opacity:'.7'}));
+  }
+  add(sala);
+  add(conTitolo(sala,esp?'La sala del reattore dopo le esplosioni: pareti squarciate, il tetto non c\'è più.':'Sala del reattore: sopra il nocciolo c\'è un normale edificio industriale con la sua copertura, non un contenimento a tenuta di pressione.'));
+  if(!esp) conTitolo(sala.lastChild,'Macchina di carico: cambia il combustibile a reattore acceso.');
+  add(testo(500,214,esp?'sala del reattore squarciata':'sala del reattore','etichetta sec','middle'));
+
+  /* pozzo del reattore in calcestruzzo */
+  const pozzo=el('g',{});
+  pozzo.appendChild(el('rect',{x:420,y:480,width:160,height:120,fill:'#D2DAE0',stroke:'#7A8792','stroke-width':2}));
+  pozzo.appendChild(el('rect',{x:434,y:480,width:132,height:112,fill:'#E9EDF0'}));
+  add(pozzo);
+
+  /* nocciolo: grafite e canali */
+  const nocW=96, nx0=cx-nocW/2;
+  const core=el('g',{});
+  if(!esp){
+    core.appendChild(el('rect',{x:nx0,y:528,width:nocW,height:56,fill:'#A8A399',stroke:'#5C5852','stroke-width':1.6}));
+    for(let y=536;y<584;y+=8) core.appendChild(el('line',{x1:nx0,y1:y,x2:nx0+nocW,y2:y,stroke:'#8C877D','stroke-width':.7}));
+  }else{
+    core.appendChild(el('path',{d:`M${nx0} 584 L${nx0} 548 L${nx0+12} 538 L${nx0+22} 552 L${nx0+38} 534 L${nx0+52} 556 L${nx0+68} 540 L${nx0+82} 552 L${nx0+96} 544 L${nx0+96} 584 Z`,fill:'#8C877D',stroke:'#5C5852','stroke-width':1.6}));
+  }
+  add(core);
+  add(conTitolo(core,esp?'Nocciolo dopo l\'esplosione: sventrato, con la grafite e il combustibile sparsi. Circa un quarto dei blocchi di grafite fu proiettato fuori.':'Nocciolo di grafite: alto circa 7 m e largo circa 12, attraversato da 1 661 canali verticali con il combustibile e l\'acqua che lo raffredda.'));
+  const colComb = esp?'#C4552A' : esc?'#E8791C' : (vuoto?'#B8934A':'#6F6A5E');
+  if(!esp) for(let i=0;i<16;i++){
+    const x=nx0+5+i*5.6;
+    core.appendChild(el('line',{x1:x,y1:462,x2:x,y2:598,stroke:'#5A7590','stroke-width':.9,opacity:'.8'}));
+    core.appendChild(el('rect',{x:x-1.6,y:531,width:3.2,height:50,fill:colComb}));
+    if(vuoto) for(let k=0;k<3;k++) core.appendChild(el('circle',{cx:x,cy:540+((i*13+k*17)%40),r:1.6,fill:'#FFFFFF',stroke:'#7A9AA8','stroke-width':.5}));
+  }
+  if(!esp&&!(passoN===2)) add(el('rect',{x:nx0-3,y:526,width:nocW+6,height:60,fill:esc?'#FF6A1A':'#2F6BFF',opacity:esc?'.45':'.30',class:'glow'}));
+
+  /* barre di controllo con la punta di grafite */
+  if(!esp){
+    const yb = esc?548 : fuori?514 : 550;
+    const rods=el('g',{});
+    [2,5,8,11,14].forEach(i=>{
+      const x=nx0+5+i*5.6;
+      rods.appendChild(el('rect',{x:x-1.8,y:yb-60,width:3.6,height:24,fill:'#1C2321'}));
+      rods.appendChild(el('rect',{x:x-2.2,y:yb-36,width:4.4,height:28,fill:'#EFE9D4',stroke:'#8C877D','stroke-width':.6}));
+      rods.appendChild(el('rect',{x:x-1.8,y:yb-8,width:3.6,height:8,fill:acq}));
+      rods.appendChild(el('line',{x1:x,y1:454,x2:x,y2:yb-60,stroke:'#4A5560','stroke-width':1}));
+    });
+    add(rods);
+    add(conTitolo(rods,'Barre di controllo: le punte di grafite (in chiaro) fanno parte della barra. Quando la barra è estratta, sotto la punta resta un tratto pieno d\'acqua; quando scende, la punta lo sostituisce.'));
+    if(esc) [0,1,2].forEach(k=>add(el('path',{d:`M${nx0+30+k*20} 490 l0 14 M${nx0+25+k*20} 498 l5 6 l5 -6`,fill:'none',stroke:'#D2453A','stroke-width':2.2})));
+  }
+
+  /* piastra superiore (UBS): sopra il nocciolo, poi sollevata e ricaduta di sbieco */
+  const ubs=el('g',{});
+  const ubsR=(x,y,ang)=>{ const b=el('g',{transform:`rotate(${ang} ${x} ${y})`}); b.appendChild(el('rect',{x:x-68,y:y-12,width:136,height:24,fill:'#9AA3A8',stroke:'#3C4650','stroke-width':2.2})); for(let i=0;i<10;i++) b.appendChild(el('line',{x1:x-60+i*13,y1:y-12,x2:x-60+i*13,y2:y-4,stroke:'#5A6360','stroke-width':1})); return b; };
+  if(!esp) ubs.appendChild(ubsR(cx,468,0));
+  else if(passoN===5) ubs.appendChild(ubsR(cx+20,250,-32));
+  else ubs.appendChild(ubsR(cx+4,446,15));
+  add(ubs);
+  add(conTitolo(ubs,esp?'La piastra superiore: sollevata dall\'esplosione, è ricaduta di sbieco sopra il reattore aperto.':'Piastra superiore di schermo (circa 1 000 t): chiude il reattore sopra i canali, ed è il pavimento della sala.'));
+
+  /* tubazioni: acqua e miscela acqua-vapore, separatori, pompe */
+  const tubo=(d,col,anim,w=6)=>{
+    add(el('path',{d,fill:'none',stroke:'#8E989A','stroke-width':w+4,'stroke-linecap':'round','stroke-linejoin':'round',opacity:'.6'}));
+    return add(pathTubo(d,col,w,anim));
+  };
+  const flu=!esp;
+  [[-1,282],[1,718]].forEach(([sg,dx])=>{
+    tubo(`M${cx+sg*66} 470 L${dx} 470 L${dx} 462`,flu?'#E9B7A8':'#B9BFC3',flu,6);
+    tubo(`M${dx-sg*10} 462 L${dx-sg*10} 650 L${cx+sg*10} 650 L${cx+sg*10} 604`,flu?'#2E8FA8':'#B9BFC3',flu,6);
+  });
+  add(el('rect',{x:nx0,y:596,width:nocW,height:7,fill:acq,stroke:'#7A9AA8','stroke-width':1}));
+  for(let i=0;i<16;i++) add(el('line',{x1:nx0+5+i*5.6,y1:596,x2:nx0+5+i*5.6,y2:590,stroke:'#2E8FA8','stroke-width':1}));
+  /* separatori di vapore: visti in sezione */
+  [282,718].forEach(dx=>{
+    const sep=el('g',{});
+    sep.appendChild(el('circle',{cx:dx,cy:440,r:22,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':2.5}));
+    sep.appendChild(el('path',{d:`M${dx-21} 442 A22 22 0 0 0 ${dx+21} 442 Z`,fill:acq}));
+    add(sep);
+    if(dx===282) add(conTitolo(sep,'Separatore di vapore, visto in sezione: qui la miscela di acqua e vapore che esce dai canali si separa. Il vapore va alla turbina, l\'acqua torna alle pompe.'));
+  });
+  /* vapore alla turbina */
+  tubo('M718 418 L718 392 L880 392 L880 440',flu?'#D9DCDD':'#B9BFC3',false,5);
+  tubo('M282 418 L282 380',flu?'#D9DCDD':'#B9BFC3',false,5);
+  add(el('path',{d:'M275 384 L282 372 L289 384 Z',fill:'#8E989A'}));
+  add(testo(282,366,'vapore alla turbina','etichetta sec','middle'));
+  /* pompe */
+  [270,730].forEach(px=>{
+    const pm=el('g',{});
+    pm.appendChild(el('circle',{cx:px,cy:650,r:16,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':2.5}));
+    pm.appendChild(el('path',{d:`M${px-9} 650 L${px+9} 650 M${px} 641 L${px} 659`,stroke:'#2E8FA8','stroke-width':2.4,class:flu?'rotore':''}));
+    add(pm);
+    if(px===270) add(conTitolo(pm,'Pompa di circolazione principale: spinge l\'acqua verso il fondo dei canali.'));
+  });
+  add(testo(270,678,'pompe','etichetta sec','middle'));
+
+  /* incendio della grafite e detriti */
+  if(esp){
+    [[-40,-30],[-8,-60],[24,-38],[50,-20],[-24,-14]].forEach(([dx,dy],i)=>{
+      add(el('path',{d:`M${cx+dx-14} 470 Q${cx+dx-4} ${470+dy*2.2} ${cx+dx+6} ${470+dy*1.1} Q${cx+dx+16} ${470+dy*2.6} ${cx+dx+26} 470 Z`,fill:'#E8791C',class:'glow'}));
+      add(el('path',{d:`M${cx+dx-6} 470 Q${cx+dx} ${470+dy*1.3} ${cx+dx+8} 470 Z`,fill:'#F5C842',class:'glow'}));
+    });
+    [[300,300,-24],[380,190,12],[620,250,34],[700,330,-8],[250,420,20],[720,410,-30],[560,150,18],[430,120,-14],[660,170,26]].forEach(([x,y,r],i)=>{
+      const b=el('rect',{x,y,width:14,height:10,fill:i%3?'#8C877D':'#3C4650'}); b.setAttribute('transform',`rotate(${r} ${x+7} ${y+5})`); add(b);
+    });
+    for(let i=0;i<12;i++) add(el('rect',{x:150+i*52+(i%3)*8,y:G-6-(i%2)*4,width:14,height:8,fill:i%2?'#6F6A5E':'#2C3036'}));
+    add(testo(500,528,'nocciolo distrutto','etichetta sec','middle'));
+  }
+  if(pen){
+    [[520,320,86,40,.6],[570,240,104,46,.5],[630,160,126,52,.42],[710,90,150,56,.34]].forEach(([x,y,rx,ry,o])=>add(el('ellipse',{cx:x,cy:y,rx,ry,fill:'#9A948E',opacity:String(o)})));
+    add(testo(760,60,'rilascio diretto in atmosfera','etichetta','middle'));
+  }
+
+  /* etichette */
+  add(testo(nx0-8,560,'nocciolo di grafite','etichetta sec','end'));
+  if(!esp) add(testo(500,440,'piastra superiore','etichetta sec','middle'));
+
+  /* sala di controllo */
+  const px0=20, py0=70, pw=290, ph=260;
+  add(el('rect',{x:px0,y:py0,width:pw,height:ph,rx:6,fill:'rgba(255,255,255,.95)',stroke:'#1B5FA8','stroke-width':1.6}));
+  add(testo(px0+pw/2,py0+18,'SALA DI CONTROLLO','etichetta sec','middle'));
+  const pot=['programmata per il test: 700–1 000 MW','30 MW, poi risollevata a 160 MW','sale da sola','oltre 530 MW in pochi secondi','circa 30 000 MW (stima)','reattore distrutto'][Math.max(0,passoN-1)];
+  const fr=[.22,.05,.22,.5,1,0][Math.max(0,passoN-1)];
+  add(testo(px0+16,py0+42,'potenza termica','etichetta sec','start'));
+  add(testo(px0+16,py0+58,pot,'etichetta','start'));
+  add(el('rect',{x:px0+16,y:py0+68,width:pw-32,height:14,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':1.3}));
+  add(el('rect',{x:px0+17,y:py0+69,width:(pw-34)*fr,height:12,fill:fr>=.5?'#D2453A':'#2F6BFF'}));
+  add(testo(px0+16,py0+104,'barre di controllo in campo','etichetta sec','start'));
+  add(testo(px0+16,py0+120,['si abbassa la potenza','quasi tutte estratte','meno del minimo richiesto (15)','meno del minimo richiesto (15)','—','—'][Math.max(0,passoN-1)],'etichetta','start'));
+  add(testo(px0+16,py0+154,'test della turbina','etichetta sec','start'));
+  add(testo(px0+16,py0+170,passoN>=3&&passoN<=4?'in corso (dalle 01:23:04)':passoN<3?'non ancora iniziato':'interrotto','etichetta','start'));
+  const prem=passoN>=4;
+  add(el('circle',{cx:px0+40,cy:py0+222,r:20,fill:prem?'#8E1F14':'#D2453A',stroke:prem?'#1C2321':'#7A1F17','stroke-width':prem?3.5:2.5}));
+  add(testo(px0+40,py0+226,'AZ-5','','middle'));
+  add(testo(px0+72,py0+214,'arresto di emergenza','etichetta sec','start'));
+  add(testo(px0+72,py0+230,prem?'premuto alle 01:23:40':'non premuto','etichetta','start'));
+
+  pt(cx,572,1,'nocciolo');
+  pt(cx+22,500,2,'barre');
+  pt(cx-84,468,3,'piastra');
+  pt(282,398,4,'separatori');
+  pt(270,624,5,'pompe');
+  pt(500,G+38,6,'vasche');
+  pt(905,585,7,'turbina');
+  pt(344,392,8,'edificio');
+  pt(px0+40,py0+222,9,'az5');
+  return punti;
+}
+INC_DISEGNI.chernobyl={vista:{x:0,y:0,w:1000,h:780},disegna:disegnaChernobyl};
 
 function mostraPasso(){
   const p=incCorrente.passi[passo];
