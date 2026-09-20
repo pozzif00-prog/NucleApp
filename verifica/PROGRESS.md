@@ -219,7 +219,57 @@ Si procede un elemento alla volta, mostrando il risultato.
     t) non entrano nel disegno.
   - Verificato nel browser: nessun errore in console, sei passi, 9 pallini con
     fumetto giusto; TMI e Fukushima funzionano.
-- **Da fare in questa richiesta**: Fukushima.
+- **Fukushima Daiichi: fatto.** Sezione di un'unità con contenimento Mark I:
+  a sinistra il mare con la diga, le altezze di riferimento (5,7 m di progetto,
+  10 m di quota del sito, 15 m dell'onda) e le pompe dell'acqua di mare sulla
+  riva; l'edificio turbina con nel seminterrato diesel, quadri e batterie;
+  l'edificio del reattore con recipiente, nocciolo, barre inserite dal basso,
+  bolla d'acciaio (drywell), camera di soppressione ad anello, piscina del
+  combustibile esaurito e piano di servizio con telaio e copertura leggeri; un
+  pannello "alimentazione e raffreddamento" con quattro spie (rete, diesel,
+  batterie, pompe). I sei passi cambiano: l'onda che sale a 15 m e allaga il
+  sito e i seminterrati (che restano allagati dopo), il livello dell'acqua nel
+  recipiente, il nocciolo (intatto, caldo, scoperto e fuso), la piscina che
+  bolle, l'idrogeno che sale dal contenimento al piano di servizio, poi
+  l'esplosione con macerie e fumo e infine una mappa dell'evacuazione con gli
+  ordini a 2, 3, 10 e 20 km. 8 pallini con fumetto.
+  - Fonti: World Nuclear Association ("Fukushima Daiichi Accident") e
+    Wikipedia ("Fukushima Daiichi nuclear disaster"): sei BWR General Electric
+    con Mark I, unità 1–3 in funzione; 14:46, magnitudo 9,0; onda tra 15:27 e
+    15:35 (≈ 41 minuti), ≈ 15 m contro 5,7 m di progetto, sito a 10 m;
+    diesel, quadri e batterie nei seminterrati degli edifici turbina;
+    12 generatori su 13 fuori uso (WNA; Wikipedia dice "10 su 13 sistemi di
+    raffreddamento dei diesel"); batterie da ≈ 8 ore; unità 1: acqua alla
+    sommità del combustibile dopo ≈ 3 h, danni dopo ≈ 4 h; unità 3 e 2: ≈ 42
+    e ≈ 74 h; esplosioni: unità 1 alle 15:36 del 12 marzo, unità 3 alle 11:01
+    del 14, unità 4 il 15 con idrogeno dall'unità 3; piscina dell'unità 4
+    con 1 331 + 548 elementi, combustibile tolto a dicembre 2014; ordini di
+    evacuazione a 2 km (20:50), 3 (21:23), 10 (05:44 del 12), 20 (18:25); oltre
+    100 000 persone e fino a 164 000 al picco; 51 morti per l'evacuazione e
+    2 313 "correlati al disastro" (90 % oltre i 66 anni); nessun morto acuto
+    da radiazioni.
+  - **Da riverificare**: le pompe dell'acqua di mare "sulla riva, più in basso
+    del sito" (dalla memoria); la diga alta come l'onda di progetto; "molti
+    sistemi non comandabili senza corrente" (Wikipedia dice solo che il
+    condensatore di isolamento dell'unità 1 si guastò per le valvole
+    chiuse alla perdita della corrente continua).
+  - **Indicativi**: forma e quote dei componenti, posizione di diga e prese,
+    livelli dell'acqua nei sei passi, tempi intermedi, un solo edificio.
+  - **Discrepanze da sistemare nella scheda**: il passo 4 dice "a oltre
+    1 000 °C" mentre Wikipedia dà "oltre 1 200 °C" per la reazione
+    zirconio-vapore (non riportato nel fumetto); il passo 6 dice "oltre
+    150 000 persone", la WNA "oltre 100 000", Wikipedia "164 000 al picco";
+    lo "screening" della tiroide e "oltre cinquanta pazienti" (Wikipedia: 51
+    morti per l'evacuazione, in generale) vanno ricondotti a una fonte e a una
+    definizione.
+  - Verificato nel browser: nessun errore in console, sei passi, 8 pallini
+    con fumetto (l'ottavo, l'evacuazione, compare all'ultimo passo);
+    TMI e Chernobyl funzionano.
+- **Incidenti: finiti tutti e 3.** Il disegno generico degli incidenti (in
+  `disegnaIncidente`, dopo l'`if(D)`) non è più usato da nessuno: codice
+  morto, come `sitoGenerico`, `isolaGenerica` e `disegnaDepositoGenerico`. Si
+  possono togliere tutti insieme, ma serve un giro di verifica.
+- **La richiesta "depositi e incidenti come le centrali" è completa.**
 
 ## Fatto — sessione 13
 

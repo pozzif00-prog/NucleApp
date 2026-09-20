@@ -1044,13 +1044,23 @@ const INCIDENTI = [
 {
   id:'fukushima', anno:'2011', nome:'Fukushima Daiichi', dove:'Ōkuma, Giappone', ines:'INES 7',
   passi:[
-    {t:'Il terremoto: tutto funziona',d:'Un sisma di magnitudo 9,0 colpisce la costa. I tre reattori in funzione si spengono automaticamente in pochi secondi. Le linee elettriche esterne cadono, i generatori diesel partono regolarmente. Fin qui il progetto regge.',s:{scram:1,diesel:1}},
-    {t:'Lo tsunami: 41 minuti dopo',d:'Un\'onda di quasi 15 metri supera la barriera progettata per 5,7. Allaga i locali interrati dove stanno i generatori diesel e i quadri elettrici. La centrale perde ogni fonte di alimentazione.',s:{scram:1,tsunami:1,blackout:1}},
-    {t:'Il calore residuo non si ferma',d:'Il reattore è spento, ma il combustibile continua a produrre calore: subito dopo l\'arresto è ancora il 6 % della potenza. Senza pompe, quel calore fa evaporare l\'acqua.',s:{scram:1,blackout:1,residuo:1}},
-    {t:'Il combustibile si scopre',d:'Il livello scende sotto la sommità del nocciolo. Le guaine di zirconio, esposte al vapore a oltre 1 000 °C, si ossidano e liberano idrogeno. Il combustibile inizia a fondere.',s:{blackout:1,residuo:1,fusione:1,idrogeno:1}},
-    {t:'Esplodono gli edifici',d:'L\'idrogeno si accumula nella parte alta degli edifici reattore ed esplode, nelle unità 1, 3 e 4. Le esplosioni distruggono le strutture esterne e complicano ogni intervento.',s:{fusione:1,idrogeno:1,esplosione:1}},
-    {t:'L\'evacuazione',d:'Oltre 150 000 persone vengono allontanate. È qui che si produce la maggior parte del danno umano: trasferimenti d\'urgenza di malati e anziani, comunità disgregate, stigma sociale che dura ancora.',s:{fusione:1,evacuazione:1}}
+    {t:'Il terremoto: tutto funziona',d:'Un sisma di magnitudo 9,0 colpisce la costa. I tre reattori in funzione si spengono automaticamente in pochi secondi. Le linee elettriche esterne cadono, i generatori diesel partono regolarmente. Fin qui il progetto regge.',s:{scram:1,diesel:1},ora:'11 marzo 2011, 14:46 · terremoto di magnitudo 9,0'},
+    {t:'Lo tsunami: 41 minuti dopo',d:'Un\'onda di quasi 15 metri supera la barriera progettata per 5,7. Allaga i locali interrati dove stanno i generatori diesel e i quadri elettrici. La centrale perde ogni fonte di alimentazione.',s:{scram:1,tsunami:1,blackout:1},ora:'dalle 15:27 alle 15:35 · l\'onda arriva circa 41 minuti dopo'},
+    {t:'Il calore residuo non si ferma',d:'Il reattore è spento, ma il combustibile continua a produrre calore: subito dopo l\'arresto è ancora il 6 % della potenza. Senza pompe, quel calore fa evaporare l\'acqua.',s:{scram:1,blackout:1,residuo:1},ora:'nelle prime ore · senza corrente non ci sono pompe'},
+    {t:'Il combustibile si scopre',d:'Il livello scende sotto la sommità del nocciolo. Le guaine di zirconio, esposte al vapore a oltre 1 000 °C, si ossidano e liberano idrogeno. Il combustibile inizia a fondere.',s:{blackout:1,residuo:1,fusione:1,idrogeno:1},ora:'unità 1: combustibile scoperto dopo circa 3 ore, danni dopo circa 4'},
+    {t:'Esplodono gli edifici',d:'L\'idrogeno si accumula nella parte alta degli edifici reattore ed esplode, nelle unità 1, 3 e 4. Le esplosioni distruggono le strutture esterne e complicano ogni intervento.',s:{fusione:1,idrogeno:1,esplosione:1},ora:'12 marzo 15:36 unità 1 · 14 marzo 11:01 unità 3 · 15 marzo unità 4'},
+    {t:'L\'evacuazione',d:'Oltre 150 000 persone vengono allontanate. È qui che si produce la maggior parte del danno umano: trasferimenti d\'urgenza di malati e anziani, comunità disgregate, stigma sociale che dura ancora.',s:{fusione:1,evacuazione:1},ora:'dalle 20:50 dell\'11 marzo · la zona di evacuazione si allarga: 2, 3, 10, 20 km'}
   ],
+  fumetti:{
+    nocciolo:{t:'Il nocciolo',d:'Il combustibile sta immerso nell\'acqua, dentro il recipiente. Dopo lo scram non smette di produrre calore: subito dopo è ancora circa il 6 % della potenza. Se l\'acqua scende e lo scopre, le guaine di zirconio reagiscono col vapore ad alta temperatura, producono idrogeno e altro calore, e il combustibile può fondere.',p:'Nell\'unità 1 l\'acqua scese alla sommità del combustibile dopo circa 3 ore e i danni cominciarono dopo circa 4; nelle unità 3 e 2 dopo circa 42 e 74 ore.'},
+    contenimento:{t:'Il contenimento Mark I',d:'Una bolla d\'acciaio attorno al recipiente e, sotto, una grande camera anulare mezza piena d\'acqua in cui il vapore si condensa. È il progetto di tutti e sei i reattori del sito. Con il calore che non si smaltiva, la pressione salì: si sfiatò il vapore verso la camera di soppressione, ma molto tornò indietro nell\'edificio.'},
+    piscina:{t:'La piscina del combustibile esaurito',d:'Sta nell\'edificio, in alto, sopra il reattore. Senza pompe l\'acqua si scalda e bolle. Nell\'unità 4, dove il reattore era vuoto per manutenzione, la piscina conteneva 1 331 elementi esauriti e 548 nuovi; fu rifornita con pompe dei vigili del fuoco e del cemento, e il combustibile fu tolto entro dicembre 2014.'},
+    edificio:{t:'Il piano di servizio',d:'Sopra il pavimento di manovra la struttura è leggera: pannelli su un telaio d\'acciaio. L\'idrogeno, più leggero dell\'aria, si accumulò lì. Esplose nell\'unità 1 alle 15:36 del 12 marzo e nell\'unità 3 alle 11:01 del 14; nell\'unità 4, all\'alba del 15, con idrogeno arrivato dall\'unità 3 attraverso condotti in comune.',p:'Le esplosioni distrussero tetto e pareti; i recipienti e i contenimenti rimasero al loro posto.'},
+    diesel:{t:'Diesel, quadri e batterie',d:'Erano nei seminterrati degli edifici turbina, dalla parte del mare. L\'onda li allagò: quasi tutti i generatori di emergenza (12 su 13 secondo la World Nuclear Association) furono messi fuori uso, insieme ai quadri elettrici. Restarono le batterie, progettate per circa 8 ore.',p:'Senza corrente non c\'erano né pompe né, per molti sistemi, la possibilità di comandare le valvole.'},
+    onda:{t:'L\'onda e la diga',d:'Circa 15 metri di altezza, contro i 5,7 per cui la diga e il sito erano stati progettati, su un terreno a 10 metri sul livello del mare. Arrivò tra le 15:27 e le 15:35, circa 41 minuti dopo il terremoto, e allagò tutto il sito.',p:'Dopo il terremoto i reattori si erano spenti e i diesel erano partiti: fu l\'onda a togliere la corrente.'},
+    prese:{t:'Le prese d\'acqua di mare',d:'Le pompe che portano il calore residuo al mare stanno sulla riva, più in basso del sito: sono state tra le prime a essere colpite. Senza di loro il calore del reattore non aveva più un posto dove andare. La posizione nel disegno è indicativa.'},
+    evacuazione:{t:'L\'evacuazione',d:'Il primo ordine, alle 20:50 dell\'11 marzo, riguardava 2 km; alle 21:23 salì a 3 km, alle 5:44 del 12 marzo a 10 e alle 18:25 a 20. Furono allontanate oltre 100 000 persone, fino a circa 164 000 al picco.',p:'Nessun morto per radiazioni acute. Ai trasferimenti si attribuiscono 51 morti e, negli anni seguenti, 2 313 morti "correlati al disastro", per il 90 % persone oltre i 66 anni.'}
+  },
   esiti:[
     ['Conseguenze da radiazioni','UNSCEAR nel rapporto 2020 non ha documentato effetti sanitari avversi tra i residenti direttamente attribuibili all\'esposizione, e ritiene improbabile che effetti futuri risultino distinguibili dal fondo statistico.'],
     ['Conseguenze dell\'emergenza','Oltre cinquanta pazienti ospedalizzati morirono durante o subito dopo l\'evacuazione, per interruzione delle cure. Tra gli anziani trasferiti in alloggi temporanei si registrarono forte eccesso di mortalità, patologie croniche e disturbo post-traumatico diffuso.'],
@@ -6805,6 +6815,227 @@ function disegnaChernobyl(g,s,p,inc){
   return punti;
 }
 INC_DISEGNI.chernobyl={vista:{x:0,y:0,w:1000,h:780},disegna:disegnaChernobyl};
+
+/* ---------------------------------------------------------------
+   FUKUSHIMA DAIICHI — 11 marzo 2011. Sezione di un'unità con
+   contenimento Mark I (reattore ad acqua bollente General Electric): il
+   mare a sinistra con la sua diga e le prese d'acqua sulla riva, l'edificio
+   turbina con diesel e quadri elettrici nel seminterrato, l'edificio del
+   reattore con recipiente, bolla d'acciaio (drywell), camera di
+   soppressione ad anello, piscina del combustibile esaurito e piano di
+   servizio in alto. Scala circa 1 m = 8 px. Fonti: World Nuclear
+   Association ("Fukushima Daiichi Accident"); Wikipedia ("Fukushima
+   Daiichi nuclear disaster"): sei reattori BWR con contenimento Mark I,
+   unità 1–3 in funzione; terremoto alle 14:46 (magnitudo 9,0); onda tra le
+   15:27 e le 15:35 (circa 41 minuti dopo), circa 15 m contro i 5,7 m di
+   progetto, quota del sito 10 m; diesel, quadri e batterie nei seminterrati
+   degli edifici turbina allagati; unità 1: acqua alla sommità del
+   combustibile dopo circa 3 ore, danni dopo circa 4; idrogeno dall'ossidazione
+   delle guaine sopra 1 200 °C; esplosioni sul piano di servizio: unità 1
+   alle 15:36 del 12 marzo, unità 3 alle 11:01 del 14 marzo, unità 4 il 15
+   marzo con idrogeno arrivato dall'unità 3 per condotti comuni; ordini di
+   evacuazione a 2 km (20:50), 3 km (21:23), 10 km (05:44 del 12), 20 km
+   (18:25 del 12); oltre 100 000 persone, fino a 164 000 al picco; 2 313 morti
+   "correlati al disastro" e 51 per l'evacuazione; nessun morto acuto da
+   radiazioni. Indicativi: forma e quote dei componenti, posizione delle
+   prese d'acqua e della diga, livelli dell'acqua nei vari passi, tempi
+   intermedi, un solo edificio disegnato. */
+function disegnaFukushima(g,s,p,inc){
+  const add=x=>{g.appendChild(x);return x;};
+  const punti=[]; const pt=(x,y,n,chiave)=>punti.push({x,y,n,chiave});
+  const SL=690, GR=610, cx=590;
+  const acq='#BFD4DB', mare='#7FB6D8', conc='#D2DAE0', concL='#7A8792';
+  const passoN=(inc.passi||[]).indexOf(p)+1;
+  const onda=!!s.tsunami, buio=!!s.blackout||passoN>=2, res=!!s.residuo, fus=!!s.fusione, idr=!!s.idrogeno, esp=!!s.esplosione, evac=!!s.evacuazione;
+
+  /* cielo, mare, terra */
+  const defs=el('defs',{});
+  const rg=el('radialGradient',{id:'fk-fuoco'});
+  rg.appendChild(el('stop',{offset:'0%','stop-color':'#FFF3B0','stop-opacity':'.95'})); rg.appendChild(el('stop',{offset:'45%','stop-color':'#FF8A2A','stop-opacity':'.7'})); rg.appendChild(el('stop',{offset:'100%','stop-color':'#FF8A2A','stop-opacity':'0'}));
+  defs.appendChild(rg); add(defs);
+  add(el('rect',{x:0,y:0,width:1000,height:SL,fill:esp||evac?'#C9D3DA':'url(#i-cielo)'}));
+  add(el('rect',{x:0,y:SL,width:110,height:90,fill:mare}));
+  for(let x=6;x<100;x+=46) add(el('path',{d:`M${x} ${SL+22} q10 -5 20 0 t20 0`,fill:'none',stroke:'#1B5FA8','stroke-width':1.1,opacity:'.5'}));
+  add(el('path',{d:'M100 780 L100 690 L120 658 L175 658 L175 610 L1000 610 L1000 780 Z',fill:'#B39A6E'}));
+  add(el('rect',{x:176,y:GR,width:824,height:5,fill:'#8FA97A'}));
+  add(el('rect',{x:120,y:658,width:55,height:4,fill:'#8FA97A'}));
+  if(p&&p.ora){ const o=testo(20,34,p.ora,'etichetta','start',true); o.setAttribute('style','font-size:17px'); add(o); }
+
+  /* diga e altezze di riferimento */
+  const diga=el('g',{});
+  diga.appendChild(el('path',{d:'M52 730 L66 642 L96 642 L108 704 Z',fill:'#A3ABA6',stroke:'#7A847E','stroke-width':1.2}));
+  add(diga);
+  add(conTitolo(diga,'Diga frangiflutti: alta quanto l\'onda per cui il sito era stato progettato, 5,7 m sul livello del mare. Forma indicativa.'));
+  const riga=(y,txt,col)=>{ add(el('line',{x1:0,y1:y,x2:190,y2:y,stroke:col,'stroke-width':1.3,'stroke-dasharray':'6 4'})); add(testo(6,y-4,txt,'etichetta sec','start')); };
+
+  /* prese d'acqua di mare, sulla riva */
+  const prese=el('g',{});
+  prese.appendChild(el('rect',{x:124,y:632,width:36,height:26,fill:'#D5DCE1',stroke:concL,'stroke-width':1.6}));
+  prese.appendChild(el('circle',{cx:142,cy:645,r:7,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':1.6}));
+  add(prese);
+  add(conTitolo(prese,'Pompe dell\'acqua di mare: stanno sulla riva, più in basso del sito, e portano il calore residuo al mare. Posizione indicativa.'));
+
+  /* edificio turbina con seminterrato: diesel, quadri, batterie */
+  const tb=el('g',{});
+  tb.appendChild(el('rect',{x:190,y:370,width:240,height:GR-370,fill:'#E4E7E8',stroke:concL,'stroke-width':2.4}));
+  tb.appendChild(el('rect',{x:190,y:GR,width:240,height:80,fill:'#DDE3E7',stroke:concL,'stroke-width':2.4}));
+  tb.appendChild(el('rect',{x:214,y:470,width:170,height:36,rx:8,fill:'#EEF2F4',stroke:'#1C2321','stroke-width':1.4}));
+  add(tb);
+  add(conTitolo(tb,'Edificio turbina, dalla parte del mare. Nel seminterrato ci sono i generatori diesel di emergenza, i quadri elettrici e le batterie.'));
+  add(testo(310,392,'edificio turbina','etichetta sec','middle'));
+  const el2=el('g',{});
+  [[204,646],[276,646]].forEach(([x,y])=>{ el2.appendChild(el('rect',{x,y,width:62,height:34,rx:4,fill:'#8FA8B1',stroke:'#0B2440','stroke-width':1.6})); el2.appendChild(el('circle',{cx:x+16,cy:y+17,r:9,fill:'#DCE4E8',stroke:'#0B2440','stroke-width':1.2})); });
+  for(let i=0;i<5;i++) el2.appendChild(el('rect',{x:350+i*16,y:636,width:12,height:44,fill:'#C9CCC2',stroke:'#3C4650','stroke-width':1}));
+  add(el2);
+  add(conTitolo(el2,'Diesel di emergenza (a sinistra) e quadri elettrici (a destra): erano nei seminterrati, dalla parte del mare.'));
+  add(el('circle',{cx:220,cy:634,r:5,fill:buio?'#8E1F14':'#3FA34D',stroke:'#1C2321','stroke-width':1}));
+  add(testo(232,637,buio?'diesel fermi':'diesel in funzione','etichetta sec','start'));
+
+  /* edificio del reattore: base, pareti, piano di servizio */
+  const rb=el('g',{});
+  rb.appendChild(el('rect',{x:440,y:370,width:336,height:320,fill:'#E9EDF0',stroke:concL,'stroke-width':3}));
+  rb.appendChild(el('rect',{x:440,y:370,width:16,height:320,fill:conc,stroke:concL,'stroke-width':1.5}));
+  rb.appendChild(el('rect',{x:760,y:370,width:16,height:320,fill:conc,stroke:concL,'stroke-width':1.5}));
+  rb.appendChild(el('rect',{x:440,y:676,width:336,height:14,fill:conc,stroke:concL,'stroke-width':1.5}));
+  rb.appendChild(el('rect',{x:440,y:370,width:336,height:9,fill:conc,stroke:concL,'stroke-width':1.5}));
+  add(rb);
+  add(conTitolo(rb,'Edificio del reattore: sotto il pavimento del piano di servizio, muri spessi di calcestruzzo che circondano il contenimento.'));
+
+  /* torus e bolla d'acciaio del contenimento Mark I */
+  const torus=el('g',{});
+  [[500,642],[680,642]].forEach(([tx,ty])=>{
+    torus.appendChild(el('circle',{cx:tx,cy:ty,r:34,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':2.6}));
+    torus.appendChild(el('path',{d:`M${tx-33} ${ty+2} A33 33 0 0 0 ${tx+33} ${ty+2} Z`,fill:'#7FA8B8'}));
+  });
+  add(torus);
+  torus.appendChild(el('path',{d:'M556 588 L520 612 M624 588 L660 612',fill:'none',stroke:'#0B2440','stroke-width':6,'stroke-linecap':'round'}));
+  const bulb=el('g',{});
+  bulb.appendChild(el('path',{d:`M${cx-24} 380 L${cx-24} 462 A72 72 0 1 0 ${cx+24} 462 L${cx+24} 380 Z`,fill:'#F6F8F9',stroke:'#0B2440','stroke-width':3}));
+  add(bulb);
+  add(conTitolo(bulb,'Contenimento Mark I: una bolla d\'acciaio (drywell) attorno al recipiente del reattore e, sotto, una grande camera anulare mezza piena d\'acqua (camera di soppressione) in cui si condensa il vapore. È il progetto di tutti e sei i reattori del sito.'));
+  add(conTitolo(torus,'Camera di soppressione: un anello pieno per metà d\'acqua, in cui il vapore del drywell si condensa.'));
+  add(testo(cx-98,566,'contenimento Mark I','etichetta sec','end'));
+
+  /* recipiente del reattore, acqua, nocciolo, barre */
+  const rpv=el('g',{});
+  rpv.appendChild(el('rect',{x:cx-17,y:436,width:34,height:146,rx:14,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':3}));
+  add(rpv);
+  const liv = passoN>=4?566 : passoN===3?494 : 442;
+  add(el('rect',{x:cx-15,y:liv,width:30,height:580-liv,fill:acq,opacity:'.9'}));
+  add(el('rect',{x:cx-14,y:470,width:28,height:30,fill:'#D6DDE2',stroke:'#8E989A','stroke-width':.8,opacity:'.9'}));
+  const colComb = fus?'#C4552A' : res?'#D07A2A' : '#6F6A5E';
+  const noc=el('g',{});
+  for(let i=0;i<5;i++) noc.appendChild(el('rect',{x:cx-12+i*5.6,y:524,width:4,height:fus?18:30,fill:colComb}));
+  add(noc);
+  if(fus) add(el('path',{d:`M${cx-15} 580 L${cx-15} 568 Q${cx-6} 558 ${cx} 563 Q${cx+8} 556 ${cx+15} 568 L${cx+15} 580 Z`,fill:'#A8442A',stroke:'#5A2018','stroke-width':1}));
+  else [-9,-3,3,9].forEach(dx=>add(el('rect',{x:cx+dx-.9,y:534,width:1.8,height:44,fill:'#1C2321'})));   // barre inserite dal basso
+  add(conTitolo(noc,fus?'Nocciolo dopo la fusione: senza acqua il combustibile si è surriscaldato e in parte è fuso sul fondo del recipiente.':'Nocciolo: il combustibile immerso nell\'acqua. Anche dopo lo scram produce calore, subito dopo circa il 6 % della potenza.'));
+  add(conTitolo(rpv,'Recipiente del reattore.'));
+  if(liv>442) for(let i=0;i<8;i++) add(el('circle',{cx:cx-10+(i*7)%20,cy:450+((i*23)%Math.max(liv-460,10)),r:2,fill:'#fff',stroke:'#7A9AA8','stroke-width':.6}));
+  add(testo(cx-30,548,'nocciolo','etichetta sec','end'));
+
+  /* piscina del combustibile esaurito, sul piano di servizio */
+  const pis=el('g',{});
+  pis.appendChild(el('rect',{x:668,y:378,width:88,height:96,fill:'#FDFEFF',stroke:'#0B2440','stroke-width':2.6}));
+  const pAcq = esp?428:(idr?432:(res?420:400));
+  pis.appendChild(el('rect',{x:670,y:pAcq,width:84,height:472-pAcq,fill:acq,opacity:'.9'}));
+  for(let i=0;i<7;i++) pis.appendChild(el('rect',{x:676+i*11,y:446,width:7,height:24,fill:'#6F6A5E'}));
+  add(pis);
+  add(conTitolo(pis,'Piscina del combustibile esaurito: sta nell\'edificio, in alto. Senza pompe l\'acqua si scalda e bolle. Nell\'unità 4, dove il reattore era senza combustibile, la piscina conteneva 1 331 elementi esauriti e 548 nuovi.'));
+  if(res||fus) for(let i=0;i<6;i++) add(el('circle',{cx:678+(i*13)%70,cy:436-(i*7)%40,r:2.2,fill:'#fff',stroke:'#7A9AA8','stroke-width':.6,class:'vapore'}));
+  add(testo(712,396,'piscina del combustibile','etichetta sec','middle'));
+
+  /* piano di servizio: struttura leggera. Integro, con idrogeno che si accumula, oppure sventrato */
+  const ps=el('g',{});
+  if(!esp&&!evac){
+    ps.appendChild(el('path',{d:'M440 370 L440 250 L776 250 L776 370',fill:'#F3F6F8',stroke:concL,'stroke-width':3}));
+    ps.appendChild(el('path',{d:'M434 250 L776 250 L782 244 L428 244 Z',fill:'#8E989A'}));
+    for(let x=468;x<776;x+=44) ps.appendChild(el('line',{x1:x,y1:252,x2:x,y2:368,stroke:'#C3C9CC','stroke-width':.9}));
+    ps.appendChild(el('rect',{x:470,y:262,width:270,height:8,fill:'#C9D2D9',stroke:'#7A8792','stroke-width':1}));
+    ps.appendChild(el('rect',{x:590,y:270,width:46,height:56,fill:'#D9DEE2',stroke:'#7A8792','stroke-width':1.2}));
+  }else{
+    [[456,300],[520,330],[668,340],[764,290]].forEach(([x,h])=>ps.appendChild(el('line',{x1:x,y1:370,x2:x+(x%3-1)*6,y2:h,stroke:'#4A5560','stroke-width':3.5,'stroke-linecap':'round'})));
+    ps.appendChild(el('path',{d:'M456 340 L500 312 M520 330 L560 296 M668 340 L700 318',fill:'none',stroke:'#4A5560','stroke-width':2.5}));
+  }
+  add(ps);
+  add(conTitolo(ps,esp||evac?'Il piano di servizio dopo l\'esplosione: il tetto e le pareti leggere non ci sono più. I recipienti e i contenimenti sono rimasti al loro posto.':'Piano di servizio, sopra il reattore: pareti leggere su un telaio d\'acciaio. È qui che si accumula l\'idrogeno.'));
+  if(!esp&&!evac) add(testo(608,236,'piano di servizio','etichetta sec','middle'));
+
+  /* idrogeno: dal contenimento al piano di servizio */
+  if(idr&&!esp){
+    add(el('path',{d:`M${cx} 384 L${cx} 300`,fill:'none',stroke:'#E8C63A','stroke-width':3,'stroke-dasharray':'2 7','stroke-linecap':'round',class:'flusso anim'}));
+    add(el('ellipse',{cx:608,cy:262,rx:140,ry:14,fill:'#F1DC7A',opacity:'.55',class:'glow'}));
+    add(testo(608,290,'idrogeno','etichetta','middle'));
+  }
+
+  /* onda: 15 m sul livello del mare */
+  if(onda){
+    add(el('path',{d:'M0 690 L0 590 Q42 546 108 560 Q142 576 192 576 L470 576 L470 610 L176 610 L176 658 L120 658 L100 690 Z',fill:'#4F8DB0',opacity:'.85',stroke:'#DDEAF0','stroke-width':2}));
+    add(el('line',{x1:0,y1:570,x2:200,y2:570,stroke:'#B23A2A','stroke-width':1.4,'stroke-dasharray':'6 4'}));
+    add(testo(6,560,'onda: circa 15 m','etichetta','start'));
+    add(el('rect',{x:192,y:GR+2,width:236,height:76,fill:'#4F8DB0',opacity:'.55'}));
+  }else if(buio){
+    add(el('rect',{x:192,y:GR+2,width:236,height:76,fill:'#4F8DB0',opacity:'.55'}));
+  }
+
+  riga(644,'onda di progetto: 5,7 m','#B23A2A');
+  riga(GR,'quota del sito: 10 m','#3C4650');
+
+  /* esplosione e macerie */
+  if(esp){
+    add(el('circle',{cx:608,cy:310,r:150,fill:'url(#fk-fuoco)'}));
+    [[470,190,-24],[590,150,16],[700,196,-34],[520,120,28],[660,110,-12],[770,250,40]].forEach(([x,y,r])=>{
+      const b=el('rect',{x,y,width:46,height:9,fill:'#6F7A83'}); b.setAttribute('transform',`rotate(${r} ${x+23} ${y+4})`); add(b);
+    });
+    for(let i=0;i<10;i++) add(el('rect',{x:452+i*30,y:364-(i%3)*6,width:22,height:8,fill:i%2?'#8E989A':'#4A5560'}));
+    [[560,110,60,26,.5],[610,70,80,30,.42],[680,40,90,32,.34]].forEach(([x,y,rx,ry,o])=>add(el('ellipse',{cx:x,cy:y,rx,ry,fill:'#8C8A86',opacity:String(o)})));
+  }else if(evac){
+    for(let i=0;i<8;i++) add(el('rect',{x:452+i*34,y:364-(i%3)*5,width:24,height:8,fill:i%2?'#8E989A':'#4A5560'}));
+    [[600,120,44,20,.26],[640,80,56,22,.2]].forEach(([x,y,rx,ry,o])=>add(el('ellipse',{cx:x,cy:y,rx,ry,fill:'#8C8A86',opacity:String(o)})));
+  }
+
+  /* pannello: alimentazione elettrica e raffreddamento */
+  const px0=790, py0=54, pw=200, ph=190;
+  add(el('rect',{x:px0,y:py0,width:pw,height:ph,rx:6,fill:'rgba(255,255,255,.95)',stroke:'#1B5FA8','stroke-width':1.6}));
+  add(testo(px0+pw/2,py0+18,'ALIMENTAZIONE E RAFFREDDAMENTO','etichetta sec','middle'));
+  const riga2=(i,ok,txt)=>{ add(el('circle',{cx:px0+16,cy:py0+44+i*30,r:6,fill:ok?'#3FA34D':'#8E1F14',stroke:'#1C2321','stroke-width':1})); add(testo(px0+30,py0+48+i*30,txt,'etichetta sec','start')); };
+  riga2(0,false,'rete esterna: interrotta');
+  riga2(1,!buio,buio?'diesel: allagati':'diesel: in funzione');
+  riga2(2,!buio,buio?'batterie: progettate per ≈ 8 ore':'batterie: di riserva');
+  riga2(3,!buio,buio?'pompe di raffreddamento: ferme':'pompe di raffreddamento: in funzione');
+
+  /* mappa dell'evacuazione, all'ultimo passo */
+  if(evac){
+    const mx=790, my=262, mw=200, mh=210, mcx=mx+100, mcy=my+110;
+    const cp=el('clipPath',{id:'fk-mappa'}); cp.appendChild(el('rect',{x:mx,y:my,width:mw,height:mh,rx:6})); add(cp);
+    const map=el('g',{'clip-path':'url(#fk-mappa)'});
+    map.appendChild(el('rect',{x:mx,y:my,width:mw,height:mh,fill:'#E4EBDD'}));
+    map.appendChild(el('path',{d:`M${mx} ${my} L${mcx-44} ${my} Q${mcx-52} ${my+70} ${mcx-40} ${my+130} Q${mcx-48} ${my+180} ${mcx-42} ${my+mh} L${mx} ${my+mh} Z`,fill:'#7FB6D8'}));
+    [[95,'20 km · 18:25'],[47.5,'10 km · 05:44'],[14,'3 km · 21:23'],[9.5,'2 km · 20:50']].forEach(([r,t],i)=>{
+      map.appendChild(el('circle',{cx:mcx,cy:mcy,r,fill:i===0?'rgba(210,69,58,.10)':'none',stroke:'#B23A2A','stroke-width':1.6,'stroke-dasharray':i===3?'':'5 3'}));
+    });
+    map.appendChild(el('circle',{cx:mcx,cy:mcy,r:4,fill:'#1C2321'}));
+    add(map);
+    add(el('rect',{x:mx,y:my,width:mw,height:mh,rx:6,fill:'none',stroke:'#1B5FA8','stroke-width':1.6}));
+    add(testo(mx+8,my+16,'ordini di evacuazione (11–12 marzo)','etichetta sec','start'));
+    add(testo(mcx+50,mcy-46,'10 km','etichetta sec','middle'));
+    add(testo(mcx+82,mcy-78,'20 km','etichetta sec','middle'));
+    add(testo(mcx+12,mcy+22,'2–3 km','etichetta sec','start'));
+    add(testo(mx+mw/2,my+mh-8,'oltre 100 000 persone allontanate','etichetta sec','middle'));
+    [[mcx+64,mcy+40],[mcx+80,mcy-6],[mcx+56,mcy-36]].forEach(([ax,ay])=>add(el('path',{d:`M${ax} ${ay} l16 0 M${ax+10} ${ay-5} l6 5 l-6 5`,fill:'none',stroke:'#3C4650','stroke-width':2.2})));
+  }
+
+  pt(cx,540,1,'nocciolo');
+  pt(cx-98,520,2,'contenimento');
+  pt(712,420,3,'piscina');
+  pt(448,306,4,'edificio');
+  pt(240,662,5,'diesel');
+  pt(76,622,6,'onda');
+  pt(142,614,7,'prese');
+  if(evac) pt(890,372,8,'evacuazione');
+  return punti;
+}
+INC_DISEGNI.fukushima={vista:{x:0,y:0,w:1000,h:780},disegna:disegnaFukushima};
 
 function mostraPasso(){
   const p=incCorrente.passi[passo];
