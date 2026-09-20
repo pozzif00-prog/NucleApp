@@ -961,7 +961,13 @@ const DEPOSITI = [
     {n:'Collina artificiale',d:'Sopra le celle si costruisce una copertura multistrato che allontana l\'acqua piovana.'},
     {n:'Controllo istituzionale',d:'300 anni di sorveglianza e monitoraggio prima del rilascio del sito.'},
     {n:'Barriera geologica',d:'Qui è di supporto, non protagonista: il terreno deve solo essere stabile, asciutto e lontano da falde.'}
-  ]
+  ],
+  fumetti:{
+    cella:{t:'La cella',d:'Un edificio in calcestruzzo armato speciale, di 27 m per 15,5 in pianta e alto 10. Ne servono 90. Ognuna si riempie di moduli e poi si chiude; a riempimento finito tutte le celle vengono coperte dalla collina artificiale. Lo spessore delle pareti nel disegno è indicativo.'},
+    csa:{t:'Complesso di stoccaggio ad alta attività',d:'Accanto al deposito il progetto prevede un edificio per custodire, per un tempo limitato, i rifiuti a media e alta attività e il combustibile irraggiato, in attesa di un deposito geologico. Non è un deposito definitivo.',p:'Il deposito vero e proprio ospita solo rifiuti a bassa e media attività.'},
+    parco:{t:'Parco Tecnologico',d:'Circa 40 dei 150 ettari del progetto sono un centro di ricerca e formazione, in particolare sullo smantellamento degli impianti nucleari. Il deposito occupa circa 110 ettari.'},
+    sito:{t:'Un sito ancora da scegliere',d:'Il Deposito Nazionale non ha ancora un luogo: la carta delle aree potenzialmente idonee, redatta da Sogin, è solo un primo passo, e la scelta passa dal confronto con i territori. Il paesaggio del disegno è d\'esempio, non un posto vero.'}
+  }
 }
 ];
 
@@ -5993,6 +5999,188 @@ function disegnaWipp(g,d){
   return {altezza:Y3+H3+12, punti};
 }
 DEP_DISEGNI.wipp=disegnaWipp;
+
+/* ---------------------------------------------------------------
+   DEPOSITO NAZIONALE — Italia, sito non ancora scelto. Due fasce:
+   1. una fila di celle dentro la collina artificiale, con il terreno
+      sotto e il contesto attorno, in scala (1 m = 2,6 px). Il paesaggio è
+      d'esempio: il sito non c'è ancora;
+   2. dentro una cella, in scala (1 m = 18 px), con il modulo e il
+      manufatto ingranditi.
+   Fonti (Sogin e Ministero, tramite Wikipedia e ANSA): deposito
+   superficiale in una struttura a barriere; 90 celle in calcestruzzo
+   armato di 27 x 15,5 x 10 m, ciascuna con moduli di calcestruzzo di
+   3 x 2 x 1,7 m che contengono i manufatti (contenitori metallici con i
+   rifiuti già inglobati in una matrice cementizia); a riempimento
+   finito una collina artificiale di materiali inerti e impermeabili con
+   vegetazione; isolamento per oltre 300 anni; 150 ettari in tutto, circa
+   110 per il deposito e circa 40 per il Parco Tecnologico; un complesso
+   di stoccaggio per i rifiuti ad alta attività, temporaneo. Indicativi:
+   la disposizione delle celle nella collina, gli strati della copertura e
+   il loro spessore, lo spessore delle pareti e della soletta, il numero di
+   manufatti per modulo, la posizione e la forma degli edifici, il
+   paesaggio, la profondità della falda.
+   --------------------------------------------------------------- */
+function disegnaItalia(g,d){
+  const add=x=>{g.appendChild(x);return x;};
+  const punti=[];
+  const pt=(x,y,n,chiave)=>punti.push({x,y,n,chiave});
+  const cls='#D9DDDF', clsL='#96A0A6', scuro='#B8BEC2';
+  const cem='#E2E7EB', cemL='#BAC5CE', vuoto='#E3E5E7';
+  const comp={fill:'#BFE3F5',stroke:'#0B2440','stroke-width':1.6};
+  const cipresso=(x,s)=>{ const c=el('g',{}); c.appendChild(el('ellipse',{cx:x,cy:SU-14*s,rx:3.6*s,ry:14*s,fill:'#3F6B4B'})); c.appendChild(el('rect',{x:x-.8,y:SU-2,width:1.6,height:4,fill:'#5B4632'})); return c; };
+
+  /* ============ FASCIA 1 · la collina e il terreno, in scala 1 m = 2,6 px ============ */
+  const SU=176;
+  add(el('rect',{x:0,y:0,width:1200,height:SU,fill:'url(#d-cielo)'}));
+  add(nuvola(160,44,1,0)); add(nuvola(720,30,.8,12));
+  add(collina(SU,58,'#B7CDB0',0)); add(collina(SU,30,'#9FBF9C',220));
+  add(testo(6,16,'sito d\'esempio, non ancora scelto · in scala reale','etichetta sec'));
+
+  /* centro abitato in lontananza */
+  const borgo=el('g',{opacity:'.7'});
+  [[24,20,26],[56,15,20],[82,24,28],[114,17,22]].forEach(([bx,bh,bw])=>{
+    borgo.appendChild(el('rect',{x:bx,y:SU-bh-26,width:bw,height:bh,fill:'#E7EDF2',stroke:'#9DB4C6','stroke-width':1}));
+    borgo.appendChild(el('path',{d:`M${bx-3} ${SU-bh-26} L${bx+bw/2} ${SU-bh-35} L${bx+bw+3} ${SU-bh-26} Z`,fill:'#B9727A'}));
+  });
+  borgo.appendChild(el('rect',{x:98,y:SU-82,width:7,height:34,fill:'#E7EDF2',stroke:'#9DB4C6','stroke-width':1}));
+  add(borgo);
+  add(dett(testo(70,SU-92,'centro abitato, lontano dal deposito','etichetta sec','middle')));
+  pt(70,SU-46,9,'sito');
+
+  /* terreno: strati e falda */
+  add(el('rect',{x:0,y:SU,width:1200,height:112,fill:'#C8B183'}));
+  add(el('rect',{x:0,y:SU+34,width:1200,height:52,fill:'#B39A6E'}));
+  add(el('rect',{x:0,y:SU+86,width:1200,height:26,fill:'#9C8459'}));
+  [[SU+34],[SU+86]].forEach(([y])=>add(el('line',{x1:0,y1:y,x2:1200,y2:y,stroke:'rgba(11,36,64,.18)','stroke-width':1.5})));
+  add(el('rect',{x:0,y:SU,width:1200,height:6,fill:'#7FA36E'}));
+  const yF=SU+96;
+  add(el('path',{class:'falda','data-bleed':'1',d:`M-20 ${yF} q40 -9 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0`,fill:'none',stroke:'#4FA9D6','stroke-width':3,opacity:'.85'}));
+  add(dett(
+    testo(1188,SU+20,'suolo','etichetta sec','end'),
+    testo(1188,SU+62,'argille compatte','etichetta sec','end'),
+    testo(1188,SU+104,'falda, ben più in basso · profondità indicativa','etichetta sec','end')
+  ));
+  pt(200,SU+62,5,'b4');
+
+  /* la collina artificiale: strati indicativi. Sotto, le celle sulla loro platea */
+  const hillP=(top,x0,x1)=>`M${x0} ${SU} C${x0+38} ${SU-4} ${x0+54} ${top} ${x0+110} ${top} L${x1-110} ${top} C${x1-54} ${top} ${x1-38} ${SU-4} ${x1} ${SU} Z`;
+  const coll=el('g',{});
+  coll.appendChild(el('path',{d:hillP(SU-46,226,1000),fill:'#8FBE96',stroke:'#4F8C5F','stroke-width':1.6}));
+  coll.appendChild(el('path',{d:hillP(SU-42,238,988),fill:'#D8CFAE',stroke:'#9A845C','stroke-width':.8}));
+  coll.appendChild(el('path',{d:hillP(SU-38,250,976),fill:'#7A6A55',stroke:'#4C3F2F','stroke-width':.8}));
+  add(coll);
+  add(conTitolo(coll,'Collina artificiale: a riempimento finito copre le celle con materiali inerti e impermeabili e con vegetazione. Gli strati del disegno (vegetazione e terreno, strato drenante, strato impermeabile) e i loro spessori sono indicativi.'));
+  add(el('rect',{x:334,y:SU-2,width:560,height:8,fill:cem,stroke:cemL,'stroke-width':1}));
+  const celle=el('g',{});
+  for(let i=0;i<7;i++){
+    const cx0=344+i*78;
+    celle.appendChild(el('rect',{x:cx0,y:SU-28,width:70,height:26,fill:cem,stroke:'#5A7590','stroke-width':1.4}));
+    for(let c=0;c<8;c++) for(let r=0;r<4;r++)
+      celle.appendChild(el('rect',{x:cx0+5+c*7.5,y:SU-24+r*5,width:6.4,height:4,fill:'#BFE3F5',stroke:'#5A7590','stroke-width':.4}));
+  }
+  add(celle);
+  add(conTitolo(celle,'Celle in calcestruzzo armato, viste in sezione: 27 m di larghezza e 10 di altezza ciascuna. Il progetto ne prevede 90; qui se ne vedono sette, e la loro disposizione nella collina è indicativa.'));
+
+  /* recinzione, edificio di ricezione e controllo, Parco Tecnologico, complesso ad alta attività */
+  const ric=el('g',{});
+  ric.appendChild(el('rect',{x:150,y:SU-m(8),width:56,height:m(8),fill:cls,stroke:clsL,'stroke-width':1.5}));
+  ric.appendChild(el('path',{d:`M146 ${SU-m(8)} L178 ${SU-m(8)-9} L210 ${SU-m(8)} Z`,fill:scuro,stroke:clsL,'stroke-width':1.3}));
+  add(ric);
+  add(conTitolo(ric,'Edificio di ricezione e controllo: qui arrivano i rifiuti e da qui si sorveglia il sito per tutto il periodo di controllo istituzionale.'));
+  const par=el('g',{});
+  par.appendChild(el('rect',{x:1112,y:SU-m(11),width:82,height:m(11),fill:'#E4EEF6',stroke:'#1B5FA8','stroke-width':1.5}));
+  for(let x=1120;x<1188;x+=14) par.appendChild(el('rect',{x,y:SU-m(9),width:9,height:m(4),fill:'#BFE3F5',stroke:'#5A7590','stroke-width':.8}));
+  add(par);
+  add(conTitolo(par,'Parco Tecnologico: circa 40 dei 150 ettari del progetto, per ricerca e formazione, in particolare sullo smantellamento degli impianti nucleari.'));
+  const csa=el('g',{});
+  csa.appendChild(el('rect',{x:1022,y:SU-m(11),width:78,height:m(11),fill:scuro,stroke:clsL,'stroke-width':1.6}));
+  for(let y=SU-m(11)+m(4);y<SU-3;y+=m(4)) csa.appendChild(el('line',{x1:1024,y1:y,x2:1098,y2:y,stroke:'#A9AEB0','stroke-width':.8}));
+  add(csa);
+  add(conTitolo(csa,'Complesso di stoccaggio ad alta attività: per custodire per un tempo limitato i rifiuti a media e alta attività e il combustibile irraggiato, in attesa di un deposito geologico. Forma e posizione indicative.'));
+  /* recinzione */
+  [[206,226],[1000,1022]].forEach(([a,b])=>add(el('path',{d:`M${a} ${SU-9} L${b} ${SU-9}`,stroke:'#8E989A','stroke-width':1})));
+  [12,138,1108,1198].forEach((x,i)=>add(cipresso(x,.9+(i%2)*.2)));
+
+  add(testo(600,SU-46-10,'collina artificiale','etichetta','middle'));
+  add(testo(178,SU-m(8)-16,'ricezione e controllo','etichetta','middle'));
+  add(dett(
+    testo(1153,SU-m(11)-22,'Parco Tecnologico','etichetta sec','middle'),
+    testo(1061,SU-m(11)-8,'stoccaggio alta attività','etichetta sec','middle'),
+    testo(880,SU-46-12,'una fila di 7 delle 90 celle','etichetta sec','end')
+  ));
+  pt(178,SU-m(4),4,'b3');
+  pt(1153,SU-m(5.5),8,'parco');
+  pt(1061,SU-m(5.5),7,'csa');
+  pt(926,SU-26,3,'b2');
+
+  /* ============ FASCIA 2 · dentro una cella, in scala 1 m = 18 px ============ */
+  const S2=18, Y2=SU+136, H2=344;
+  add(el('rect',{x:30,y:Y2,width:1140,height:H2,rx:6,fill:'#E3E5E7',stroke:'#C7CBCF','stroke-width':1.5}));
+  add(testo(42,Y2+20,'DENTRO UNA CELLA · sezione, in scala · con il modulo e il manufatto ingranditi','etichetta'));
+  const cx0=80, cy0=Y2+62, cw=27*S2, ch=10*S2, gY=cy0+ch+18;
+  /* terreno e platea */
+  add(el('rect',{x:46,y:gY,width:560,height:Y2+H2-gY-14,fill:'#C8B183'}));
+  add(el('rect',{x:46,y:gY,width:560,height:5,fill:'#7FA36E'}));
+  add(el('rect',{x:cx0-14,y:cy0+ch,width:cw+28,height:18,fill:cem,stroke:cemL,'stroke-width':1}));
+  /* la cella: pareti, soletta di copertura, moduli */
+  const cella=el('g',{});
+  cella.appendChild(el('rect',{x:cx0,y:cy0,width:cw,height:ch,fill:'#C3CED7',stroke:'#5A7590','stroke-width':1.6}));
+  cella.appendChild(el('rect',{x:cx0+18,y:cy0+18,width:cw-36,height:ch-36,fill:vuoto}));
+  add(cella);
+  add(conTitolo(cella,'Cella in calcestruzzo armato speciale: 27 m di larghezza, 15,5 di profondità e 10 di altezza. Lo spessore delle pareti e della copertura è indicativo.'));
+  const mod=el('g',{});
+  const mw=3*S2, mh=1.7*S2;
+  for(let r=0;r<4;r++) for(let c=0;c<8;c++){
+    const mx=cx0+27+c*mw, my=cy0+ch-18-(r+1)*mh;
+    mod.appendChild(el('rect',{x:mx,y:my,width:mw,height:mh,...comp,'stroke-width':1.2}));
+    mod.appendChild(el('rect',{x:mx,y:my,width:mw,height:5,fill:'#8FBFDA',stroke:'#0B2440','stroke-width':.8}));
+  }
+  add(mod);
+  add(conTitolo(mod,'Moduli in calcestruzzo speciale: 3 x 2 x 1,7 m. Dentro ci sono i manufatti; un coperchio, anch\'esso in calcestruzzo, sigilla ciascun modulo.'));
+  /* quote */
+  const quota=(x1,y1,x2,y2,txt,tx,ty,anch)=>{
+    add(el('path',{d:`M${x1} ${y1} L${x2} ${y2} M${x1-(y1===y2?0:5)} ${y1-(y1===y2?5:0)} L${x1+(y1===y2?0:5)} ${y1+(y1===y2?5:0)} M${x2-(y1===y2?0:5)} ${y2-(y1===y2?5:0)} L${x2+(y1===y2?0:5)} ${y2+(y1===y2?5:0)}`,fill:'none',stroke:'#1C2321','stroke-width':1.2}));
+    add(testo(tx,ty,txt,'etichetta sec',anch||'middle'));
+  };
+  quota(cx0,cy0-14,cx0+cw,cy0-14,'27 m',cx0+cw/2,cy0-20);
+  quota(cx0-26,cy0,cx0-26,cy0+ch,'10 m',cx0-32,(cy0+cy0+ch)/2+4,'end');
+  /* persona di 1,8 m, per la scala */
+  const hx=cx0+cw+26;
+  add(el('circle',{cx:hx,cy:gY-1.62*S2,r:.22*S2,fill:'#1C2321'}));
+  add(el('path',{d:`M${hx} ${gY-1.4*S2} L${hx} ${gY-.75*S2} M${hx-.35*S2} ${gY-1.15*S2} L${hx+.35*S2} ${gY-1.15*S2} M${hx} ${gY-.75*S2} L${hx-.3*S2} ${gY} M${hx} ${gY-.75*S2} L${hx+.3*S2} ${gY}`,fill:'none',stroke:'#1C2321','stroke-width':1.2}));
+  add(testo(hx,gY-1.9*S2-6,'1,8 m','etichetta sec','middle'));
+  add(testo(cx0+cw/2,cy0+ch+13,'platea di fondazione','etichetta sec','middle'));
+  add(testo(cx0+cw/2,gY+34,'terreno','etichetta sec','middle'));
+  pt(cx0+9,cy0+ch/2,6,'cella');
+  pt(cx0+27+3*mw+mw/2,cy0+ch-18-2*mh-mh/2,2,'b1');
+
+  /* riquadri: il modulo, il manufatto */
+  const rx1=620, rx2=890, ry=Y2+44, rh=H2-58;
+  add(el('rect',{x:rx1,y:ry,width:250,height:rh,rx:6,fill:'rgba(255,255,255,.94)',stroke:'#1B5FA8','stroke-width':1.5}));
+  add(testo(rx1+125,ry+17,'IL MODULO','etichetta sec','middle'));
+  add(el('rect',{x:rx1+35,y:ry+44,width:180,height:102,fill:'#D2E5F0',stroke:'#0B2440','stroke-width':2.2}));
+  add(el('rect',{x:rx1+35,y:ry+44,width:180,height:14,fill:'#8FBFDA',stroke:'#0B2440','stroke-width':1.6}));
+  for(let i=0;i<4;i++){
+    add(el('rect',{x:rx1+46+i*42,y:ry+66,width:34,height:70,rx:5,fill:'#C9CBCD',stroke:'#3C4650','stroke-width':1.8}));
+    add(el('line',{x1:rx1+46+i*42,y1:ry+76,x2:rx1+80+i*42,y2:ry+76,stroke:'#3C4650','stroke-width':1}));
+  }
+  add(testo(rx1+125,ry+164,'3 x 2 x 1,7 m · coperchio in calcestruzzo','etichetta sec','middle'));
+  add(testo(rx1+125,ry+177,'dentro, i manufatti (numero indicativo)','etichetta sec','middle'));
+  add(el('rect',{x:rx2,y:ry,width:260,height:rh,rx:6,fill:'rgba(255,255,255,.94)',stroke:'#1B5FA8','stroke-width':1.5}));
+  add(testo(rx2+130,ry+17,'IL MANUFATTO, IN SEZIONE','etichetta sec','middle'));
+  const mx=rx2+130, my=ry+44;
+  add(el('rect',{x:mx-40,y:my,width:80,height:118,rx:8,fill:'#C9CBCD',stroke:'#3C4650','stroke-width':3}));
+  for(let i=0;i<14;i++) add(el('circle',{cx:mx-30+(i*37)%60,cy:my+12+(i*23)%94,r:1.5,fill:'#9A9DA0'}));
+  [[-22,26,12,8],[8,44,14,6],[-14,68,10,10],[14,90,12,7],[-24,100,14,6]].forEach(([dx,dy,w,h])=>
+    add(el('rect',{x:mx+dx,y:my+dy,width:w,height:h,rx:1.5,fill:'#5A5F63'})));
+  add(testo(mx,ry+178,'contenitore metallico,','etichetta sec','middle'));
+  add(testo(mx,ry+191,'rifiuti dentro il cemento','etichetta sec','middle'));
+  pt(mx,my+59,1,'b0');
+
+  return {altezza:Y2+H2+12, punti};
+}
+DEP_DISEGNI.italia=disegnaItalia;
 
 function selezionaDeposito(id){
   depCorrente=DEPOSITI.find(d=>d.id===id);

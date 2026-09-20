@@ -91,8 +91,47 @@ Si procede un elemento alla volta, mostrando il risultato.
     tre anni).
   - Verificato nel browser: nessun errore in console, 12 pallini con fumetto
     giusto, zoom e trascinamento.
-- **Da fare in questa richiesta**: Deposito Nazionale, poi gli incidenti (TMI,
-  Chernobyl, Fukushima).
+- **Deposito Nazionale: fatto.** Due fasce (il sito non c'è ancora: il
+  paesaggio è d'esempio e lo dichiara). (1) In scala reale (2,6 px/m): una fila
+  di sette delle 90 celle dentro la collina artificiale con i suoi strati, la
+  platea, il terreno (suolo, argille compatte) e la falda molto più in basso;
+  edificio di ricezione e controllo, complesso di stoccaggio ad alta attività,
+  Parco Tecnologico, centro abitato lontano, cipressi. (2) Dentro una cella in
+  scala (18 px/m): 27 x 10 m con 32 moduli di 3 x 1,7 m, quote, persona di
+  1,8 m; riquadri del modulo e del manufatto (contenitore metallico con i
+  rifiuti nel cemento). 9 pallini: 5 barriere, cella, complesso ad alta
+  attività, Parco Tecnologico, sito da scegliere.
+  - Fonti: Sogin e Ministero, tramite Wikipedia ("Deposito nazionale dei
+    rifiuti radioattivi") e ANSA Verified (marzo 2023): 90 celle in
+    calcestruzzo armato di 27 x 15,5 x 10 m, moduli di calcestruzzo di
+    3 x 2 x 1,7 m con i manufatti, matrice cementizia, coperchio del modulo,
+    collina artificiale con vegetazione, oltre 300 anni, 150 ettari (110 il
+    deposito, 40 il Parco Tecnologico), complesso di stoccaggio ad alta
+    attività temporaneo; MASE (localizzazione, D.Lgs. 31/2010, Sogin).
+    Le pagine di Sogin e di depositonazionale.it non si aprono da qui (errore
+    di certificato): niente è stato letto direttamente dal progetto
+    preliminare.
+  - **Indicativi**: la disposizione delle celle nella collina (una fila di
+    sette), gli **strati della copertura e i loro spessori** (vegetazione e
+    terreno, drenante, impermeabile: inventati sul modello di una discarica,
+    la fonte dice solo "inerti e impermeabili"), lo spessore di pareti e
+    soletta (1 m), il numero di manufatti per modulo, la platea, gli edifici,
+    il paesaggio, la profondità della falda.
+  - **Discrepanze da sistemare nella scheda**: i volumi. La scheda dice
+    "≈ 78 000 m³" (come ANSA e il progetto preliminare del 2021), ma Sogin ora
+    scrive circa 84 000 m³ di rifiuti a bassissima e bassa attività e circa
+    14 000 m³ di media e alta attività nel complesso di stoccaggio (contro
+    17 000 m³ prima); Wikipedia riporta 75 000 e 15 000. Va scelta una fonte e
+    una data. La scheda dice anche "il 99 % è materiale a bassa attività" senza
+    fonte, e "alta attività: non va qui", che è vero per il deposito ma
+    non per il complesso di stoccaggio temporaneo dello stesso parco: nella
+    riga "Alta attività" conviene spiegare la differenza. Non toccato.
+  - Verificato nel browser: nessun errore in console, 9 pallini con fumetto
+    giusto, zoom e trascinamento.
+- **Depositi: finiti tutti e 3.** `disegnaDepositoGenerico` non è più usato
+  da nessuno (codice morto, come le funzioni generiche delle centrali).
+- **Da fare in questa richiesta**: gli incidenti (TMI, Chernobyl,
+  Fukushima).
 
 ## Fatto — sessione 13
 
