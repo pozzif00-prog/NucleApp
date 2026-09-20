@@ -3,7 +3,7 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-19 (sessione 14)
+Ultimo aggiornamento: 2026-09-20 (sessione 15: sito online, vedi "Da fare" punto 0)
 
 ## Fatto — sessione 14 (depositi e incidenti: grafica come per le centrali)
 
@@ -739,10 +739,20 @@ Si procede un elemento alla volta, mostrando il risultato.
 
 ## Da fare, in ordine
 
-0. **Prima di pubblicare** (verificato il 2026-09-19): attivare GitHub Pages
-   (Settings → Pages → `main`, `/`) — l'indirizzo dà 404; togliere
-   `pubblica/index.html`, obsoleto; aggiungere descrizione per i motori di
-   ricerca, anteprima social, icona, licenza. Nessuno è ancora fatto.
+0. **Pubblicazione** (verificato il 2026-09-20): **il sito è online** su
+   https://pozzif00-prog.github.io/NucleApp/ — GitHub Pages attivato
+   dall'utente (`has_pages: true`), pagina e file (`og-image.png`,
+   `favicon.svg`, foto in `img/`) rispondono 200, il file online è identico a
+   quello del repository, nessun errore in console, disegni e fumetti
+   funzionano. Fatti: tolto `pubblica/index.html`; aggiunti `meta
+   description`, Open Graph e Twitter card, `favicon.svg`,
+   `apple-touch-icon.png`, `og-image.png` (generati con PowerShell, script
+   non conservato: si rifà con `System.Drawing`). **Resta la licenza**: scelta
+   dell'utente (ipotesi: MIT per il codice + CC BY 4.0 per testi e disegni; le
+   foto in `img/` mantengono le loro licenze, in `crediti.json`); finché non
+   c'è un file `LICENSE` nessuno può riusare il lavoro. Trappola: le foto
+   hanno `loading="lazy"`, quindi nel browser di prova non risultano
+   caricate finché non scorrono davvero in vista: non è un errore del sito.
 1. **Interfaccia grafica delle centrali**: FATTO per tutte e 9 le centrali →
    dettaglio in `sessione 5`–`13` qui sopra. Restano solo i punti "da
    riverificare" e "indicativi" elencati in ogni sessione, e due
