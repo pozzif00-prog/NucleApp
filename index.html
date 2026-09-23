@@ -857,7 +857,7 @@ const REATTORI = [
     barriere:'Circuito intermedio di sodio non radioattivo tra il primario e l\'acqua, atmosfera inerte di argon sopra il sodio, vasca a pressione ambiente, sistemi di spegnimento passivi che intervengono per dilatazione termica dei materiali.',
     precedente:'La filiera ha una storia mista: incendi di sodio e lunghe fermate a Monju (Giappone) e a Superphénix (Francia). Il BN-600 russo, con vent\'anni di incendi di sodio minori tutti contenuti, è il caso su cui è stato tarato il BN-800. Questa non è una tecnologia matura come il PWR, ed è corretto dirlo.'
   },
-  scena:{loops:3,core:'assemblee',contenimento:true,raffreddamento:'torre',sodio:true,etichetteLoop:['Sodio primario 550 °C','Sodio intermedio','Vapore']},
+  scena:{loops:3,core:'assemblee',contenimento:true,raffreddamento:'lago',sodio:true,etichetteLoop:['Sodio primario 550 °C','Sodio intermedio','Vapore']},
   fumetti:{
     nocciolo:{t:'Nocciolo a neutroni veloci',d:'Piccolo: circa un metro di altezza e due di diametro (le misure del BN-600, molto simile), con circa 565 elementi di combustibile. Non c\'è moderatore: i neutroni restano veloci. Il sodio lo lambisce a pressione ambiente.',p:'Nel disegno è ingrandito per renderlo leggibile: nel recipiente è una frazione minuscola.'},
     barre:{t:'Barre di arresto',d:'Le barre di controllo si muovono sopra il nocciolo. In più ci sono tre barre assorbenti sospese idraulicamente nel flusso del sodio: se il flusso cala, cadono da sole nel nocciolo.',p:'Spegnimento passivo: non serve un ordine né corrente.'},
@@ -865,7 +865,7 @@ const REATTORI = [
     pompa:{t:'Pompa primaria',d:'Una per circuito, appesa al coperchio: l\'albero scende nel sodio e spinge il sodio freddo verso il nocciolo. Nocciolo, pompe e scambiatori stanno tutti nella stessa vasca, senza tubi che escano sotto il livello del liquido.',p:'È la logica dell\'impianto a piscina: una perdita da un tubo non svuota il nocciolo.'},
     generatore:{t:'Generatore di vapore',d:'È il terzo circuito: il sodio intermedio, non radioattivo, cede calore ad acqua che evapora. È il punto più delicato: sodio e acqua reagiscono violentemente, ed è per questo che il sodio radioattivo è tenuto lontano.',p:'Ogni circuito di raffreddamento alimenta un generatore.'},
     aria:{t:'Scambiatori aria-sodio',d:'Sul tetto, uno per ciascun circuito secondario. Se non c\'è più modo di produrre vapore, il calore residuo del nocciolo passa al sodio intermedio e da lì all\'aria esterna, per convezione naturale.',p:'Raffreddamento di emergenza passivo: l\'aria è il pozzo di calore finale.'},
-    raffreddamento:{t:'Acqua del bacino di Beloyarsk',d:'Il bacino artificiale, creato tra il 1959 e il 1963, serve al raffreddamento della centrale. Qui una torre di raffreddamento disperde nell\'aria il calore dei condensatori.',p:'Il vapore che esce dalla torre è acqua, non è radioattivo.'}
+    raffreddamento:{t:'Acqua del bacino di Beloyarsk',d:'Il bacino artificiale, creato tra il 1959 e il 1963, alimenta il raffreddamento a circuito aperto: l\'acqua passa una sola volta nel condensatore, si scalda di pochi gradi e torna nel bacino da un punto della riva lontano dalla presa, per non essere riaspirata calda.',p:'Nessuna torre di raffreddamento: né il BN-800 né il BN-600 accanto ne hanno una. Le torri compariranno solo con il futuro BN-1200, non ancora costruito.'}
   }
 },
 {
@@ -892,7 +892,7 @@ const REATTORI = [
     scenario:'Perdita totale del refrigerante e di ogni sistema di raffreddamento attivo.',
     meccanismo:'Il nocciolo è lungo e stretto, con poca potenza per unità di volume. Se si scalda, l\'effetto Doppler nell\'uranio riduce da solo la reattività e la reazione si spegne. Il calore residuo si disperde per conduzione attraverso la grafite e le pareti.',
     barriere:'La sicurezza non dipende da pompe, valvole o operatori: dipende dalla geometria e dalla fisica dei materiali. La temperatura massima raggiungibile resta sotto la soglia di tenuta del TRISO.',
-    precedente:'Nel 2024 il test è stato fatto sul serio: raffreddamento attivo staccato su entrambi i reattori in funzione, nessun intervento. Il nocciolo si è spento e raffreddato da solo. È la differenza tra affermare che un reattore è sicuro e dimostrarlo su un impianto in esercizio.'
+    precedente:'Nel 2023 il test è stato fatto sul serio: ad agosto sul primo reattore e a settembre sul secondo, il raffreddamento attivo fu tolto a un modulo alla volta, in funzione, senza alcun intervento. In entrambi i casi il nocciolo si è spento e raffreddato da solo. È la differenza tra affermare che un reattore è sicuro e dimostrarlo su un impianto in esercizio.'
   },
   scena:{loops:2,gas:true,core:'sfere',contenimento:true,raffreddamento:'mare',etichetteLoop:['Elio 750 °C','Elio 250 °C']},
   fumetti:{
@@ -950,14 +950,14 @@ const DEPOSITI = [
     {n:'Forma del rifiuto',d:'Materiali solidi cementati o compattati dentro fusti certificati.'},
     {n:'Fusto e sovraimballo',d:'Contenitori standardizzati, tracciati singolarmente dal produttore fino alla galleria.'},
     {n:'Sale che si richiude',d:'La roccia stessa è la barriera attiva: scorre lentamente e ingloba i fusti fino a sigillarli.'},
-    {n:'Isolamento idrogeologico',d:'Nessuna falda sfruttabile sopra il deposito e nessun percorso rapido verso la superficie.'},
+    {n:'Isolamento idrogeologico',d:'La Culebra, la falda più vicina al deposito, ha un\'acqua salata (dai 10 000 ai 200 000 mg/l di sali): troppo per essere bevuta, e per questo non è classificata come fonte d\'acqua utilizzabile. Sopra le gallerie non c\'è nessun percorso rapido verso la superficie.'},
     {n:'Marcatura permanente',d:'Sistemi di segnalazione progettati per restare comprensibili per 10 000 anni, in qualunque lingua.'}
   ],
   fumetti:{
     camion:{t:'Contenitori di trasporto',d:'I rifiuti arrivano su camion, dentro contenitori di trasporto omologati, da tredici siti del Dipartimento dell\'Energia sparsi negli Stati Uniti. Prima di scendere, ogni contenitore viene controllato a vista.',p:'Nel disegno ne stanno tre sul rimorchio: numero e forma sono indicativi.'},
     pozzo:{t:'Il pozzo dei rifiuti',d:'È il più grande dei quattro pozzi, largo circa 6 m (20 piedi): serve a personale, attrezzature e rifiuti, con un ascensore da 45 tonnellate che li porta giù fino a 655 m. Gli altri tre pozzi sono per il sale scavato, per l\'aria che entra e per quella che esce.'},
     salecumulo:{t:'Il cumulo di sale',d:'Scavare le sale produce sale in quantità. Viene portato in superficie dal suo pozzo e resta accumulato accanto all\'impianto. Forma e dimensioni nel disegno sono indicative.'},
-    culebra:{t:'La falda della Culebra',d:'Lo strato d\'acqua più vicino al deposito è la Culebra, una dolomia spessa solo 7–8 m dentro la formazione Rustler, molto più in alto delle sale. Fra la falda e le sale c\'è sale, che l\'acqua non attraversa. Le quote delle formazioni sopra il deposito sono indicative.'},
+    culebra:{t:'La falda della Culebra',d:'Lo strato d\'acqua più vicino al deposito è la Culebra, una dolomia spessa solo 7–8 m dentro la formazione Rustler, molto più in alto delle sale. Fra la falda e le sale c\'è sale, che l\'acqua non attraversa. Le quote delle formazioni sopra il deposito sono indicative.',p:'La sua acqua è salata — fino a 200 000 mg/l di sali — e non è classificata come fonte d\'acqua potabile.'},
     castile:{t:'Salamoia sotto il deposito',d:'Circa 200 m sotto il livello delle sale la formazione Castile ha sacche di salamoia in pressione, scoperte durante le perforazioni esplorative. Il deposito è scavato nel Salado, sopra di esse. Nel disegno la loro posizione è d\'esempio.'},
     mgo:{t:'Sacchi di ossido di magnesio',d:'Sopra i contenitori si mettono grandi sacchi di ossido di magnesio, ognuno oltre una tonnellata. Sono una barriera chimica: se in futuro entrasse salamoia, assorbono l\'anidride carbonica prodotta dai microbi che digeriscono la materia organica dei rifiuti (carta, plastica, gomma) e tengono bassa la solubilità del plutonio e degli altri attinidi.'},
     incidente:{t:'Il 14 febbraio 2014',d:'Nella sala 7 del pannello 7 un fusto si aprì per una reazione chimica interna: conteneva residui di nitrati, un assorbente organico (una lettiera per gatti a base di grano) e un agente neutralizzante. Un rilascio di plutonio e americio raggiunse l\'ambiente e la ventilazione passò da sola ai filtri. Il deposito restò chiuso fino a gennaio 2017.',p:'I limiti di dose per lavoratori e pubblico non furono superati. Fu un errore di procedura, non di geologia.'}
@@ -968,11 +968,11 @@ const DEPOSITI = [
   tipo:'Superficiale ingegneristico, rifiuti a bassa e media attività', stato:'in fase di selezione del sito',
   scheda:[
     {k:'Tipo',v:'Superficiale, non geologico',p:'Perché ospita rifiuti che decadono in secoli, non in millenni: non serve andare a 400 metri.'},
-    {k:'Cosa contiene',v:'≈ 78 000 m³ di rifiuti',p:'Il volume di circa 30 piscine olimpioniche — ma il 99 % è materiale a bassa attività, come indumenti e strumenti ospedalieri.'},
+    {k:'Cosa contiene',v:'≈ 84 000 m³ di rifiuti',p:'Il volume di circa 34 piscine olimpioniche (stima Sogin, 2024): circa 49 000 m³ dalle centrali nucleari dismesse, gli altri 35 000 da ricerca, medicina nucleare e industria. Il progetto preliminare del 2021 stimava ≈ 78 000 m³: il conto cresce con il passare del tempo, perché include anche i rifiuti che l\'Italia produrrà prima che il deposito apra.'},
     {k:'Da dove vengono',v:'Centrali dismesse, medicina, industria, ricerca',p:'Una parte consistente non viene dal nucleare elettrico: viene dagli ospedali.'},
     {k:'Tempo di isolamento',v:'≈ 300 anni',p:'Dopo circa dieci tempi di dimezzamento del cesio-137, la radioattività è scesa a un millesimo.'},
     {k:'Stato',v:'Carta nazionale delle aree idonee',p:'La scelta del sito è ferma da anni sul consenso locale, non su ostacoli tecnici.'},
-    {k:'Alta attività',v:'Non va qui',p:'Il combustibile esaurito italiano attende un deposito geologico, europeo o nazionale. È il nodo ancora aperto.'}
+    {k:'Alta attività',v:'In un\'area separata, non nel deposito',p:'Il complesso di stoccaggio del Parco Tecnologico custodisce per un tempo limitato circa 14 000 m³ di rifiuti a media e alta attività, compreso il combustibile esaurito, in attesa di un deposito geologico, europeo o nazionale. È il nodo ancora aperto.'}
   ],
   barriere:[
     {n:'Matrice cementizia',d:'I rifiuti vengono inglobati in cemento dentro contenitori metallici: diventano un blocco solido unico.'},
@@ -1037,7 +1037,7 @@ const INCIDENTI = [
     {t:'La potenza crolla e viene risollevata',d:'Il reattore scende quasi a zero. In quello stato è instabile e le procedure imporrebbero di fermarlo. Per non perdere il test, gli operatori estraggono quasi tutte le barre di controllo per farlo risalire.',s:{barreFuori:1},ora:'26 aprile, dalle 00:05 · la potenza cade a circa 30 MW e viene risollevata a 160 MW'},
     {t:'Si formano bolle nei canali',d:'A bassa potenza e con poche barre inserite, l\'acqua nei canali comincia a bollire. In questo progetto le bolle non frenano la reazione: la accelerano. La potenza inizia a salire da sola.',s:{barreFuori:1,vuoto:1},ora:'01:05 due pompe in più · 01:23:04 comincia il test'},
     {t:'Lo spegnimento la accelera',d:'Viene premuto il pulsante di arresto rapido. Ma le barre hanno la punta in grafite: entrando spingono via l\'acqua e nei primi secondi aumentano la reattività invece di ridurla.',s:{barreFuori:1,vuoto:1,escursione:1},ora:'01:23:40 · viene premuto il pulsante AZ-5'},
-    {t:'Escursione di potenza ed esplosione',d:'In pochi secondi la potenza supera di decine di volte il valore nominale. Il vapore fa saltare il coperchio da mille tonnellate; una seconda esplosione scoperchia l\'edificio. La grafite prende fuoco e brucia per giorni.',s:{escursione:1,esplosione:1,incendio:1},ora:'pochi secondi dopo · due esplosioni a 2–3 secondi l\'una dall\'altra'},
+    {t:'Escursione di potenza ed esplosione',d:'In pochi secondi la potenza supera di molte volte il valore nominale — le stime vanno da circa dieci volte a molto di più, a seconda della ricostruzione. Il vapore fa saltare il coperchio da mille tonnellate; una seconda esplosione scoperchia l\'edificio. La grafite prende fuoco e brucia per giorni.',s:{escursione:1,esplosione:1,incendio:1},ora:'pochi secondi dopo · due esplosioni a 2–3 secondi l\'una dall\'altra'},
     {t:'Niente contenimento, rilascio diretto',d:'Non c\'è nessun edificio a tenuta sopra il nocciolo. Il pennacchio dell\'incendio porta i prodotti di fissione in atmosfera e li distribuisce su mezza Europa.',s:{esplosione:1,incendio:1,pennacchio:1},ora:'fino al 10 maggio · l\'incendio della grafite'}
   ],
   fumetti:{
@@ -1065,9 +1065,9 @@ const INCIDENTI = [
     {t:'Il terremoto: tutto funziona',d:'Un sisma di magnitudo 9,0 colpisce la costa. I tre reattori in funzione si spengono automaticamente in pochi secondi. Le linee elettriche esterne cadono, i generatori diesel partono regolarmente. Fin qui il progetto regge.',s:{scram:1,diesel:1},ora:'11 marzo 2011, 14:46 · terremoto di magnitudo 9,0'},
     {t:'Lo tsunami: 41 minuti dopo',d:'Un\'onda di quasi 15 metri supera la barriera progettata per 5,7. Allaga i locali interrati dove stanno i generatori diesel e i quadri elettrici. La centrale perde ogni fonte di alimentazione.',s:{scram:1,tsunami:1,blackout:1},ora:'dalle 15:27 alle 15:35 · l\'onda arriva circa 41 minuti dopo'},
     {t:'Il calore residuo non si ferma',d:'Il reattore è spento, ma il combustibile continua a produrre calore: subito dopo l\'arresto è ancora il 6 % della potenza. Senza pompe, quel calore fa evaporare l\'acqua.',s:{scram:1,blackout:1,residuo:1},ora:'nelle prime ore · senza corrente non ci sono pompe'},
-    {t:'Il combustibile si scopre',d:'Il livello scende sotto la sommità del nocciolo. Le guaine di zirconio, esposte al vapore a oltre 1 000 °C, si ossidano e liberano idrogeno. Il combustibile inizia a fondere.',s:{blackout:1,residuo:1,fusione:1,idrogeno:1},ora:'unità 1: combustibile scoperto dopo circa 3 ore, danni dopo circa 4'},
+    {t:'Il combustibile si scopre',d:'Il livello scende sotto la sommità del nocciolo. Le guaine di zirconio, esposte al vapore a oltre 1 200 °C, si ossidano e liberano idrogeno. Il combustibile inizia a fondere.',s:{blackout:1,residuo:1,fusione:1,idrogeno:1},ora:'unità 1: combustibile scoperto dopo circa 3 ore, danni dopo circa 4'},
     {t:'Esplodono gli edifici',d:'L\'idrogeno si accumula nella parte alta degli edifici reattore ed esplode, nelle unità 1, 3 e 4. Le esplosioni distruggono le strutture esterne e complicano ogni intervento.',s:{fusione:1,idrogeno:1,esplosione:1},ora:'12 marzo 15:36 unità 1 · 14 marzo 11:01 unità 3 · 15 marzo unità 4'},
-    {t:'L\'evacuazione',d:'Oltre 150 000 persone vengono allontanate. È qui che si produce la maggior parte del danno umano: trasferimenti d\'urgenza di malati e anziani, comunità disgregate, stigma sociale che dura ancora.',s:{fusione:1,evacuazione:1},ora:'dalle 20:50 dell\'11 marzo · la zona di evacuazione si allarga: 2, 3, 10, 20 km'}
+    {t:'L\'evacuazione',d:'Oltre 100 000 persone vengono allontanate, fino a circa 164 000 al picco. È qui che si produce la maggior parte del danno umano: trasferimenti d\'urgenza di malati e anziani, comunità disgregate, stigma sociale che dura ancora.',s:{fusione:1,evacuazione:1},ora:'dalle 20:50 dell\'11 marzo · la zona di evacuazione si allarga: 2, 3, 10, 20 km'}
   ],
   fumetti:{
     nocciolo:{t:'Il nocciolo',d:'Il combustibile sta immerso nell\'acqua, dentro il recipiente. Dopo lo scram non smette di produrre calore: subito dopo è ancora circa il 6 % della potenza. Se l\'acqua scende e lo scopre, le guaine di zirconio reagiscono col vapore ad alta temperatura, producono idrogeno e altro calore, e il combustibile può fondere.',p:'Nell\'unità 1 l\'acqua scese alla sommità del combustibile dopo circa 3 ore e i danni cominciarono dopo circa 4; nelle unità 3 e 2 dopo circa 42 e 74 ore.'},
@@ -3992,15 +3992,23 @@ function isolaSanmen(A,c,Y){
    di conifere, il BN-600 schiarito a sinistra, l'edificio del BN-800
    con l'edificio dei generatori di vapore accanto e sul tetto i
    camini dei tre scambiatori aria-sodio del raffreddamento passivo, la
-   sala turbine, la torre di raffreddamento sulla destra.
+   sala turbine, il raffreddamento a circuito aperto sul bacino (nessuna
+   torre) sulla destra.
    Foto img/bn800.jpg: la sala di controllo (con la mappa circolare del
    nocciolo): nessun dettaglio esterno. Il sito viene dai dati
    dell'impianto: bacino di Beloyarsk creato nel 1959–1963 come sistema
    di raffreddamento (Wikipedia, "Beloyarsk Nuclear Power Station");
    scambiatori aria-sodio su ogni circuito secondario (POWER, "Top
-   Plant: Beloyarsk Unit 4"). Le altezze e larghezze degli edifici e
-   la torre di raffreddamento — presente nella scheda originale, non
-   verificata su una fonte — sono indicative.
+   Plant: Beloyarsk Unit 4"). Correzione del 2026-09-24: il disegno
+   mostrava una torre di raffreddamento, presente nella scheda originale
+   ma senza fonte. Nessuna fonte trovata descrive una torre per il BN-600
+   o il BN-800 in esercizio: entrambi usano il bacino di Beloyarsk, e la
+   pagina Wikipedia sul futuro BN-1200 (quinto reattore, non ancora
+   costruito) presenta le torri evaporative come una novità rispetto a
+   quei due impianti — segno che oggi non ci sono. Sostituita con una
+   presa e uno scarico nel bacino, sul modello già usato per Darlington
+   (lago Ontario). Le altezze e larghezze degli edifici restano
+   indicative.
    --------------------------------------------------------------- */
 function sitoBeloyarsk(B,c){
   const add=x=>B.appendChild(x);
@@ -4017,14 +4025,6 @@ function sitoBeloyarsk(B,c){
   add(el('rect',{x:0,y:LAGO,width:1200,height:SUOLO+88-LAGO,fill:'#7FA8C0'}));
   add(el('line',{x1:0,y1:LAGO,x2:1200,y2:LAGO,stroke:'#2E8FA8','stroke-width':1.5}));
   for(let x=12;x<1200;x+=78) add(el('path',{d:`M${x} ${LAGO+22} q12 -6 24 0 t24 0`,fill:'none',stroke:'#1B5FA8','stroke-width':1.1,opacity:'.5'}));
-
-  /* --- torre di raffreddamento, a destra --- */
-  const cxT=1000, th=m(95), tb=m(80), tg=m(46), tt=m(50);
-  add(el('path',{d:profiloTorre(cxT,th,tb,tg,tt),fill:'#DCE3E4',stroke:'#7E8C90','stroke-width':2}));
-  for(let i=0;i<3;i++){
-    const v=el('ellipse',{cx:cxT+(i-1)*tg*0.3,cy:SUOLO-th-m(8),rx:tg*0.44,ry:m(9),fill:'#F4F5F2',class:'vapore'});
-    v.setAttribute('style',`animation-delay:${i*1.2}s`); add(v);
-  }
 
   /* --- BN-600, schiarito, a sinistra --- */
   const dietro=el('g',{opacity:'.42'});
@@ -4066,15 +4066,16 @@ function sitoBeloyarsk(B,c){
   add(pathTubo(`M${gX+gW} ${SUOLO-m(26)} L${wX-10} ${SUOLO-m(26)} L${wX-10} ${TY-4} L${wX+8} ${TY-4}`,'#D2453A',4,true));
   add(pathTubo(`M${wX+30} ${wBot} L${wX-4} ${wBot} L${wX-4} ${SUOLO-m(12)} L${gX+gW} ${SUOLO-m(12)}`,'#2E8FA8',3.5,true));
 
-  /* --- circuito della torre e reintegro dal bacino --- */
+  /* --- raffreddamento a circuito aperto, senza torre: acqua dal bacino, una volta sola --- */
   const galleria=(d,col)=>{
     add(el('path',{d,fill:'none',stroke:'#8E989A','stroke-width':10,'stroke-linecap':'round',opacity:'.45'}));
     add(pathTubo(d,col,3.5,true));
   };
-  galleria(`M${wX+92} ${wBot} L${wX+92} ${SUOLO+14} L${cxT-m(26)} ${SUOLO+14} L${cxT-m(26)} ${SUOLO}`,'#D98B5F');
-  galleria(`M${cxT-m(12)} ${SUOLO} L${cxT-m(12)} ${SUOLO+26} L${wX+68} ${SUOLO+26} L${wX+68} ${wBot}`,'#2E8FA8');
-  galleria(`M${cxT+m(26)} ${LAGO+34} L${cxT+m(26)} ${SUOLO+8} L${cxT+m(14)} ${SUOLO+8}`,'#2E8FA8');
-  add(dett(testo(cxT+m(26)-4,SUOLO+30,'reintegro dal bacino','etichetta sec','end')));
+  const presaX=1060, scaricoX=120;
+  galleria(`M${presaX} ${LAGO+34} L${presaX} ${SUOLO+14} L${wX+92} ${SUOLO+14} L${wX+92} ${wBot}`,'#2E8FA8');
+  galleria(`M${wX+68} ${wBot} L${wX+68} ${SUOLO+26} L${scaricoX} ${SUOLO+26} L${scaricoX} ${LAGO+42}`,'#D98B5F');
+  add(el('rect',{x:presaX-8,y:LAGO+30,width:16,height:8,rx:2,fill:'#8E989A',stroke:'#5A6360','stroke-width':1}));
+  [scaricoX-12,scaricoX,scaricoX+12].forEach(x=>add(el('circle',{cx:x,cy:LAGO+44,r:3.2,fill:'#D98B5F',stroke:'#5A6360','stroke-width':.8})));
 
   /* --- trasformatore e traliccio --- */
   const trX=tX+tW+10,trW=26,trTop=SUOLO-m(8);
@@ -4096,7 +4097,8 @@ function sitoBeloyarsk(B,c){
   add(testo(tX+tW/2,tTop-8,'sala turbine','etichetta','middle'));
   add(dett(
     testo(rX+rW/2,SUOLO-rH-m(7)-28,'reattore a sodio · tipo a piscina','etichetta sec','middle'),
-    testo(cxT,SUOLO-th-m(24),'torre di raffreddamento','etichetta sec','middle'),
+    testo(presaX,LAGO+22,'presa dal bacino','etichetta sec','middle'),
+    testo(scaricoX,LAGO+58,'scarico','etichetta sec','middle'),
     testo(wX+92,wBot+16,'condensatore','etichetta sec','middle'),
     testo(trX+trW/2,SUOLO+18,'trasformatore','etichetta sec','middle')
   ));
@@ -4104,7 +4106,7 @@ function sitoBeloyarsk(B,c){
   return {
     reattore:{x:rX,y:SUOLO-rH-m(7),w:rW,h:rH+m(7)},
     turbina:[wX+46,TY], condensatore:[wX+92,wBot-8],
-    raffreddamento:[cxT,SUOLO-m(45)], trasformatore:[trX+trW/2,SUOLO-m(4)],
+    raffreddamento:[presaX,LAGO+16], trasformatore:[trX+trW/2,SUOLO-m(4)],
     extra:{aria:[gX+52,SUOLO-gH-m(4.5)]}
   };
 }

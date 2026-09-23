@@ -3,7 +3,68 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-20 (sessione 15: sito online, vedi "Da fare" punto 0)
+Ultimo aggiornamento: 2026-09-24 (sessione 16: licenza e correzioni, vedi sotto)
+
+## Fatto — sessione 16 (licenza e correzioni segnalate nelle sessioni 12–15)
+
+Richiesta esplicita dell'utente: "fai sia la licenza che le correzioni tutte
+in fila". Fatto tutto in `index.html`, verificato nel browser (nessun errore
+in console, tutte le centrali/depositi/incidenti si disegnano), poi
+registrato in `CORREZIONI.md` (correzioni 8–15) e qui.
+
+- **Licenza aggiunta**: `LICENSE.md` — MIT per il codice, CC BY 4.0 per testi
+  e disegni, le foto in `img/` restano con le loro licenze originali
+  (rimando a `crediti.json`). Il nome del titolare del copyright nel testo
+  MIT è generico ("Autrici e autori del progetto NucleApp"): da sostituire
+  con un nome vero o quello del comitato, se si vuole. README aggiornato con
+  un rimando.
+- **Beloyarsk 4 (correzione 8, l'unica che tocca un disegno)**: cercata una
+  fonte sulla torre di raffreddamento del sito e non trovata; trovato invece,
+  cercando il BN-1200 futuro, che le torri evaporative sono presentate come
+  una *novità* rispetto al BN-600 e al BN-800 in esercizio, che usano il
+  bacino. Tolta la torre dal disegno del sito, sostituita con una presa e
+  uno scarico nel bacino (circuito aperto, come Darlington sul lago
+  Ontario); aggiornati il fumetto del raffreddamento e il campo
+  `scena.raffreddamento` (da `'torre'` a `'lago'`, usato anche
+  dall'approfondimento "doppio click"). *In compenso*, la potenza netta
+  (820 MW) è risultata confermata: il database di World Nuclear Association,
+  oggi, dà proprio 820 MW netti — il valore di 789 MW che avevo segnalato
+  come discrepante veniva da POWER (T4) e sembra superato. Nessuna modifica
+  alla scheda.
+- **Shidaowan (correzione 9)**: il test di sicurezza è del 2023 (non 2024),
+  e sono state due prove separate, una per modulo (agosto e settembre),
+  non una prova unica su entrambi insieme. Corretto `worst.precedente`.
+- **WIPP (correzione 10)**: la barriera "Isolamento idrogeologico" negava
+  l'esistenza di una falda sopra il deposito; la falda (Culebra) esiste
+  davvero ed è riconosciuta dallo stesso WIPP come possibile via di
+  trasporto — è la sua salinità (10 000–200 000 mg/l) a escluderla come
+  fonte d'acqua, non la sua assenza. Corretti il testo della barriera e il
+  fumetto `culebra` del disegno.
+- **Deposito Nazionale (correzioni 11 e 12)**: il volume è stato aggiornato
+  a ≈ 84 000 m³ (Sogin, 2024; era ≈ 78 000 m³ nel progetto preliminare del
+  2021 — ora citato con la sua data, invece di un numero solo), con la
+  scomposizione per origine (49 000 dalle centrali, 35 000 da ricerca e
+  medicina); tolto il "99 % bassa attività" senza fonte. La riga "Alta
+  attività: Non va qui" diceva una mezza verità: il Parco ha un complesso
+  di stoccaggio temporaneo (CSA, ≈ 14 000 m³) per quei rifiuti — diventata
+  "In un'area separata, non nel deposito".
+- **Chernobyl (correzione 13)**: "la potenza supera di decine di volte il
+  valore nominale" (passo 5) implicava ≥ 20×; il rapporto tra la stima
+  (≈ 30 000 MW) e il nominale (3 200 MW) è ≈ 10×. Ammorbidito a "molte
+  volte", con la nota che le stime vanno da circa dieci volte in su.
+- **Fukushima (correzioni 14 e 15)**: la temperatura della reazione
+  zirconio-vapore era "oltre 1 000 °C" nel passo 4, corretta a 1 200 °C
+  (coerente con la fonte usata altrove nello stesso sito, per l'HTR-PM);
+  gli evacuati erano "oltre 150 000" nel passo 6, valore che non trovo in
+  nessuna fonte — corretto a "oltre 100 000 … fino a circa 164 000 al
+  picco" (World Nuclear Association e Wikipedia).
+- **Non toccato**: il fumetto generico dell'incidente (`disegnaIncidente`,
+  ramo `if(s.evacuazione)`) ha ancora "150 000" in una riga di testo, ma è
+  codice morto — nessuno dei tre incidenti lo usa più (hanno tutti un
+  disegno dedicato). Segnalato di nuovo qui sotto tra il codice da rimuovere.
+  L'"incidente 2014" del WIPP dice "restò chiuso tre anni": dal 14 febbraio
+  2014 a gennaio 2017 sono quasi tre anni (2 anni e 11 mesi): arrotondamento
+  ragionevole, non l'ho toccato.
 
 ## Fatto — sessione 14 (depositi e incidenti: grafica come per le centrali)
 
@@ -747,17 +808,17 @@ Si procede un elemento alla volta, mostrando il risultato.
    funzionano. Fatti: tolto `pubblica/index.html`; aggiunti `meta
    description`, Open Graph e Twitter card, `favicon.svg`,
    `apple-touch-icon.png`, `og-image.png` (generati con PowerShell, script
-   non conservato: si rifà con `System.Drawing`). **Resta la licenza**: scelta
-   dell'utente (ipotesi: MIT per il codice + CC BY 4.0 per testi e disegni; le
-   foto in `img/` mantengono le loro licenze, in `crediti.json`); finché non
-   c'è un file `LICENSE` nessuno può riusare il lavoro. Trappola: le foto
-   hanno `loading="lazy"`, quindi nel browser di prova non risultano
-   caricate finché non scorrono davvero in vista: non è un errore del sito.
+   non conservato: si rifà con `System.Drawing`). **Licenza aggiunta**
+   (sessione 16, `LICENSE.md`): MIT + CC BY 4.0, vedi sotto. **Tutto fatto.**
+   Trappola: le foto hanno `loading="lazy"`, quindi nel browser di prova non
+   risultano caricate finché non scorrono davvero in vista: non è un errore
+   del sito.
 1. **Interfaccia grafica delle centrali**: FATTO per tutte e 9 le centrali →
    dettaglio in `sessione 5`–`13` qui sopra. Restano solo i punti "da
-   riverificare" e "indicativi" elencati in ogni sessione, e due
-   cose sulle schede: potenza netta di Beloyarsk 4 (820 contro 789 MW) e data
-   del test di perdita del raffreddamento di Shidaowan (2023 o 2024).
+   riverificare" e "indicativi" elencati in ogni sessione. Le due cose sulle
+   schede segnalate qui (potenza netta di Beloyarsk 4, data del test di
+   Shidaowan) sono state chiuse in sessione 16, vedi sopra e
+   `CORREZIONI.md` (correzioni 8 e 9).
 2. **Depositi** (onkalo, wipp, italia) — 6 voci ciascuno: profondità, roccia,
    capacità, date, orizzonte di progetto. Fonti: Posiva (Onkalo), DOE/WIPP,
    ISIN/Sogin (Deposito Nazionale).
