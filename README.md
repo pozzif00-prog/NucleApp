@@ -14,6 +14,7 @@ verificati su fonti citate.
 | `img/` | Fotografie degli impianti e relativi crediti (`crediti.json`, `crediti.js`) |
 | `verifica/` | Verifica delle fonti: metodo, registro fonti, affermazioni controllate, correzioni e stato del lavoro |
 | `prepara-immagini.ps1` | Scarica le foto da Wikimedia Commons e genera i crediti |
+| `LICENSE.md` | Licenza: MIT per il codice, CC BY 4.0 per testi e disegni, licenze proprie per le foto |
 
 ## Vedere il sito
 
@@ -28,8 +29,11 @@ Ogni dato del sito deve essere tracciabile a una fonte, con citazione testuale.
 Il metodo è descritto in [`verifica/README.md`](verifica/README.md), l'avanzamento
 in [`verifica/PROGRESS.md`](verifica/PROGRESS.md).
 
-## Immagini e licenze
+## Licenza
 
-Le fotografie provengono da Wikimedia Commons e restano soggette alle rispettive
-licenze (pubblico dominio, CC BY, CC BY-SA). Autore, licenza e pagina di origine
-di ciascuna sono in `img/crediti.json` e compaiono nelle didascalie del sito.
+Codice, testi e disegni sono open: dettagli in [`LICENSE.md`](LICENSE.md)
+(MIT per il codice, CC BY 4.0 per testi e disegni). Le fotografie in `img/`
+fanno eccezione: vengono da Wikimedia Commons e restano soggette alle
+rispettive licenze (pubblico dominio, CC BY, CC BY-SA). Autore, licenza e
+pagina di origine di ciascuna sono in `img/crediti.json` e compaiono nelle
+didascalie del sito.
