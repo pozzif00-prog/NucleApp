@@ -3,7 +3,79 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-24 (sessione 16: licenza e correzioni, vedi sotto)
+Ultimo aggiornamento: 2026-09-24 (sessione 17: sito utilizzabile da mobile, vedi sotto)
+
+## Fatto — sessione 17 (sito utilizzabile da mobile)
+
+Richiesta dell'utente, lasciata in lavorazione durante la notte (non
+disponibile per rispondere a domande: nessuna necessaria, i due problemi
+avevano una causa individuabile dal codice). Due problemi segnalati:
+
+1. **Il doppio click/tocco per approfondire non funzionava da telefono.**
+   Causa reale, trovata testando con tocchi veri (non con eventi simulati
+   via JS, che l'avevano nascosta): il doppio click nativo (`dblclick`) non
+   è affidabile al tocco, ed era l'UNICO meccanismo usato (oltre ai tasti
+   freccia da tastiera). Risolto sostituendolo con un riconoscimento manuale
+   di due "click" ravvicinati (funziona identico con mouse e dito, perché
+   ogni tocco reale genera comunque un evento "click"). **Ma c'è una seconda
+   causa, più subdola**: appena il primo tocco apre il fumetto, questo spesso
+   **copre proprio il pallino** (confermato con `elementFromPoint`) — quindi
+   il secondo tocco nello stesso punto arriva al fumetto, non al pallino
+   sottostante, e andrebbe perso. Per questo il riconoscimento del doppio
+   tocco è stato spostato dentro `mostraFumetto()` stesso (punto d'ingresso
+   comune), con un tocco sul corpo del fumetto già aperto che vale come
+   secondo tocco sul pallino che l'ha aperto. Riguarda solo le centrali
+   (`apriMicro`/`MICRO_CHIAVI`): depositi e incidenti non hanno questo
+   secondo livello di approfondimento.
+   - Verificato rigorosamente: non bastava un test con eventi simulati
+     (bypassano il vero posizionamento sullo schermo, dando un falso
+     positivo). Verificato invece componendo due prove indipendenti ma
+     concrete — (a) `elementFromPoint` nel punto esatto del pallino, dopo il
+     primo tocco, per vedere davvero cosa ci sta sopra; (b) l'evento
+     dispatchato su QUELL'elemento vero (pallino o fumetto, a seconda del
+     caso) per vedere se apre l'approfondimento. Su tutte le 9 centrali e
+     tutti i loro pallini "doppio tocco", nessun errore in console.
+2. **Sotto i 900 px (mobile, tablet, finestra del browser stretta) l'elenco
+   laterale (aside) compariva incollato in cima alla pagina, sopra la scheda
+   dell'impianto**, invece di stare in un menu. Causa: `.griglia{grid-
+   template-columns:1fr}` sotto i 900 px faceva impilare aside e main in
+   ordine di documento (aside prima), invece di nascondere l'aside per
+   davvero. Risolto trasformando l'aside, sotto i 900 px, in un **pannello a
+   comparsa** (`position:fixed`, nascosto di default con `transform:
+   translateX(-100%)`), con uno sfondo scuro dietro (`#lato-sfondo`, nuovo
+   elemento nell'HTML, subito dopo l'header) che si tocca per chiudere. È
+   lo stesso tasto ☰ (`#toggle-lato`) di sempre: la classe che comandava già
+   la colonna laterale su desktop (`lato-chiuso`) ora, sotto i 900 px,
+   comanda il pannello a comparsa — con il significato pratico invertito
+   (assente = chiuso anche sotto i 900 px, comportamento di partenza; con la
+   classe = aperto). Il pannello si chiude anche da solo scegliendo una
+   centrale, un deposito, o cambiando scheda dalla barra in alto
+   (`chiudiLatoMobile()`, richiamata da `selezionaReattore`,
+   `selezionaDeposito` e dal click sulla barra di navigazione).
+   - Verificato con screenshot reali (non solo con letture di stato via
+     JavaScript: vedi la trappola qui sotto) a 375 px (telefono), 768 px
+     (tablet), 850 px (finestra desktop stretta) e 1200 px (desktop pieno):
+     pannello chiuso di default sotto i 900 px, si apre sopra il contenuto
+     con lo sfondo scuro, si chiude toccando lo sfondo o scegliendo una voce;
+     sopra i 900 px il comportamento di prima (colonna fissa, comprimibile
+     col tasto ☰) è rimasto identico. Nessun errore in console su tutte le
+     9 centrali, i 3 depositi e i 3 incidenti.
+   - **Non toccato**: la sezione Incidenti non ha un `aside`/`griglia` (ha
+     una lista orizzontale in alto, `.inc-lista`): il tasto ☰ lì non ha
+     nessun effetto visibile, come già prima. Non è uno dei problemi
+     segnalati e non l'ho cambiato.
+
+**Trappola per la prossima sessione**: in questo ambiente di test,
+`getComputedStyle(...).transform`, letto da JavaScript subito dopo aver
+cambiato una classe che attiva una `transition` su `transform`, può
+restituire il valore VECCHIO anche a transizione ampiamente conclusa (anche
+con un valore forzato via `style.setProperty(...,'important')`, che
+dovrebbe vincere su qualunque regola del foglio di stile) — mentre uno
+screenshot reale, nello stesso istante, mostra il risultato GIUSTO. Non è un
+bug del sito: è una particolarità di come questo strumento legge lo stile
+calcolato tramite l'automazione del browser. **Per verificare l'effetto
+visivo di un cambio di classe legato a `transform`/`transition`, fidarsi
+dello screenshot, non di `getComputedStyle` letto da JavaScript.**
 
 ## Fatto — sessione 16 (licenza e correzioni segnalate nelle sessioni 12–15)
 

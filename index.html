@@ -368,9 +368,29 @@ p.fonte-dati{margin:.8rem 0 0;border-top:1px dotted var(--linea);padding-top:.5r
   .barre,.griglia{transition:none}
 }
 @media (max-width:900px){
+  /* Sotto i 900 px l'elenco laterale (aside) non sta più accanto al
+     disegno: diventa un pannello a comparsa, nascosto di default, che
+     scorre da sinistra sopra il resto della pagina quando si apre col
+     tasto ☰. È lo stesso #toggle-lato di sempre — qui sotto i 900 px il
+     suo effetto si inverte: assente = pannello chiuso (comportamento di
+     partenza, giusto per uno schermo stretto), .lato-chiuso presente =
+     pannello aperto. Sopra i 900 px la stessa classe continua a significare
+     "colonna laterale nascosta", come prima: il nome è lo stesso, l'effetto
+     dipende dalla larghezza dello schermo. */
   .griglia{grid-template-columns:1fr}
-  body.lato-chiuso aside{display:none}
-  aside{border-right:none;border-bottom:1px solid var(--linea);max-height:210px;overflow:auto}
+  .griglia>aside{
+    position:fixed;top:0;left:0;bottom:0;z-index:58;width:min(86vw,320px);
+    max-height:none;border-right:1px solid var(--linea);border-bottom:none;
+    box-shadow:4px 0 24px rgba(11,36,64,.22);
+    transform:translateX(-100%);transition:transform .28s ease;
+  }
+  body.lato-chiuso .griglia>aside{transform:translateX(0)}
+  #lato-sfondo{
+    display:none;position:fixed;inset:0;z-index:57;
+    background:rgba(11,36,64,.5);
+  }
+  body.lato-chiuso #lato-sfondo{display:block}
+  body.lato-chiuso{overflow:hidden}
   /* sotto i 900 px la colonna laterale strozzerebbe il disegno: l'avviso
      passa sotto, continuando a non coprire nulla */
   .scena-conavviso{flex-direction:column}
@@ -400,6 +420,9 @@ p.fonte-dati{margin:.8rem 0 0;border-top:1px dotted var(--linea);padding-top:.5r
     <button data-sez="incidenti">Incidenti</button>
   </nav>
 </header>
+<!-- sfondo dietro il pannello a comparsa dell'elenco, sotto i 900 px: vedi
+     il commento nel CSS. Invisibile e senza effetto sopra i 900 px. -->
+<div id="lato-sfondo" aria-hidden="true"></div>
 
 <!-- ============ CENTRALI ============ -->
 <section class="sezione attiva" id="sez-centrali">
@@ -4826,9 +4849,10 @@ function disegnaScena(r){
   root.appendChild(H);
 
   H.querySelectorAll('.hot').forEach(h=>{
+    /* il doppio tocco per approfondire (apriMicro) si riconosce dentro
+       mostraFumetto, non qui: vedi il commento lì. */
     const apri=ev=>{ if(mosso) return; ev&&ev.stopPropagation(); mostraFumetto(h.dataset.chiave,h); };
     h.addEventListener('click',apri);
-    h.addEventListener('dblclick',ev=>{ ev.stopPropagation(); ev.preventDefault(); apriMicro(h.dataset.chiave); });
     h.addEventListener('keydown',e=>{
       if(e.key==='Enter'||e.key===' '){e.preventDefault();apri();}
       if(e.key==='ArrowRight'||e.key==='+'){e.preventDefault();apriMicro(h.dataset.chiave);}
@@ -4917,9 +4941,28 @@ document.getElementById('zreset').onclick=()=>{
 const fum=document.getElementById('fumetto'), fumC=document.getElementById('fumetto-corpo');
 fum.querySelector('button').onclick=()=>chiudiFumetto();
 function chiudiFumetto(){fum.classList.remove('on');}
+/* doppio tocco per approfondire: il doppio click nativo non è affidabile al
+   tocco (molti browser mobili non lo generano affatto per elementi SVG), e
+   comunque appena il primo tocco apre il fumetto questo spesso copre proprio
+   il pallino — il secondo tocco nello stesso punto arriva quindi al fumetto,
+   non al pallino sottostante. Per questo il riconoscimento del doppio tocco
+   sta qui, punto d'ingresso comune a entrambi i casi, invece che sul solo
+   pallino: un tocco sul corpo del fumetto già aperto, se arriva abbastanza
+   in fretta, vale come un secondo tocco sullo stesso elemento. */
+let ultimoTocco={chiave:null,t:0}, fumChiaveCorrente=null;
 function mostraFumetto(chiave,nodo){
+  const ora=Date.now();
+  if(ultimoTocco.chiave===chiave && ora-ultimoTocco.t<450){
+    ultimoTocco={chiave:null,t:0};
+    chiudiFumetto();
+    apriMicro(chiave);
+    return;
+  }
+  if(!nodo) return;   // richiamato dal corpo del fumetto, fuori dalla finestra del doppio tocco: nessun effetto
+  ultimoTocco={chiave,t:ora};
   const d=(corrente.fumetti&&corrente.fumetti[chiave])||FUMETTI_BASE[chiave];
   if(!d)return;
+  fumChiaveCorrente=chiave;
   fumC.innerHTML=`<h4>${d.t}</h4><div>${d.d}</div>${d.p?`<div class="paragone">${d.p}</div>`:''}`;
   const r=nodo.getBoundingClientRect(), b=scena.parentElement.getBoundingClientRect();
   let x=r.left-b.left+r.width+14, y=r.top-b.top-10;
@@ -4930,6 +4973,15 @@ function mostraFumetto(chiave,nodo){
   y=Math.min(Math.max(y,10),b.height-fh-10);
   fum.style.left=x+'px'; fum.style.top=y+'px';
 }
+/* un tocco su tutto il fumetto (bordo e spazio vuoto compresi, non solo il
+   testo) vale come un secondo tocco sul pallino che lo ha aperto: vedi
+   sopra. Il tasto di chiusura resta escluso, altrimenti chiuderlo aprirebbe
+   anche l'approfondimento. */
+fum.addEventListener('click',ev=>{
+  if(ev.target.closest('button')) return;
+  ev.stopPropagation();
+  if(fumChiaveCorrente) mostraFumetto(fumChiaveCorrente,null);
+});
 
 /* ---- scram ---- */
 const avviso=document.getElementById('avviso');
@@ -5232,6 +5284,7 @@ function pannello(r){
     <p class="nota">Questa scheda descrive l'incidente peggiore fisicamente possibile per questo tipo di reattore, non quello probabile. Serve a rendere confrontabili i progetti: quando cambia la tecnologia, cambia cosa può succedere nel caso peggiore.</p>`;
 }
 function selezionaReattore(id){
+  chiudiLatoMobile();
   corrente=REATTORI.find(r=>r.id===id);
   document.querySelectorAll('#elenco-reattori .r-btn').forEach(b=>b.setAttribute('aria-current',String(b.dataset.id===id)));
   if(microChiave) chiudiMicro();
@@ -6237,6 +6290,7 @@ function disegnaItalia(g,d){
 DEP_DISEGNI.italia=disegnaItalia;
 
 function selezionaDeposito(id){
+  chiudiLatoMobile();
   depCorrente=DEPOSITI.find(d=>d.id===id);
   document.querySelectorAll('#elenco-depositi .r-btn').forEach(b=>b.setAttribute('aria-current',String(b.dataset.id===id)));
   document.getElementById('dep-tit').textContent=`${depCorrente.nome} — ${depCorrente.paese}`;
@@ -7172,6 +7226,7 @@ document.getElementById('inc-next').onclick=()=>{fermaPlay(); if(passo<incCorren
    ===================================================================== */
 document.getElementById('nav').addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b)return;
+  chiudiLatoMobile();      // cambiare sezione dalla barra in alto chiude anche il pannello a comparsa, se era aperto
   document.querySelectorAll('#nav button').forEach(x=>x.setAttribute('aria-current',String(x===b)));
   document.querySelectorAll('.sezione').forEach(s=>s.classList.remove('attiva'));
   document.getElementById('sez-'+b.dataset.sez).classList.add('attiva');
@@ -7193,6 +7248,13 @@ document.addEventListener('keydown',e=>{
 document.getElementById('toggle-lato').onclick=()=>{
   document.body.classList.toggle('lato-chiuso');
 };
+/* sotto i 900 px .lato-chiuso tiene aperto il pannello a comparsa (vedi il
+   CSS): lo si chiude toccando lo sfondo scuro, o scegliendo una centrale o
+   un deposito dall'elenco, così il pannello non resta aperto sopra il
+   contenuto appena scelto. Sopra i 900 px questa funzione non ha alcun
+   effetto visibile, perché la colonna laterale è già sempre aperta lì. */
+function chiudiLatoMobile(){ document.body.classList.remove('lato-chiuso'); }
+document.getElementById('lato-sfondo').onclick=chiudiLatoMobile;
 caricaCrediti();
 selezionaReattore('pwr');
 </script>
