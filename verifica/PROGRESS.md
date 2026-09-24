@@ -3,7 +3,71 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-24 (sessione 17: sito utilizzabile da mobile, vedi sotto)
+Ultimo aggiornamento: 2026-09-24 (sessione 18: scorrimento contro zoom, vedi sotto)
+
+## Fatto — sessione 18 (distinguere lo scorrimento dal tentativo di zoom)
+
+Richiesta dell'utente, di seguito alla sessione 17: lo scorrimento della
+pagina si interrompeva scorrendo sulle parti interattive (i disegni), perché
+il sito lo interpretava come un tentativo di zoom. Causa, per due percorsi
+distinti:
+- **Al tocco**: le tre scene avevano `touch-action:none`, che blocca ogni
+  gesto nativo del browser (incluso lo scorrimento verticale) appena un dito
+  tocca il disegno; il trascinamento con un dito veniva sempre interpretato
+  come "sposta il disegno", senza distinzione da "scorri la pagina".
+- **A rotellina/trackpad**: il gestore dell'evento `wheel` chiamava sempre
+  `e.preventDefault()` e zoomava, qualunque fosse la sorgente — anche un
+  normale scorrimento a due dita sul trackpad, senza alcun pizzico.
+
+Corretto per tutte e tre le scene (centrali, depositi, incidenti):
+- `touch-action:none` → `touch-action:pan-y`: un dito che scorre in
+  verticale ora scorre la pagina, nativamente, senza passare dal
+  JavaScript — non può più "restare intrappolato" nel disegno.
+- Il trascinamento con un dito (nel gestore `pointerdown` di ciascuna scena)
+  ora è riservato al mouse (`e.pointerType==='touch'` esce subito): il tocco
+  a un dito solo non sposta più il disegno.
+- Nuova funzione condivisa **`attaccaPizzico`**: pizzicare con due dita
+  ingrandisce (o rimpicciolisce) il disegno, centrato sul punto medio delle
+  due dita, e muovendo insieme le due dita lo si sposta — lo stesso gesto di
+  Google Maps o di qualunque visualizzatore di mappe. Due dita non si
+  confondono mai con lo scorrimento a un dito, per definizione.
+- Il gestore della rotellina (`wheel`) ora zooma solo se `e.ctrlKey` è vero:
+  è lo stesso segnale che ogni browser manda per un vero pizzico sul
+  trackpad (anche senza che l'utente tocchi il tasto Ctrl), e lo stesso
+  trucco usato da Google Maps ("usa Ctrl + rotellina per ingrandire") per
+  risolvere esattamente questo problema. Senza Ctrl, l'evento non viene più
+  intercettato: lo scorrimento passa alla pagina.
+- I tasti +/− e "vista intera" restano invariati: chi non conosce il
+  pizzico o il Ctrl+rotellina ha sempre un modo visibile per zoomare.
+
+**Verificato**, non con eventi finti generici ma con veri `TouchEvent`
+(pizzico che allontana le dita → ingrandisce; che le avvicina → rimpicciolisce;
+due dita che si spostano insieme, a distanza costante → sposta il disegno) e
+`WheelEvent` con e senza `ctrlKey`, su tutte le 9 centrali, i 3 depositi e i
+3 incidenti: nessun errore in console, il trascinamento col mouse (desktop)
+resta identico a prima, il tocco a un dito non muove più nulla.
+
+**Trappole incontrate in questa sessione, per non riscoprirle**:
+- Il messaggio di console `<svg> attribute viewBox: Expected number, "NaN
+  NaN …"` è un artefatto: il log della console resta legato alla SCHEDA del
+  browser attraverso più `navigate()`, non alla pagina. Su una scheda
+  **nuova**, appena aperta, non compare. Non è un errore del sito (già
+  annotato in sessione 16, riconfermato qui).
+- `requestAnimationFrame` — usato dall'animazione dei pulsanti di zoom
+  (incluso "vista intera") — **non parte affatto** in questo ambiente di
+  test quando la scheda non è quella attiva agli occhi del sistema
+  operativo, anche se lo strumento la segna come "in primo piano". Per
+  testare un cambio di VIEW dopo un pulsante che anima, o si aspetta molto
+  più a lungo del dovuto, o (meglio) si impone lo stato finale a mano
+  (`VIEW.x=...; applicaView();`) e si verifica quello, ignorando
+  l'animazione in sé. Non è un problema del sito: gli utenti reali vedono
+  l'animazione normalmente.
+- Testare un pizzico a due dita con `elementFromPoint`/coordinate calcolate
+  a mano è inutile: le coordinate riportate dagli screenshot di questo
+  strumento non corrispondono in modo affidabile ai pixel CSS della pagina
+  (visto già in sessione 17). Per il pizzico, meglio costruire `Touch` e
+  `TouchEvent` veri e leggere lo stato risultante (`zoom`, `VIEW`) via
+  JavaScript, senza passare da coordinate sullo schermo.
 
 ## Fatto — sessione 17 (sito utilizzabile da mobile)
 

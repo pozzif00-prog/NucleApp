@@ -104,7 +104,12 @@ main{min-width:0;display:flex;flex-direction:column}
 
 /* ---------- scena ---------- */
 .scena-box{position:relative;background:var(--superficie);border-bottom:1px solid var(--linea);overflow:hidden}
-#scena,#scena-dep{display:block;width:100%;height:min(58vh,540px);touch-action:none;cursor:grab}
+/* touch-action:pan-y, non none: un dito che scorre in verticale deve poter
+   scorrere la pagina, non restare intrappolato nel disegno. Il pizzico a due
+   dita (che pan-y esclude comunque dai gesti nativi) resta libero per lo
+   zoom fatto a mano più sotto; il trascinamento con un dito resta riservato
+   al mouse. Vedi i commenti su attaccaPan e attaccaPizzico. */
+#scena,#scena-dep{display:block;width:100%;height:min(58vh,540px);touch-action:pan-y;cursor:grab}
 /* la scena delle centrali segue le proporzioni del disegno (sito sopra,
    isola nucleare sotto): l'altezza la fissa disegnaScena con aspect-ratio */
 #scena,#scena-dep{height:auto}
@@ -233,7 +238,7 @@ ul.dati li:last-child{border-bottom:none}
 }
 .inc-grafica{display:flex;flex-direction:column;height:var(--inc-h);min-width:0}
 .inc-scena-box{flex:1;min-height:0;border:1px solid var(--linea);border-radius:5px}
-#scena-inc{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#scena-inc{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab}
 .inc-testo{height:var(--inc-h);overflow:auto;min-width:0}
 .timeline{display:flex;align-items:center;gap:.7rem;padding:.7rem 1.3rem}
 .inc-grafica .timeline{padding:.7rem 0 0;flex-shrink:0}
@@ -4886,7 +4891,14 @@ function limita(){
   VIEW.x=Math.min(Math.max(VIEW.x,0),BASE.w-VIEW.w);
   VIEW.y=Math.min(Math.max(VIEW.y,0),BASE.h-VIEW.h);
 }
+/* solo un gesto di zoom dichiarato ingrandisce: Ctrl (o Cmd) tenuto premuto
+   insieme alla rotellina o al trackpad, oppure un vero pizzico sul
+   trackpad — che ogni browser segnala comunque con ctrlKey, anche se
+   nessuno ha toccato il tasto Ctrl. Uno scorrimento normale, a rotellina o
+   a due dita senza pizzicare, non viene toccato: passa alla pagina, come
+   ci si aspetta scorrendo su un sito. */
 scena.addEventListener('wheel',e=>{
+  if(!e.ctrlKey) return;
   e.preventDefault();
   const r=scena.getBoundingClientRect();
   const passo=Math.exp(-e.deltaY*0.0026);          // via di mezzo
@@ -4895,7 +4907,11 @@ scena.addEventListener('wheel',e=>{
 let trascina=null, mosso=false;
 function attaccaPan(svg){
   svg.addEventListener('pointerdown',e=>{
-    if(e.button!==0) return;
+    /* il trascinamento con un dito resta riservato al mouse: a un dito solo,
+       il tocco deve poter scorrere la pagina (vedi touch-action:pan-y nel
+       CSS), non spostare il disegno. Il tocco ha il suo gesto a parte, il
+       pizzico a due dita: vedi attaccaPizzico più sotto. */
+    if(e.button!==0||e.pointerType==='touch') return;
     trascina={x:e.clientX,y:e.clientY,vx:VIEW.x,vy:VIEW.y,id:e.pointerId}; mosso=false;
   });
   svg.addEventListener('pointermove',e=>{
@@ -4916,7 +4932,37 @@ function attaccaPan(svg){
     trascina=null; mosso=false; svg.classList.remove('trascina');
   }));
 }
+/* pizzicare per ingrandire, due dita per spostare: il gesto touch della
+   scena, che non si confonde mai con lo scorrimento a un dito perché lo
+   scorrimento è, per definizione, a un dito solo. touch-action:pan-y (nel
+   CSS) lascia le due dita libere per il JavaScript: il browser non le
+   interpreta come uno zoom della pagina intera.
+   svg: l'elemento su cui ascoltare. limitaFn/applicaFn/zoomFn: le tre
+   funzioni già scritte per quella scena (limita, applicaView, zoomA — o le
+   loro gemelle per depositi e incidenti). view: l'oggetto VIEW di quella
+   scena, per spostarlo insieme al pizzico. */
+function attaccaPizzico(svg,limitaFn,applicaFn,zoomFn,view){
+  let prec=null;
+  const dist=(a,b)=>Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+  const centro=(a,b)=>({x:(a.clientX+b.clientX)/2,y:(a.clientY+b.clientY)/2});
+  const aggiorna=e=>{
+    const [a,b]=e.touches, r=svg.getBoundingClientRect();
+    const d=dist(a,b), c=centro(a,b);
+    if(prec&&prec.d>0){
+      const fatt=Math.min(1.5,Math.max(1/1.5,d/prec.d));           // come per la rotellina: un limite per passo, contro i salti
+      zoomFn(fatt,(c.x-r.left)/r.width,(c.y-r.top)/r.height);       // zoom, incrementale sul passo precedente
+      view.x-=(c.x-prec.c.x)*(view.w/r.width);                     // e insieme si sposta, se le dita si spostano
+      view.y-=(c.y-prec.c.y)*(view.h/r.height);
+      limitaFn(); applicaFn();
+    }
+    prec={d,c};
+  };
+  svg.addEventListener('touchstart',e=>{ if(e.touches.length===2){ e.preventDefault(); prec=null; aggiorna(e); } },{passive:false});
+  svg.addEventListener('touchmove',e=>{ if(e.touches.length===2){ e.preventDefault(); aggiorna(e); } },{passive:false});
+  ['touchend','touchcancel'].forEach(ev=>svg.addEventListener(ev,e=>{ if(e.touches.length<2) prec=null; }));
+}
 attaccaPan(scena);
+attaccaPizzico(scena,limita,applicaView,zoomA,VIEW);
 /* i pulsanti animano lo zoom invece di scattare */
 function zoomAnimato(fatt){
   const passi=11, f=Math.pow(fatt,1/passi);
@@ -5357,7 +5403,10 @@ function depZoomA(f,cxr=.5,cyr=.5){
   DEP_VIEW.x=px-DEP_VIEW.w*cxr; DEP_VIEW.y=py-DEP_VIEW.h*cyr;
   depLimita(); depApplica();
 }
+/* vedi il commento sulla rotellina della scena delle centrali: qui vale lo
+   stesso, serve un gesto di zoom dichiarato (ctrlKey). */
 scenaDep.addEventListener('wheel',e=>{
+  if(!e.ctrlKey) return;
   e.preventDefault();
   const r=scenaDep.getBoundingClientRect();
   const passoZ=Math.exp(-e.deltaY*0.0026);
@@ -5365,7 +5414,7 @@ scenaDep.addEventListener('wheel',e=>{
 },{passive:false});
 let depTrascina=null;
 scenaDep.addEventListener('pointerdown',e=>{
-  if(e.button!==0) return;
+  if(e.button!==0||e.pointerType==='touch') return;   // il tocco a un dito resta libero di scorrere la pagina
   depTrascina={x:e.clientX,y:e.clientY,vx:DEP_VIEW.x,vy:DEP_VIEW.y,id:e.pointerId}; mossoDep=false;
 });
 scenaDep.addEventListener('pointermove',e=>{
@@ -5386,6 +5435,7 @@ scenaDep.addEventListener('pointermove',e=>{
   depTrascina=null; scenaDep.classList.remove('trascina');
   setTimeout(()=>{mossoDep=false;},0);           // dopo il click che chiude il trascinamento
 }));
+attaccaPizzico(scenaDep,depLimita,depApplica,depZoomA,DEP_VIEW);
 document.getElementById('dep-zin').onclick=()=>depZoomA(1.4);
 document.getElementById('dep-zout').onclick=()=>depZoomA(1/1.4);
 document.getElementById('dep-zreset').onclick=()=>{ fumD.classList.remove('on'); depImposta(DEP_BASE.h); };
@@ -7165,7 +7215,10 @@ function incReset(){
   INC_VIEW.w=INC_BASE.w; INC_VIEW.h=INC_BASE.h;
   incApplica();
 }
+/* vedi il commento sulla rotellina della scena delle centrali: qui vale lo
+   stesso, serve un gesto di zoom dichiarato (ctrlKey). */
 scenaInc.addEventListener('wheel',e=>{
+  if(!e.ctrlKey) return;
   e.preventDefault();
   const r=scenaInc.getBoundingClientRect();
   const passoZ=Math.exp(-e.deltaY*0.0026);
@@ -7173,7 +7226,7 @@ scenaInc.addEventListener('wheel',e=>{
 },{passive:false});
 let incTrascina=null;
 scenaInc.addEventListener('pointerdown',e=>{
-  if(e.button!==0) return;
+  if(e.button!==0||e.pointerType==='touch') return;   // il tocco a un dito resta libero di scorrere la pagina
   incTrascina={x:e.clientX,y:e.clientY,vx:INC_VIEW.x,vy:INC_VIEW.y,id:e.pointerId,mosso:false};
 });
 scenaInc.addEventListener('pointermove',e=>{
@@ -7194,6 +7247,7 @@ scenaInc.addEventListener('pointermove',e=>{
   incTrascina=null; scenaInc.classList.remove('trascina');
   setTimeout(()=>{incMosso=false;},0);           // dopo il click che chiude il trascinamento
 }));
+attaccaPizzico(scenaInc,incLimita,incApplica,incZoomA,INC_VIEW);
 document.getElementById('inc-zin').onclick=()=>incZoomA(1.4);
 document.getElementById('inc-zout').onclick=()=>incZoomA(1/1.4);
 document.getElementById('inc-zreset').onclick=incReset;
