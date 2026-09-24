@@ -7189,6 +7189,7 @@ function selezionaIncidente(id){
   Object.assign(INC_BASE,(INC_DISEGNI[id]||{}).vista||{x:280,y:0,w:920,h:620});
   incReset();                     // nuovo incidente, vista intera
   mostraPasso();
+  chiudiLatoMobile();
 }
 /* ---- zoom / pan della scena incidenti ----
    Deliberatamente separato da quello della centrale: lì VIEW/BASE sono globali

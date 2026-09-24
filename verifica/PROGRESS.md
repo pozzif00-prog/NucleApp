@@ -3,8 +3,39 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-24 (sessione 18: scorrimento contro zoom + verifica
-depositi/incidenti a tre larghezze, vedi sotto)
+Ultimo aggiornamento: 2026-09-24 (sessione 18c: riverifica sul sito pubblicato,
+trovato e corretto un difetto vero sugli incidenti, vedi sotto)
+
+## Fatto — sessione 18c (riverifica sul sito pubblicato dopo la sessione 18b)
+
+Dopo aver pubblicato la correzione della sessione 18b, riverificato depositi e
+incidenti sul sito online (non solo in locale), come fatto per ogni
+correzione di questa serie di sessioni. Trovate due cose:
+
+- **Falso allarme**: la prima lettura del sito pubblicato sembrava non avere
+  ancora la correzione di `#lato-sfondo` (tornava `display:block` a 1200 px
+  invece di `none`). Non era un problema del sito: era la cache del
+  browser di test, che aveva ancora in memoria la pagina caricata in una
+  sessione precedente. Con l'URL forzato a ricaricare (parametro `?v=...`) il
+  sito pubblicato risultava corretto. **Trappola aggiuntiva**: quando si
+  riverifica un sito pubblicato subito dopo un push, usare un parametro
+  `?v=` (o equivalente) per escludere la cache del browser di test come causa
+  di un mancato aggiornamento apparente, prima di concludere che il deploy
+  non è arrivato.
+
+- **Difetto vero**: la nota della sessione 18b sotto diceva che "incidenti
+  non ha l'aside" — falso: incidenti usa lo stesso pannello a comparsa
+  (`aside`/`#lato-sfondo`) di centrali e depositi, con il proprio elenco
+  `#elenco-incidenti` dentro. Proprio perché quella nota era sbagliata, il
+  test della sessione 18b non aveva provato la chiusura automatica del
+  pannello scegliendo un incidente dall'elenco — e infatti non funzionava:
+  `selezionaIncidente()` era l'unica delle tre funzioni di selezione a non
+  chiamare `chiudiLatoMobile()` (le altre due, `selezionaReattore` e
+  `selezionaDeposito`, la chiamano). Corretta aggiungendo la chiamata mancante
+  in fondo a `selezionaIncidente()`. Riverificato in locale: il pannello ora
+  si chiude scegliendo un incidente, a 375 e 768 px, senza toccare il
+  comportamento di centrali e depositi (verificato anche quello, nessuna
+  regressione).
 
 ## Fatto — sessione 18b (verifica di depositi e incidenti a tre larghezze)
 
@@ -26,12 +57,15 @@ un difetto piccolo ma reale:
 **Verificato** (depositi e incidenti, non solo centrali) a tutte e tre le
 larghezze: `touch-action:pan-y`, rotellina senza/con Ctrl, pizzico a due dita,
 tocco a un dito che non sposta nulla, fumetti, cambio passo (solo incidenti),
-apertura/chiusura del pannello con chiusura automatica alla scelta (solo
-depositi, che ha l'aside — incidenti non ne ha e il tasto ☰ lì resta senza
-effetto, come previsto). Nessun errore in console in nessun caso. Confermato
-anche con screenshot reali a 768 e 375 px (pannello che si apre sopra il
-contenuto con lo sfondo scuro; disegni di depositi e incidenti leggibili e
-ben impaginati).
+apertura/chiusura del pannello. Nessun errore in console in nessun caso.
+Confermato anche con screenshot reali a 768 e 375 px (pannello che si apre
+sopra il contenuto con lo sfondo scuro; disegni di depositi e incidenti
+leggibili e ben impaginati).
+
+> Nota corretta in sessione 18c: qui sotto si era scritto per errore che
+> "incidenti non ha l'aside" — falso, e per questo la chiusura automatica del
+> pannello scegliendo un incidente non era stata provata (e infatti non
+> funzionava). Vedi sessione 18c sopra.
 
 **Trappola aggiuntiva, stessa famiglia di quelle di sessione 17–18**:
 `getBoundingClientRect().left`, letto da JavaScript subito dopo aver aperto
