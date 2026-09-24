@@ -3,7 +3,45 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-24 (sessione 18: scorrimento contro zoom, vedi sotto)
+Ultimo aggiornamento: 2026-09-24 (sessione 18: scorrimento contro zoom + verifica
+depositi/incidenti a tre larghezze, vedi sotto)
+
+## Fatto — sessione 18b (verifica di depositi e incidenti a tre larghezze)
+
+Richiesta dell'utente: ricontrollare depositi e incidenti (non solo centrali)
+alle tre larghezze (telefono 375 px, tablet 768 px, desktop 1200 px), dopo la
+correzione scorrimento/zoom della sessione 18. Nel farlo, trovato e corretto
+un difetto piccolo ma reale:
+
+- **`#lato-sfondo`** (lo sfondo scuro dietro al pannello a comparsa
+  dell'elenco) non aveva un `display:none` di base **fuori** dal media query
+  sotto i 900 px: sopra i 900 px restava `display:block` di default (nessuna
+  regola CSS lo copriva a quella larghezza), invece di `none`. Nella pratica
+  non si vedeva — l'elemento è vuoto e senza `position:fixed` fuori dal media
+  query, quindi occupa zero spazio — ma non era dichiarato invisibile "per
+  davvero", solo per un caso fortunato. Aggiunta la regola di base
+  `#lato-sfondo{display:none}` fuori dal media query, e tolto il `display:none`
+  ormai ridondante dentro.
+
+**Verificato** (depositi e incidenti, non solo centrali) a tutte e tre le
+larghezze: `touch-action:pan-y`, rotellina senza/con Ctrl, pizzico a due dita,
+tocco a un dito che non sposta nulla, fumetti, cambio passo (solo incidenti),
+apertura/chiusura del pannello con chiusura automatica alla scelta (solo
+depositi, che ha l'aside — incidenti non ne ha e il tasto ☰ lì resta senza
+effetto, come previsto). Nessun errore in console in nessun caso. Confermato
+anche con screenshot reali a 768 e 375 px (pannello che si apre sopra il
+contenuto con lo sfondo scuro; disegni di depositi e incidenti leggibili e
+ben impaginati).
+
+**Trappola aggiuntiva, stessa famiglia di quelle di sessione 17–18**:
+`getBoundingClientRect().left`, letto da JavaScript subito dopo aver aperto
+il pannello a comparsa, può dare la posizione VECCHIA (fuori schermo) anche
+a transizione conclusa — lo stesso difetto già visto con `getComputedStyle`
++ `transform`, dato che `getBoundingClientRect` lo usa internamente. Confermato
+con uno screenshot reale, nello stesso istante: il pannello era aperto
+correttamente. Vale la stessa regola di sessione 17: per lo stato visivo di
+un cambio legato a `transform`, fidarsi dello screenshot, non della lettura
+JavaScript della posizione.
 
 ## Fatto — sessione 18 (distinguere lo scorrimento dal tentativo di zoom)
 

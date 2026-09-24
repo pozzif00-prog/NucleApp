@@ -79,6 +79,10 @@ aside{
 }
 body.lato-chiuso aside{padding-left:0;padding-right:0;border-right:none}
 main{min-width:0;display:flex;flex-direction:column}
+/* sfondo dietro il pannello a comparsa dell'elenco: invisibile di default a
+   qualunque larghezza; sotto i 900 px (vedi il media query più sotto) prende
+   posizione ed effetto solo quando il pannello è aperto */
+#lato-sfondo{display:none}
 
 /* ---------- selettore ---------- */
 /* niente nowrap: nella barra laterale, a larghezza fissa, le scritte lunghe
@@ -391,7 +395,7 @@ p.fonte-dati{margin:.8rem 0 0;border-top:1px dotted var(--linea);padding-top:.5r
   }
   body.lato-chiuso .griglia>aside{transform:translateX(0)}
   #lato-sfondo{
-    display:none;position:fixed;inset:0;z-index:57;
+    position:fixed;inset:0;z-index:57;
     background:rgba(11,36,64,.5);
   }
   body.lato-chiuso #lato-sfondo{display:block}
