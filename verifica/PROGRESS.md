@@ -3,8 +3,80 @@
 > Questo file è la memoria del progetto. Va aggiornato a ogni sessione, prima
 > che il contesto si accorci. Se riparti da zero, leggi README.md e poi questo.
 
-Ultimo aggiornamento: 2026-09-24 (sessione 18c: riverifica sul sito pubblicato,
-trovato e corretto un difetto vero sugli incidenti, vedi sotto)
+Ultimo aggiornamento: 2026-09-25 (sessione 20: elenco laterale tagliato su
+mobile, vedi sotto)
+
+## Fatto — sessione 20 (elenco laterale tagliato in alto su mobile)
+
+Segnalazione dell'utente, dal sito aperto su telefono: l'elenco a tendina
+laterale è tagliato in alto e le prime voci non si leggono.
+
+Causa: l'intestazione è `position:sticky;z-index:60`, il pannello a comparsa
+era `position:fixed;top:0;z-index:58`. Sul telefono (375 px) il menu va a capo
+su tre righe e l'intestazione arriva a ~102 px: copriva la parte alta del
+pannello, nascondendo "Generazione I", "Magnox" e metà di "RBMK-1000".
+Corretto in `index.html`:
+- il pannello parte sotto l'intestazione: `top:var(--alt-header,0px)`, con
+  `--alt-header` misurata da JS (`offsetHeight` dell'intestazione, aggiornata
+  da un `ResizeObserver`) perché l'altezza cambia con la larghezza;
+- stessa occasione, due difetti dello stesso pannello: (1) aperto perdeva il
+  margine laterale, perché la regola desktop `body.lato-chiuso aside{padding
+  sinistro/destro:0}` vinceva sulla sua per specificità; (2) aveva
+  `overflow:hidden`, quindi con schermo basso (telefono in orizzontale) le
+  voci in fondo non erano raggiungibili: ora `overflow-y:auto`.
+- **Incidenti non ha il pannello laterale** (l'elenco `#elenco-incidenti` è
+  nella pagina, non in un `aside`), ma il tasto ☰ c'era lo stesso: sotto i
+  900 px oscurava tutta la pagina e bloccava lo scorrimento (`lato-chiuso` →
+  sfondo scuro + `overflow:hidden`) senza mostrare nessun pannello. Ora il
+  tasto è nascosto in quella sezione (classe `sez-incidenti` sul `body`,
+  messa dal gestore della barra in alto). Tolta anche la chiamata
+  `chiudiLatoMobile()` da `selezionaIncidente()` aggiunta per errore in 18c.
+
+Verificato a 375, 667×375 (orizzontale), 768 e 1200 px: pannello sotto
+l'intestazione (`top` = altezza intestazione), margine 14,4 px, elenco che
+scorre fino all'ultima voce, ☰ nascosto in Incidenti e di nuovo visibile
+tornando a Centrali, desktop invariato (colonna statica 262↔0 px con ☰),
+nessun errore in console; screenshot reali a 375 (centrali, depositi) e
+667×375.
+
+**Da fare, se l'utente vuole**: a 375 px l'intestazione occupa ~102 px fissi in
+alto (menu su tre righe); si potrebbe compattarla mettendo le tre voci su una
+riga. Non richiesto, non toccato.
+
+## Fatto — sessione 19 (QR code da stampare)
+
+Richiesta dell'utente: QR code stampabili che portino direttamente al sito.
+Creata la cartella `qr/` (**non ancora committata**: l'utente non l'ha chiesto):
+- `nucleapp-qr.svg` — vettoriale, scalabile a qualunque dimensione di stampa;
+- `nucleapp-qr.png` — 1230 px, per chi preferisce un'immagine;
+- `stampa.html` — da aprire nel browser e stampare in A4: pagina 1 con il QR
+  grande e l'invito a inquadrarlo, pagina 2 con 12 tessere da ritagliare
+  (linee tratteggiate) per volantini e locandine;
+- `NucleApp-QR-da-stampare.pdf` — la stessa cosa già in PDF (2 pagine A4), per
+  chi non può stampare subito. Generato da `stampa.html` con Edge da riga di
+  comando (`msedge.exe --headless=new --no-pdf-header-footer
+  --print-to-pdf=... file:///.../qr/stampa.html`; va usata l'apertura da
+  `file:///`, non dal server di prova, che serve gli SVG con il tipo sbagliato).
+  Verificato rasterizzando le pagine con pdf.js e decodificando: 13 QR su 13
+  (1 grande + 12 tessere) danno l'URL esatto.
+
+Il codice punta a `https://pozzif00-prog.github.io/NucleApp/` (versione 4,
+33×33 moduli, correzione errori livello Q = regge ~25% di danno, più margine
+bianco di 4 moduli). Verificato decodificando i file veri (PNG e SVG, anche
+rimpiccioliti a 250–300 px) con un decodificatore diverso dalla libreria che
+li ha generati (jsQR contro qrcode-generator): in tutti i casi esce l'URL
+esatto.
+
+**Attenzione**: il QR è legato a questo indirizzo. Se il sito cambia indirizzo
+(dominio proprio, rinomina della repository, cambio dell'utente GitHub) i QR già
+stampati smettono di funzionare e vanno rifatti. Come rigenerarli: matrice dei
+moduli da `qrcode-generator` (in una pagina del browser, `qrcode(0,'Q')`),
+poi script PowerShell che scrive SVG/PNG/HTML (Python e Node non ci sono).
+
+Trappola di test: il server locale di prova serviva gli SVG come
+`application/octet-stream`, quindi nel browser non comparivano nelle pagine
+via `http://127.0.0.1`; è un limite del server di prova, non dei file (aperti
+da disco o da GitHub Pages funzionano).
 
 ## Fatto — sessione 18c (riverifica sul sito pubblicato dopo la sessione 18b)
 
@@ -23,19 +95,18 @@ correzione di questa serie di sessioni. Trovate due cose:
   di un mancato aggiornamento apparente, prima di concludere che il deploy
   non è arrivato.
 
-- **Difetto vero**: la nota della sessione 18b sotto diceva che "incidenti
-  non ha l'aside" — falso: incidenti usa lo stesso pannello a comparsa
-  (`aside`/`#lato-sfondo`) di centrali e depositi, con il proprio elenco
-  `#elenco-incidenti` dentro. Proprio perché quella nota era sbagliata, il
-  test della sessione 18b non aveva provato la chiusura automatica del
-  pannello scegliendo un incidente dall'elenco — e infatti non funzionava:
-  `selezionaIncidente()` era l'unica delle tre funzioni di selezione a non
-  chiamare `chiudiLatoMobile()` (le altre due, `selezionaReattore` e
-  `selezionaDeposito`, la chiamano). Corretta aggiungendo la chiamata mancante
-  in fondo a `selezionaIncidente()`. Riverificato in locale: il pannello ora
-  si chiude scegliendo un incidente, a 375 e 768 px, senza toccare il
-  comportamento di centrali e depositi (verificato anche quello, nessuna
-  regressione).
+- **~~Difetto vero~~ DIAGNOSI SBAGLIATA (corretta in sessione 20)**: qui si era
+  concluso che incidenti usasse lo stesso pannello a comparsa di centrali e
+  depositi e che `selezionaIncidente()` dovesse chiamare `chiudiLatoMobile()`;
+  era stata aggiunta quella chiamata (commit c0bc3c3) e la nota di 18b
+  ("incidenti non ha l'aside") era stata data per errata. **Era la nota di 18b
+  ad avere ragione**: `#elenco-incidenti` NON sta in un `aside`, è nella
+  pagina (vedi sotto, sessione 20). Il sintomo visto (`lato-chiuso` che
+  restava dopo aver scelto un incidente) era in realtà la spia di un altro
+  difetto: in Incidenti il tasto ☰ non apriva nulla ma oscurava la pagina.
+  Lezione: prima di dichiarare "questa sezione usa lo stesso pannello", vedere
+  dove sta davvero l'elenco nel DOM (`elenco-...` → antenati), non dedurlo dal
+  comportamento del tasto.
 
 ## Fatto — sessione 18b (verifica di depositi e incidenti a tre larghezze)
 

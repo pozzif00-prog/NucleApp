@@ -67,6 +67,10 @@ nav button[aria-current="true"]{color:#0B2440;background:var(--ghiaccio);font-we
   width:30px;height:28px;border-radius:3px;font-size:.9rem;line-height:1;padding:0
 }
 #toggle-lato:hover{background:rgba(255,255,255,.2)}
+/* la sezione Incidenti non ha l'elenco laterale (le tre schede sono nella
+   pagina): il tasto ☰ lì non avrebbe niente da aprire, e sotto i 900 px
+   oscurava la pagina e bloccava lo scorrimento senza mostrare alcun pannello */
+body.sez-incidenti #toggle-lato{display:none}
 
 /* ---------- layout ---------- */
 .sezione{display:none}
@@ -387,13 +391,20 @@ p.fonte-dati{margin:.8rem 0 0;border-top:1px dotted var(--linea);padding-top:.5r
      "colonna laterale nascosta", come prima: il nome è lo stesso, l'effetto
      dipende dalla larghezza dello schermo. */
   .griglia{grid-template-columns:1fr}
+  /* top = altezza dell'intestazione (misurata da JS in --alt-header: sul
+     telefono il menu va a capo e l'intestazione arriva a ~100 px): il pannello
+     parte sotto di lei, altrimenti ne copre la parte alta e le prime voci
+     restano nascoste. Scorre da solo se l'elenco è più alto dello schermo. */
   .griglia>aside{
-    position:fixed;top:0;left:0;bottom:0;z-index:58;width:min(86vw,320px);
+    position:fixed;top:var(--alt-header,0px);left:0;bottom:0;z-index:58;width:min(86vw,320px);
     max-height:none;border-right:1px solid var(--linea);border-bottom:none;
     box-shadow:4px 0 24px rgba(11,36,64,.22);
+    overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;
     transform:translateX(-100%);transition:transform .28s ease;
   }
-  body.lato-chiuso .griglia>aside{transform:translateX(0)}
+  /* la regola desktop body.lato-chiuso aside azzera i margini laterali: qui
+     "aperto" vuol dire visibile, quindi si rimettono */
+  body.lato-chiuso .griglia>aside{transform:translateX(0);padding-left:.9rem;padding-right:.9rem;border-right:1px solid var(--linea)}
   #lato-sfondo{
     position:fixed;inset:0;z-index:57;
     background:rgba(11,36,64,.5);
@@ -7189,7 +7200,6 @@ function selezionaIncidente(id){
   Object.assign(INC_BASE,(INC_DISEGNI[id]||{}).vista||{x:280,y:0,w:920,h:620});
   incReset();                     // nuovo incidente, vista intera
   mostraPasso();
-  chiudiLatoMobile();
 }
 /* ---- zoom / pan della scena incidenti ----
    Deliberatamente separato da quello della centrale: lì VIEW/BASE sono globali
@@ -7289,6 +7299,7 @@ document.getElementById('nav').addEventListener('click',e=>{
   document.querySelectorAll('#nav button').forEach(x=>x.setAttribute('aria-current',String(x===b)));
   document.querySelectorAll('.sezione').forEach(s=>s.classList.remove('attiva'));
   document.getElementById('sez-'+b.dataset.sez).classList.add('attiva');
+  document.body.classList.toggle('sez-incidenti',b.dataset.sez==='incidenti');   // lì non c'è l'elenco laterale: il tasto ☰ si nasconde
   if(b.dataset.sez==='depositi'&&!depCorrente) selezionaDeposito(DEPOSITI[0].id);
   if(b.dataset.sez==='incidenti'&&!incCorrente) selezionaIncidente(INCIDENTI[0].id);
   if(b.dataset.sez!=='incidenti') fermaPlay();
@@ -7314,6 +7325,15 @@ document.getElementById('toggle-lato').onclick=()=>{
    effetto visibile, perché la colonna laterale è già sempre aperta lì. */
 function chiudiLatoMobile(){ document.body.classList.remove('lato-chiuso'); }
 document.getElementById('lato-sfondo').onclick=chiudiLatoMobile;
+/* il pannello a comparsa parte sotto l'intestazione, la cui altezza cambia con
+   la larghezza (il menu va a capo sul telefono): la si tiene in --alt-header */
+(function(){
+  const intest=document.querySelector('header');
+  const misura=()=>document.documentElement.style.setProperty('--alt-header',intest.offsetHeight+'px');
+  misura();
+  if(window.ResizeObserver) new ResizeObserver(misura).observe(intest);
+  else window.addEventListener('resize',misura);
+})();
 caricaCrediti();
 selezionaReattore('pwr');
 </script>
